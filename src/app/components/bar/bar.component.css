@@ -1,0 +1,9 @@
+.navbaru {
+    height: 200px !important;
+}
+
+@media only screen and (min-width: 990px) {
+    .navbaru {
+        height: 50px !important;
+    }
+}

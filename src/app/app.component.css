@@ -1,0 +1,16 @@
+#bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+#list {
+    margin-top: 70px;
+}
+
+.item:hover {
+    background-color: rgba(227, 19, 55, 0.1);
+}
+

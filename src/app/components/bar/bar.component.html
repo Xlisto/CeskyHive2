@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse navbar-custom" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <select class="form-select me-2" aria-label="Výběr intervalu" [(ngModel)]="parameterFilter.interval"
+          name="interval">
+          <option value="tyden" selected>Týdenní</option>
+          <option value="den">Denní</option>
+        </select>
+        <select class="form-select me-2" aria-label="Výběr dne" [(ngModel)]="parameterFilter.day" name="day"
+          *ngIf="parameterFilter.interval === 'tyden'">
+          <option value="1">Pondělí</option>
+          <option value="2">Úterý</option>
+          <option value="3">Středa</option>
+          <option value="4" selected>Čtvrtek</option>
+          <option value="5">Pátek</option>
+          <option value="6">Sobota</option>
+          <option value="0">Neděle</option>
+        </select>
+        <select class="form-select me-2" aria-label="Počet dní" [(ngModel)]="parameterFilter.dayCount" name="dayCount"
+          *ngIf="parameterFilter.interval !== 'tyden'">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>
+        <input class="form-control me-2" type="time" placeholder="time" aria-label="Time"
+          [(ngModel)]="parameterFilter.time" name="time">
+        <input class="form-control me-2" type="text" placeholder="tag" aria-label="Tag"
+          [(ngModel)]="parameterFilter.tag" name="tag">
+        <button class="btn btn-outline-success" type="submit" (click)="onLoad.emit()">Hledej</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+  

@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 4px !important;
+}
+
+.float-start,.float-end {
+    width: 50%;
+}
