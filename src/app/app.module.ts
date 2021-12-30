@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { BarComponent } from './components/bar/bar.component';
 import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.component';
 import { ModalComponent } from './components/modal/modal.component';
-import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 @NgModule({
   declarations: [
@@ -19,8 +18,7 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    NgxLinkifyjsModule.forRoot()
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

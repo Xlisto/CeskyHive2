@@ -12,5 +12,6 @@
 
 .item:hover {
     background-color: rgba(227, 19, 55, 0.1);
+    border: 1px solid rgba(227, 19, 55, 0.9);
 }
 

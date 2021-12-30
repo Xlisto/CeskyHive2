@@ -1,5 +1,18 @@
-.navbaru {
-    height: 200px !important;
+.navbar {
+    background-color: hsl(350, 46%, 75%) !important;
+}
+
+.btn-outline-success {
+    color: rgba(227, 19, 55, 0.9) !important;
+    border-color: rgba(227, 19, 55, 0.9) !important;
+}
+
+.btn-outline-success:hover {
+    background-color: rgba(227, 19, 55, 0.1) !important;
+}
+
+.btn-check:focus+.btn-outline-success, .btn-outline-success:focus {
+    box-shadow: none;
 }
 
 @media only screen and (min-width: 990px) {

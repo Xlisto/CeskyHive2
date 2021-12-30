@@ -7,7 +7,6 @@ import { PostsModel } from './models/postsModel';
 import { HiveService } from './services/discussions.service';
 import { Remarkable } from 'remarkable';
 import { linkify } from 'remarkable/linkify';
-import { NgxLinkifyjsModule, NgxLinkifyjsService } from 'ngx-linkifyjs';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +28,7 @@ export class AppComponent implements AfterViewInit {
 
   selectedPost!: Discussion;
 
-  md = new Remarkable({ html: true, linkify: true }).use(linkify);
+  md = new Remarkable({ html: true }).use(linkify);
 
   selectedBody = "";
 
@@ -40,7 +39,7 @@ export class AppComponent implements AfterViewInit {
   private modalLoadBarRef!: ModalLoadBarComponent;
 
 
-  constructor(private readonly hiveService: HiveService, public linkifyService: NgxLinkifyjsService) {
+  constructor(private readonly hiveService: HiveService) {
   }
 
   ngAfterViewInit(): void {
@@ -105,7 +104,10 @@ export class AppComponent implements AfterViewInit {
   clickItem(post: Discussion) {
     this.selectedPost = post;
     this.isModalClosed = false;
-    this.selectedBody = this.md.render(post.body.replace(/pull-left/g, 'float-start').replace(/pull-right/g, 'float-end'));
+    this.selectedBody = this.md.render(post.body.replace(/pull-left/g, 'float-start').replace(/pull-right/g, 'float-end')
+    //.replace(/<center>/g,'<div style=\"text-align: center;\">').replace(/<\/center>/g,'</div>')
+    );
     //console.log(this.md.render(post.body));
+    console.log(this.postsModel.negativeVotes(post));
   }
 }
