@@ -8,10 +8,54 @@
 
 #list {
     margin-top: 70px;
+    margin-bottom: 55px;
+}
+
+.desktop {
+    display: none;
+}
+
+.mobile {
+    display: initial;
+}
+
+.mobile-item {
+    border:lightblue solid 1px;
+    border-radius: 5px;
+}
+
+@media screen and (min-width:576px) {
+    #list {
+        margin-top: 70px;
+        margin-bottom: 55px;
+    }
+
+    .desktop {
+        display: initial;
+    }
+
+    .mobile {
+        display: none;
+    }
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+
+
+
+
+.activeSort {
+    background-color: rgba(227, 19, 54, 0.5);
 }
 
 .item:hover {
     background-color: rgba(227, 19, 55, 0.1);
     border: 1px solid rgba(227, 19, 55, 0.9);
 }
-

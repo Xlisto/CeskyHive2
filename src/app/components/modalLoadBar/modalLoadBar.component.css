@@ -9,9 +9,9 @@
     
     border: 10px solid #f3f3f3;
     /* Light grey */
-    border-top: 10px solid #3498db;
+    border-top: 10px solid rgb(227, 19, 54);
     /* Blue */
-    border-radius: 50%;
+    border-radius: 60%;
     width: 60px;
     height: 60px;
     animation: spin 2s linear infinite;

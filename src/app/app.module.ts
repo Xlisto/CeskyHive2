@@ -7,18 +7,26 @@ import { AppComponent } from './app.component';
 import { BarComponent } from './components/bar/bar.component';
 import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { LineChartComponent } from './components/line-chart/line-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BarComponent,
     ModalLoadBarComponent,
-    ModalComponent
+    ModalComponent,
+    FooterComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

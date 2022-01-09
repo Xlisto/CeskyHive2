@@ -1,18 +1,34 @@
 .navbar {
-    background-color: hsl(350, 46%, 75%) !important;
+    background-color: rgb(227, 19, 54) !important;
 }
 
 .btn-outline-success {
-    color: rgba(227, 19, 55, 0.9) !important;
-    border-color: rgba(227, 19, 55, 0.9) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: rgb(255, 255, 255) !important;
 }
 
-.btn-outline-success:hover {
-    background-color: rgba(227, 19, 55, 0.1) !important;
+.btn-outline-success:hover, .navbar-toggler:hover {
+    background-color: #f25e78 !important;
 }
 
-.btn-check:focus+.btn-outline-success, .btn-outline-success:focus {
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.navbar-toggler {
+    border-color: rgb(255, 255, 255);
+}
+
+.btn-outline-success:focus, .navbar-toggler:focus {
+    background-color: #f25e78 !important;
+}
+
+.btn-check:focus+.btn-outline-success, .btn-outline-success:focus, .navbar-toggler:focus {
     box-shadow: none;
+}
+
+.navbar-text {
+    color: white;
 }
 
 @media only screen and (min-width: 990px) {

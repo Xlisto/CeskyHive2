@@ -104,6 +104,7 @@ export class HiveService {
     this.postsModel.postsSorted[index] = [];//inicializace pole na prvním indxu
     this.postsModel.postsAuthor = [[]];
     this.postsModel.totalCount = [];
+    this.postsModel.dates = [];
     let today = new Date();
     today.setHours(Number.parseInt(filter.time.substr(0, 2)));
     today.setMinutes(Number.parseInt(filter.time.substr(3, 2)));
