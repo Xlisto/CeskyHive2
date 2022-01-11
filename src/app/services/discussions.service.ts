@@ -168,18 +168,22 @@ export class HiveService {
     return Number(s.toString().replace("HBD", ""));
   }
 
-  sortByAuthor() {
+  sortByAuthor(sort?: number) {
+    if (sort)
+      this.byAuthor = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
-      this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.author < b.author ? (-1 * this.byAuthor) : a.author > b.author ? (1 * this.byAuthor) : 0);
+      this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.author > b.author ? (-1 * this.byAuthor) : a.author < b.author ? (1 * this.byAuthor) : 0);
     }
     for (let i = 0; i < this.postsModel.postsAuthor.length; i++) {
-      this.postsModel.postsAuthor[i].sort((a: AuthorSortModel, b: AuthorSortModel) => a.author < b.author ? (-1 * this.byAuthor) : a.author > b.author ? (1 * this.byAuthor) : 0);
+      this.postsModel.postsAuthor[i].sort((a: AuthorSortModel, b: AuthorSortModel) => a.author > b.author ? (-1 * this.byAuthor) : a.author < b.author ? (1 * this.byAuthor) : 0);
     }
     this.byAuthor *= -1;
     return this.postsModel;
   }
 
-  sortByCreate() {
+  sortByCreate(sort?: number) {
+    if (sort)
+      this.byCreate = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
       this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.created < b.created ? (-1 * this.byCreate) : a.created > b.created ? (1 * this.byCreate) : 0);
     }
@@ -187,15 +191,19 @@ export class HiveService {
     return this.postsModel;
   }
 
-  sortByTitle() {
+  sortByTitle(sort?: number) {
+    if (sort)
+      this.byTitle = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
-      this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.title < b.title ? (-1 * this.byTitle) : a.title > b.title ? (1 * this.byTitle) : 0);
+      this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.title > b.title ? (-1 * this.byTitle) : a.title < b.title ? (1 * this.byTitle) : 0);
     }
     this.byTitle *= -1;
     return this.postsModel;
   }
 
-  sortByPending() {
+  sortByPending(sort?: number) {
+    if (sort)
+      this.byPending = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
       this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) =>
         this.convertHBDToNumber(a.pending_payout_value) < this.convertHBDToNumber(b.pending_payout_value) ? (-1 * this.byPending) : this.convertHBDToNumber(a.pending_payout_value) > this.convertHBDToNumber(b.pending_payout_value) ? (1 * this.byPending) : 0);
@@ -208,7 +216,9 @@ export class HiveService {
     return this.postsModel;
   }
 
-  sortByPayout() {
+  sortByPayout(sort?: number) {
+    if (sort)
+      this.byPayout = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
       this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) =>
         this.convertHBDToNumber(a.total_payout_value) < this.convertHBDToNumber(b.total_payout_value) ? (-1 * this.byPayout) : this.convertHBDToNumber(a.total_payout_value) > this.convertHBDToNumber(b.total_payout_value) ? (1 * this.byPayout) : 0);
@@ -221,7 +231,9 @@ export class HiveService {
     return this.postsModel;
   }
 
-  sortByChildren() {
+  sortByChildren(sort?: number) {
+    if (sort)
+      this.byChildren = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
       this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.children < b.children ? (-1 * this.byChildren) : a.children > b.children ? (1 * this.byChildren) : 0);
     }
@@ -232,7 +244,9 @@ export class HiveService {
     return this.postsModel;
   }
 
-  sortByActiveVotes() {
+  sortByActiveVotes(sort?: number) {
+    if (sort)
+      this.byActiveVotes = sort;
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
       this.postsModel.postsSorted[i].sort((a: Discussion, b: Discussion) => a.active_votes.length < b.active_votes.length ? (-1 * this.byActiveVotes) : a.active_votes.length > b.active_votes.length ? (1 * this.byActiveVotes) : 0);
     }
@@ -243,7 +257,9 @@ export class HiveService {
     return this.postsModel;
   }
 
-  sortByPosts() {
+  sortByPosts(sort?: number) {
+    if (sort)
+      this.byPost = sort;
     for (let i = 0; i < this.postsModel.postsAuthor.length; i++) {
       this.postsModel.postsAuthor[i].sort((a: AuthorSortModel, b: AuthorSortModel) => a.posts < b.posts ? (-1 * this.byPost) : a.posts > b.posts ? (1 * this.byPost) : 0);
     }

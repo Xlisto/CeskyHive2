@@ -107,6 +107,21 @@
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
+                                <div class="row">
+                                    <form class="d-flex"><select [(ngModel)]="selectSortType"
+                                            (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
+                                            <option *ngFor="let sort of sortTypes" [ngValue]="sort">{{sort.type}}
+                                            </option>
+
+                                        </select>
+                                        <select [(ngModel)]="selectSortArrow" (change)="onChangeTypeSort()"
+                                            class="form-select mx-1" name="arrowSort">
+                                            <option *ngFor="let arrow of sortArrows" [ngValue]="arrow">{{arrow.type}}
+                                            </option>
+                                        </select>
+                                    </form>
+                                </div>
+
                                 <div *ngFor="let post of posts" class="row item my-1 mobile-item"
                                     (click)="clickItem(post)">
                                     <div class="col-sm text-start fw-bold mx-1">{{post.title}}</div>
@@ -137,6 +152,8 @@
                         <div *ngIf="showData === 'author'">
                             <!--data pro desktop-->
                             <div class="desktop">
+
+
                                 <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
                                     <div class="col-2 text-center py-2" (click)="clickAuthor()"
                                         [class.activeSort]="selectClickedColl==='author'">Autor</div>
@@ -179,16 +196,32 @@
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
+                                <div class="row">
+                                    <form class="d-flex"><select [(ngModel)]="selectSortType"
+                                            (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
+                                            <option *ngFor="let sort of sortTypes" [ngValue]="sort">{{sort.type}}
+                                            </option>
+
+                                        </select>
+                                        <select [(ngModel)]="selectSortArrow" (change)="onChangeTypeSort()"
+                                            class="form-select mx-1" name="arrowSort">
+                                            <option *ngFor="let arrow of sortArrows" [ngValue]="arrow">{{arrow.type}}
+                                            </option>
+                                        </select>
+                                    </form>
+                                </div>
+                                
                                 <div *ngFor="let author of postsModel.postsAuthor[i]" class="row item my-1 mobile-item">
                                     <div class="col-sm fw-bold">
                                         <div class="float-start text-start">{{author.author}}</div>
                                         <div class="float-end text-end">Posty: {{author.posts}}</div>
                                     </div>
                                     <div class="col-sm">
-                                        <div class="float-start text-start">Čekající:<br/>
+                                        <div class="float-start text-start">Čekající:<br />
                                             {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
 
-                                        <div class="float-end text-end">Vyplaceno:<br/> {{author.totalPayoutValue.toFixed(3)}} HBD
+                                        <div class="float-end text-end">Vyplaceno:<br />
+                                            {{author.totalPayoutValue.toFixed(3)}} HBD
                                         </div>
                                     </div>
 
