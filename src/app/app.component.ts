@@ -90,6 +90,12 @@ export class AppComponent implements AfterViewInit {
         this.reloadGraph();
       });
 
+      localStorage.setItem('tag',this.barComponentRef.parameterFilter.tag);
+      localStorage.setItem('time',this.barComponentRef.parameterFilter.time);
+      localStorage.setItem('interval',this.barComponentRef.parameterFilter.interval);
+      localStorage.setItem('dayCount',this.barComponentRef.parameterFilter.dayCount.toString());
+      localStorage.setItem('day',this.barComponentRef.parameterFilter.day);
+
   }
 
   clickAuthor(sort?:number) {
