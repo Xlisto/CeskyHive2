@@ -28,7 +28,10 @@ export class LineChartComponent implements AfterViewInit {
    */
   chartAuthor: EChartsOption = {
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        formatter: (value: number) => value.toLocaleString()
+      }
     },
     tooltip: {
       trigger: 'axis',
@@ -40,7 +43,10 @@ export class LineChartComponent implements AfterViewInit {
 
   chartComment: EChartsOption = {
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        formatter: (value: number) => value.toLocaleString()
+      }
     },
     tooltip: {
       trigger: 'axis',
@@ -52,7 +58,10 @@ export class LineChartComponent implements AfterViewInit {
 
   chartVote: EChartsOption = {
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        formatter: (value: number) => value.toLocaleString()
+      }
     },
     tooltip: {
       trigger: 'axis',
@@ -60,19 +69,24 @@ export class LineChartComponent implements AfterViewInit {
         type: 'shadow',
       }
     },
-    color:["#91cc75"]
+    color: ["#91cc75"],
+
   };
 
   chartPayout: EChartsOption = {
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        formatter: (value: number) => value.toLocaleString() + ' HBD'
+      }
     },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
         type: 'shadow',
       }
-    }
+    },
+
   };
 
   constructor(private readonly hiveService: HiveService) { }
@@ -98,6 +112,7 @@ export class LineChartComponent implements AfterViewInit {
       text: 'Autoři, napsané posty',
       //subtext: 'Living Expenses in Shenzhen'
     };*/
+
     console.log(this.chartPayout.series);
   }
 
@@ -149,7 +164,7 @@ export class LineChartComponent implements AfterViewInit {
         name: "Hlasy",
         data: totalCounts.votes,
         type: 'bar',
-        
+
       };
       return data2;
     }
@@ -186,7 +201,7 @@ export class LineChartComponent implements AfterViewInit {
     if (typeData === this.comment)
       data = ['Komentáře'];
     else if (typeData === this.vote)
-    data = ['Hlasy'];
+      data = ['Hlasy'];
     else if (typeData == this.payout)
       data = ['Čekající', 'Vyplaceno'];
     return {

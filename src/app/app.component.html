@@ -75,7 +75,7 @@
                                 <div *ngFor="let post of posts" class="row item" (click)="clickItem(post)">
                                     <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
                                     </div>
-                                    <div class="col-sm-1 text-start">{{post.author}}</div>
+                                    <div class="col-sm-1 text-start">@{{post.author}}</div>
                                     <div class="col-sm-3 text-start">{{post.title}}</div>
                                     <div class="col-sm-2 text-end">{{post.pending_payout_value}}</div>
                                     <div class="col-sm-2 text-end">{{post.total_payout_value}}</div>
