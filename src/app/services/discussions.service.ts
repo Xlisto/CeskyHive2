@@ -63,7 +63,7 @@ export class HiveService {
     this.lastDate.setDate(this.actualDate.getDate() - 28);
     //vymazání případných hodnot z předchozího hledání
     this.postsModel.posts = [];
-    this.query.tag = filter.tag;
+    this.query.tag = filter.tag.trim().toLocaleLowerCase();
     this.query.start_author = '';
     this.query.start_permlink = '';
     return new Promise((resolve) => {

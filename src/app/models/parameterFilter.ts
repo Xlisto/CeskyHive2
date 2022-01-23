@@ -14,4 +14,5 @@ export class ParameterFilter {
         else
             return this.dayCount;
     }
+
 }

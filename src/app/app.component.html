@@ -251,7 +251,7 @@
 <div *ngIf="selectedPost">
     <app-modal [isClosed]="isModalClosed" [title]="selectedPost.title" (crossClicked)="isModalClosed = true">
         <div>
-            <div [innerHTML]="selectedBody"></div>
+            <div [innerHTML]="selectedBody" class="markdown"></div>
         </div>
 
     </app-modal>

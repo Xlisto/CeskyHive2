@@ -35,7 +35,7 @@ export class BarComponent implements OnInit {
     let interval = localStorage.getItem('inteval');
     let dayCount = Number(localStorage.getItem('dayCount'));
     if (tag)
-      this.parameterFilter.tag = tag;
+      this.parameterFilter.tag;
     if (time)
       this.parameterFilter.time = time;
     if (day)

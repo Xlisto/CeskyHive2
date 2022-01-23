@@ -33,7 +33,7 @@ export class AppComponent implements AfterViewInit {
 
   public visibleGraph = false;
 
-  md = new Remarkable({ html: true }).use(linkify);
+  md = new Remarkable({ html: true, linkify: true }).use(linkify);
 
   selectedBody = "";
 

@@ -27,6 +27,7 @@ export class LineChartComponent implements AfterViewInit {
    * Základní nastavení vlastností grafu
    */
   chartAuthor: EChartsOption = {
+    grid: { left: "60px", right: "0px" },
     yAxis: {
       type: 'value',
       axisLabel: {
@@ -42,6 +43,7 @@ export class LineChartComponent implements AfterViewInit {
   };
 
   chartComment: EChartsOption = {
+    grid: { left: "60px", right: "0px" },
     yAxis: {
       type: 'value',
       axisLabel: {
@@ -57,6 +59,7 @@ export class LineChartComponent implements AfterViewInit {
   };
 
   chartVote: EChartsOption = {
+    grid: { left: "60px", right: "0px" },
     yAxis: {
       type: 'value',
       axisLabel: {
@@ -74,6 +77,7 @@ export class LineChartComponent implements AfterViewInit {
   };
 
   chartPayout: EChartsOption = {
+    grid: { left: "80px", right: "0px" },
     yAxis: {
       type: 'value',
       axisLabel: {
@@ -84,8 +88,21 @@ export class LineChartComponent implements AfterViewInit {
       trigger: 'axis',
       axisPointer: {
         type: 'shadow',
+        animation: true
+      },
+      formatter: function (params: any) {
+        var colorSpan = (color: any) => '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + color + '"></span>';
+        let rez = params[0].axisValue + '<br/>';
+        console.log(params); //quite useful for debug
+        params.forEach((item: any) => {
+          console.log(item); //quite useful for debug
+          var xx = colorSpan(item.color) + ' ' + item.seriesName + ': ' + '<div class="float-end text-end m-0" style="font-weight: bold;">' + item.data + ' HBD</div><br/>'
+          rez += xx;
+        });
+
+        return rez;
       }
-    },
+    }
 
   };
 
