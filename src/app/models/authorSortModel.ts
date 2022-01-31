@@ -1,3 +1,5 @@
+import { PropertiesService } from "../services/properties.service";
+
 export class AuthorSortModel {
     author = "";
     posts = 0;
@@ -28,5 +30,9 @@ export class AuthorSortModel {
 
     private convertHBD(s: String) {
         return Number(s.toString().replace("HBD", ""));
+    }
+
+    private test( ): void {
+
     }
 }

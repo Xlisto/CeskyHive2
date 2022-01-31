@@ -1,0 +1,13 @@
+.reputation {
+    text-align: center;
+    display: inline-flex;
+    width: 35px !important;
+    height: 35px !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag {
+   background-color: rgba(227, 19, 55, 0.1);
+   display: inline-flex;
+}

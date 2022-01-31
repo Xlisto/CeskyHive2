@@ -10,6 +10,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
+import { PostContentComponent } from './components/post-content/post-content.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LineChartComponent } from './components/line-chart/line-chart.component
     ModalLoadBarComponent,
     ModalComponent,
     FooterComponent,
-    LineChartComponent
+    LineChartComponent,
+    PostContentComponent
   ],
   imports: [
     BrowserModule,

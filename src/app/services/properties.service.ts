@@ -9,7 +9,7 @@ export class PropertiesService {
   client = new Client("https://api.hive.blog");
 
   constructor() {
-    /**this.getDynamicGlobalProperties().then(result => console.log(result));
+    /*this.getDynamicGlobalProperties().then(result => console.log(result));
     this.getMedianHistoryPrice().then(result => console.log(result));
     this.getRewardFund().then(result => {
       console.log(result)

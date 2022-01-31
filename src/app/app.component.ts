@@ -1,15 +1,15 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { Discussion } from '@hiveio/dhive';
+import { Discussion, Price } from '@hiveio/dhive';
 import { BarComponent } from './components/bar/bar.component';
 import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.component';
 import { DateFormat } from './models/dateFormat';
 import { PostsModel } from './models/postsModel';
-import { HiveService } from './services/discussions.service';
-import { Remarkable } from 'remarkable';
-import { linkify } from 'remarkable/linkify';
-import * as echarts from 'echarts';
+import { DiscussionService } from './services/discussions.service';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
-import { threadId } from 'worker_threads';
+import { ActiveVotesService } from './services/active-votes.service';
+import { ActiveVotesModel } from './models/activeVotesModel';
+import { PropertiesService } from './services/properties.service';
+import { CurrentRevardFundModel } from './models/currentRewardFundModel';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +23,10 @@ export class AppComponent implements AfterViewInit {
 
   dateFormat = new DateFormat();
 
+  currentRewardFunds!: CurrentRevardFundModel;
+
+  price!: Price;
+
   showLoadBar = false;
 
   showData = "post";
@@ -31,11 +35,9 @@ export class AppComponent implements AfterViewInit {
 
   selectedPost!: Discussion;
 
+  selectedActiveVotes!: ActiveVotesModel[];
+
   public visibleGraph = false;
-
-  md = new Remarkable({ html: true, linkify: true }).use(linkify);
-
-  selectedBody = "";
 
   sortTypes = [
     { id: "create", type: "Vytvořeno" },
@@ -66,22 +68,34 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(LineChartComponent, { static: false })
   private lineChartRef!: LineChartComponent;
 
-  constructor(private readonly hiveService: HiveService) {
+  constructor(
+    private readonly discussionService: DiscussionService,
+    private readonly activeVotesService: ActiveVotesService,
+    private readonly properties: PropertiesService) {
+
+
   }
 
   ngAfterViewInit(): void {
-
+    this.properties.getRewardFund()
+      .then(result => this.currentRewardFunds = result)
+      .catch(error => console.log(console.error(error)));
+    this.properties.getMedianHistoryPrice()
+      .then(result => this.price = result)
+      .catch(error => console.log(console.error(error)));
   }
 
   /**
    * Zobrazení průběhu načítání
    */
   load() {
+
     this.showLoadBar = true;
     const filter = this.barComponentRef.parameterFilter;
-    this.hiveService.discussions(filter).then(result => {
+    this.discussionService.discussions(filter).then(result => {
       console.log(result);
       this.postsModel = result;
+      this.clickCreate(-1);
     }).catch(e => console.log(e))
       .finally(() => {
         this.showLoadBar = false;
@@ -90,75 +104,82 @@ export class AppComponent implements AfterViewInit {
         this.reloadGraph();
       });
 
-      localStorage.setItem('tag',this.barComponentRef.parameterFilter.tag);
-      localStorage.setItem('time',this.barComponentRef.parameterFilter.time);
-      localStorage.setItem('interval',this.barComponentRef.parameterFilter.interval);
-      localStorage.setItem('dayCount',this.barComponentRef.parameterFilter.dayCount.toString());
-      localStorage.setItem('day',this.barComponentRef.parameterFilter.day);
-
+    localStorage.setItem('tag', this.barComponentRef.parameterFilter.tag);
+    localStorage.setItem('time', this.barComponentRef.parameterFilter.time);
+    localStorage.setItem('interval', this.barComponentRef.parameterFilter.interval);
+    localStorage.setItem('dayCount', this.barComponentRef.parameterFilter.dayCount.toString());
+    localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
+    //this.selectSortType = this.sortTypes[0];
+    this.selectSortArrow = this.sortArrows[0];
+    
   }
 
-  clickAuthor(sort?:number) {
-    this.postsModel = this.hiveService.sortByAuthor(sort);
+  clickAuthor(sort?: number) {
+    this.postsModel = this.discussionService.sortByAuthor(sort);
     this.selectClickedColl = "author";
     this.selectSortType = this.sortTypes[1];
   }
 
-  clickCreate(sort?:number) {
-    this.postsModel = this.hiveService.sortByCreate(sort);
+  clickCreate(sort?: number) {
+    this.postsModel = this.discussionService.sortByCreate(sort);
     this.selectClickedColl = "created";
     this.selectSortType = this.sortTypes[0];
   }
 
-  clickTitle(sort?:number) {
-    this.postsModel = this.hiveService.sortByTitle(sort);
+  clickTitle(sort?: number) {
+    this.postsModel = this.discussionService.sortByTitle(sort);
     this.selectClickedColl = "title";
     this.selectSortType = this.sortTypes[2];
   }
 
-  clickPending(sort?:number) {
-    this.postsModel = this.hiveService.sortByPending(sort);
+  clickPending(sort?: number) {
+    this.postsModel = this.discussionService.sortByPending(sort);
     this.selectClickedColl = "pending";
     this.selectSortType = this.sortTypes[3];
   }
 
-  clickPayout(sort?:number) {
-    this.postsModel = this.hiveService.sortByPayout(sort);
+  clickPayout(sort?: number) {
+    this.postsModel = this.discussionService.sortByPayout(sort);
     this.selectClickedColl = "payout";
     this.selectSortType = this.sortTypes[4];
   }
 
-  clickChildren(sort?:number) {
-    this.postsModel = this.hiveService.sortByChildren(sort);
+  clickChildren(sort?: number) {
+    this.postsModel = this.discussionService.sortByChildren(sort);
     this.selectClickedColl = "children";
     this.selectSortType = this.sortTypes[5];
   }
 
-  clickActiveVotes(sort?:number) {
-    this.postsModel = this.hiveService.sortByActiveVotes(sort);
+  clickActiveVotes(sort?: number) {
+    this.postsModel = this.discussionService.sortByActiveVotes(sort);
     this.selectClickedColl = "votes";
     this.selectSortType = this.sortTypes[6];
   }
 
-  clickPost(sort?:number) {
-    this.postsModel = this.hiveService.sortByPosts(sort);
+  clickPost(sort?: number) {
+    this.postsModel = this.discussionService.sortByPosts(sort);
     this.selectClickedColl = "post";
   }
 
   //přepínač mezi seznamem postů a seznamemn autorů
   clickChangeShowData(data: string) {
     this.showData = data;
-    console.log(data);
+    //console.log(data);
   }
 
   clickItem(post: Discussion) {
+    this.activeVotesService.activeVoteListBuilder(post.author, post.permlink)
+      .then(result => { console.log(result), this.selectedActiveVotes = result; })
+      .catch(error => console.log(error)
+      );
+    //this.activeVotesService.activeVoteListBuilder(post.author, post.permlink).then(r => console.log(r));
+    //this.activeVotesService.activeVoteListBuilder(post.author, post.permlink).then(result => console.log(result));
     this.selectedPost = post;
     this.isModalClosed = false;
-    this.selectedBody = this.md.render(post.body.replace(/pull-left/g, 'float-start').replace(/pull-right/g, 'float-end')
-      //.replace(/<center>/g,'<div style=\"text-align: center;\">').replace(/<\/center>/g,'</div>')
-    );
+    
     //console.log(this.md.render(post.body));
-    console.log(this.postsModel.negativeVotes(post));
+    //console.log(this.postsModel.negativeVotes(post));
+    console.log(this.selectedPost);
   }
 
   /**
@@ -207,5 +228,5 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  
+
 }

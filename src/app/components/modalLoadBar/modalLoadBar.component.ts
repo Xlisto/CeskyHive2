@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Discussion } from '@hiveio/dhive';
-import { HiveService } from 'src/app/services/discussions.service';
+import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
   selector: 'app-modalloadbar',
@@ -9,13 +9,13 @@ import { HiveService } from 'src/app/services/discussions.service';
 })
 export class ModalLoadBarComponent implements OnInit {
 
-  public hiveService: HiveService;
+  public hiveService: DiscussionService;
 
   interval;
 
   loadPosts = 0;
 
-  constructor(hiveService: HiveService) {
+  constructor(hiveService: DiscussionService) {
     this.hiveService = hiveService;
     this.interval = setInterval(() => this.showLoadData(), 500);
   }

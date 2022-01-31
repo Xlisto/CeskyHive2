@@ -20,7 +20,7 @@
 }
 
 .mobile-item {
-    border:lightblue solid 1px;
+    border: lightblue solid 1px;
     border-radius: 5px;
 }
 
@@ -58,7 +58,9 @@
 .item {
     border: 1px solid rgba(255, 255, 255);
 }
+
 .item:hover {
     background-color: rgba(227, 19, 55, 0.1);
     border: 1px solid rgba(227, 19, 55, 0.9);
 }
+

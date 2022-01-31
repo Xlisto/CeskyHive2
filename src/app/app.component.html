@@ -108,8 +108,9 @@
                             <!--data pro mobil-->
                             <div class="mobile">
                                 <div class="row">
-                                    <form class="d-flex"><select [(ngModel)]="selectSortType"
-                                            (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
+                                    <form class="d-flex">
+                                        <select [(ngModel)]="selectSortType" (change)="onChangeTypeSort()"
+                                            name="typeSort" class="form-select mx-1">
                                             <option *ngFor="let sort of sortTypes" [ngValue]="sort">{{sort.type}}
                                             </option>
 
@@ -210,7 +211,7 @@
                                         </select>
                                     </form>
                                 </div>
-                                
+
                                 <div *ngFor="let author of postsModel.postsAuthor[i]" class="row item my-1 mobile-item">
                                     <div class="col-sm fw-bold">
                                         <div class="float-start text-start">@{{author.author}}</div>
@@ -250,9 +251,9 @@
 <app-modalloadbar *ngIf="showLoadBar"></app-modalloadbar>
 <div *ngIf="selectedPost">
     <app-modal [isClosed]="isModalClosed" [title]="selectedPost.title" (crossClicked)="isModalClosed = true">
-        <div>
-            <div [innerHTML]="selectedBody" class="markdown"></div>
-        </div>
 
+        <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost">
+
+        </app-post-content>
     </app-modal>
 </div>

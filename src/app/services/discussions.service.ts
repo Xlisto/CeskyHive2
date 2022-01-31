@@ -12,7 +12,7 @@ import { PropertiesService } from './properties.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HiveService {
+export class DiscussionService {
 
 
 
@@ -154,6 +154,8 @@ export class HiveService {
     this.postsModel.postsSorted.pop();
     this.postsModel.postsAuthor.pop();
     this.postsModel.counts();
+    this.byCreate = -1;
+    this.sortByCreate();
     resolve(this.postsModel);
   }
 

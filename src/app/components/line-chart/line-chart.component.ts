@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
-import { HiveService } from 'src/app/services/discussions.service';
+import { DiscussionService } from 'src/app/services/discussions.service';
 import * as echarts from 'echarts';
 
 @Component({
@@ -106,7 +106,7 @@ export class LineChartComponent implements AfterViewInit {
 
   };
 
-  constructor(private readonly hiveService: HiveService) { }
+  constructor(private readonly hiveService: DiscussionService) { }
 
   ngAfterViewInit(): void {
     //data sloupců
