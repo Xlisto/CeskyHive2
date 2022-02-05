@@ -11,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
 import { PostContentComponent } from './components/post-content/post-content.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PostContentComponent } from './components/post-content/post-content.com
     ModalComponent,
     FooterComponent,
     LineChartComponent,
-    PostContentComponent
+    PostContentComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

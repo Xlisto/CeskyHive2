@@ -1,4 +1,5 @@
-<app-bar (onLoad)="load()" (onShowGraph)="showGraph()" [title]="title" [isVisibleGraph]="visibleGraph" id="bar">
+<app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" [title]="title"
+    [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
 
 <div class="container-fluid" id="list" *ngIf="postsModel != undefined">
@@ -55,6 +56,14 @@
                         <div *ngIf="showData === 'post'">
                             <!--data pro desktop-->
                             <div class="desktop">
+                                <div class="text-center">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-outline-dark" (click)="pageDown(i)">«</button>
+                                        <button type="button" class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}</button>
+                                        <button type="button" class="btn btn-outline-dark" (click)="pageUp(i)">»</button>
+                                    </div>
+                                </div>
+
                                 <div class="row h6 fw-bold" *ngIf="posts.length>0">
                                     <div class="col-sm-2 text-start py-2" (click)="clickCreate()"
                                         [class.activeSort]="selectClickedColl==='created'">Vytvořeno</div>
@@ -72,7 +81,8 @@
                                         [class.activeSort]="selectClickedColl==='votes'">Hlasy</div>
                                 </div>
 
-                                <div *ngFor="let post of posts" class="row item" (click)="clickItem(post)">
+                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
+                                    class="row item" (click)="clickItem(post)">
                                     <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
                                     </div>
                                     <div class="col-sm-1 text-start">@{{post.author}}</div>
@@ -104,9 +114,18 @@
                                             class="text-danger">{{postsModel.totalCount[i].totalNegativeVotes}} |
                                         </span>{{postsModel.totalCount[i].totalVotes}}</div>
                                 </div>
+                                
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
+                                <div class="text-center mb-2">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-outline-dark" (click)="pageDown(i)">«</button>
+                                        <button type="button" class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}</button>
+                                        <button type="button" class="btn btn-outline-dark" (click)="pageUp(i)">»</button>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <form class="d-flex">
                                         <select [(ngModel)]="selectSortType" (change)="onChangeTypeSort()"
@@ -123,7 +142,7 @@
                                     </form>
                                 </div>
 
-                                <div *ngFor="let post of posts" class="row item my-1 mobile-item"
+                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)" class="row item my-1 mobile-item"
                                     (click)="clickItem(post)">
                                     <div class="col-sm text-start fw-bold mx-1">{{post.title}}</div>
                                     <div class="col-sm">
@@ -250,10 +269,18 @@
 
 <app-modalloadbar *ngIf="showLoadBar"></app-modalloadbar>
 <div *ngIf="selectedPost">
-    <app-modal [isClosed]="isModalClosed" [title]="selectedPost.title" (crossClicked)="isModalClosed = true">
+    <app-modal [isClosed]="isModalPostClosed" [title]="selectedPost.title" (crossClicked)="isModalPostClosed = true">
 
         <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost">
 
         </app-post-content>
+    </app-modal>
+</div>
+
+<div>
+    <app-modal [isClosed]="isModalSettingsClosed" [title]="'Nastavení'" (crossClicked)="isModalSettingsClosed = true">
+        <app-settings></app-settings>
+        <button footer type="button" class="btn btn-primary" (click)="saveSettings()">Uložit</button>
+        <button footer type="button" class="btn btn-secondary" (click)="isModalSettingsClosed = true">Zavřít</button>
     </app-modal>
 </div>

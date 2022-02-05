@@ -29,8 +29,9 @@
         
       </ul>
       
+      <button class="btn btn-outline-success me-2" type="submit" (click)="onShowSettings.emit()">Nastavení</button>
       <button class="btn btn-outline-success me-2" type="submit"
-        (click)="onShowGraph.emit();changeTextButtonGraph($event.target);">Zobaz graf</button>
+        (click)="onShowGraph.emit();changeTextButtonGraph($event.target);">Graf</button>
       <form class="d-flex">
 
         <select class="form-select me-2" aria-label="Výběr intervalu" [(ngModel)]="parameterFilter.interval"

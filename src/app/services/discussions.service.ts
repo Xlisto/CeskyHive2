@@ -5,8 +5,10 @@ import { Injectable } from '@angular/core';
 import { Client, Discussion, DynamicGlobalProperties } from "@hiveio/dhive";
 import { AuthorSortModel } from '../models/authorSortModel';
 import { DatesModel } from '../models/datesModel';
+import { PagesModel } from '../models/pagesModel';
 import { ParameterFilter } from '../models/parameterFilter';
 import { PostsModel } from '../models/postsModel';
+import { SettingsModel } from '../models/settingsModel';
 import { PropertiesService } from './properties.service';
 
 @Injectable({
@@ -55,17 +57,20 @@ export class DiscussionService {
    * Zavolá promisu na sestavení diskuze (postů do pole)
    * @returns Pole s diskuzí (posty)
    */
-  discussions(filter: ParameterFilter): Promise<PostsModel> {
+  discussions(filter: ParameterFilter, settings: SettingsModel): Promise<PostsModel> {
     //console.log(filter.tag);
     this.loadPosts = 0;//počet načtených postů
     this.actualDate = new Date();
     this.lastDate = new Date();
-    this.lastDate.setDate(this.actualDate.getDate() - 28);
+
     //vymazání případných hodnot z předchozího hledání
-    this.postsModel.posts = [];
+    this.postsModel.posts.splice(0,this.postsModel.posts.length);
     this.query.tag = filter.tag.trim().toLocaleLowerCase();
     this.query.start_author = '';
     this.query.start_permlink = '';
+    //načítání hodnoot z nastavení
+    this.query.limit = settings.loadPosts;
+    this.lastDate.setDate(this.actualDate.getDate() - settings.days);
     return new Promise((resolve) => {
       this.discussionsBuilder(resolve, filter);
     });
@@ -78,6 +83,7 @@ export class DiscussionService {
   private discussionsBuilder(resolve: any, filter: ParameterFilter) {
 
     this.getDiscussions().then(result => {
+      //this.postsModel.posts.splice(0,this.postsModel.posts.length);
       this.postsModel.posts = this.postsModel.posts.concat(result);
       this.loadPosts = this.postsModel.posts.length;
       let lastIndexPost = this.postsModel.posts.length - 1;
@@ -100,11 +106,15 @@ export class DiscussionService {
    */
   private parsePosts(resolve: any, filter: ParameterFilter) {
     let index = 0;//inicializace prvního indexu pole
-    this.postsModel.postsSorted = [];//inicializace pole
+    //this.postsModel.postsSorted = [];
+    this.postsModel.postsSorted.splice(0,this.postsModel.postsSorted.length);//inicializace pole
     this.postsModel.postsSorted[index] = [];//inicializace pole na prvním indxu
+    this.postsModel.postsSorted[index].splice(0,this.postsModel.postsSorted[index].length);//vymazání 
+    this.postsModel.postsAuthor.splice(0,this.postsModel.postsAuthor.length);
     this.postsModel.postsAuthor = [[]];
-    this.postsModel.totalCount = [];
-    this.postsModel.dates = [];
+    this.postsModel.totalCount.splice(0,this.postsModel.totalCount.length);
+    this.postsModel.dates.splice(0,this.postsModel.dates.length);
+    this.postsModel.actualViewPosts = [];
     let today = new Date();
     today.setHours(Number.parseInt(filter.time.substr(0, 2)));
     today.setMinutes(Number.parseInt(filter.time.substr(3, 2)));
@@ -136,11 +146,14 @@ export class DiscussionService {
           index++;
           this.postsModel.postsSorted[index] = [];
           this.postsModel.postsAuthor[index] = [];
+          this.postsModel.actualViewPosts.push(new PagesModel());
         }
         today.setDate(today.getDate() - filter.getInterval());
         this.postsModel.dates[index] = dates;
+        
       }
       this.postsModel.postsSorted[index].push(post);
+      
       let obj = this.postsModel.postsAuthor[index].find(o => o.author === post.author);
       //console.log(obj);
       if (obj) {

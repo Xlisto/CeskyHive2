@@ -26,13 +26,16 @@ export class BarComponent implements OnInit {
   @Output()
   onShowGraph: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output()
+  onShowSettings: EventEmitter<void> = new EventEmitter<void>();
+
   constructor() {}
 
   ngOnInit(): void {
     let tag = localStorage.getItem('tag');
     let time = localStorage.getItem('time');
     let day = localStorage.getItem('day');
-    let interval = localStorage.getItem('inteval');
+    let interval = localStorage.getItem('interval');
     let dayCount = Number(localStorage.getItem('dayCount'));
     if (tag)
       this.parameterFilter.tag = tag;
@@ -50,9 +53,9 @@ export class BarComponent implements OnInit {
   changeTextButtonGraph(button: any) {
     //console.log(button)
     if (this.isVisibleGraph)
-      button.textContent = "Zobrazit graf";
+      button.textContent = "Graf";
     else
-      button.textContent = "Zobrazit seznam";
+      button.textContent = "Seznam";
   }
 
 }

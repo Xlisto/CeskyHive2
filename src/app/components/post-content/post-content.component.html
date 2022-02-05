@@ -14,7 +14,7 @@
 <div *ngIf="showTypeData==='body'">
     <div [innerHTML]="selectedbody" class="markdown"></div>
     <div class="border-top m-1 py-2 h5">Použité tagy</div>
-    <span *ngFor="let tag of tags" >
+    <span *ngFor="let tag of tags">
         <div class="tag border rounded m-1 p-2">{{tag}}</div>
     </span>
 </div>

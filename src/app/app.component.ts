@@ -10,6 +10,7 @@ import { ActiveVotesService } from './services/active-votes.service';
 import { ActiveVotesModel } from './models/activeVotesModel';
 import { PropertiesService } from './services/properties.service';
 import { CurrentRevardFundModel } from './models/currentRewardFundModel';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ import { CurrentRevardFundModel } from './models/currentRewardFundModel';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-  title = 'HiveTag';
+  title = 'HiveTags';
 
   postsModel!: PostsModel;
 
@@ -31,7 +32,9 @@ export class AppComponent implements AfterViewInit {
 
   showData = "post";
 
-  isModalClosed = true;
+  isModalPostClosed = true;
+
+  isModalSettingsClosed = true;
 
   selectedPost!: Discussion;
 
@@ -58,6 +61,7 @@ export class AppComponent implements AfterViewInit {
 
   selectSortType = this.sortTypes[0];
   selectSortArrow = this.sortArrows[0];
+  rows = 5;
 
   @ViewChild(BarComponent, { static: false })
   private barComponentRef!: BarComponent;
@@ -67,6 +71,9 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild(LineChartComponent, { static: false })
   private lineChartRef!: LineChartComponent;
+
+  @ViewChild(SettingsComponent, { static: false })
+  private settingsRef!: SettingsComponent;
 
   constructor(
     private readonly discussionService: DiscussionService,
@@ -89,10 +96,15 @@ export class AppComponent implements AfterViewInit {
    * Zobrazení průběhu načítání
    */
   load() {
-
+    this.rows = this.settingsRef.settings.rows;
+    if (this.postsModel) {
+      this.postsModel.postsSorted = [[]];
+      this.postsModel.postsAuthor = [[]];
+      this.postsModel.posts = [];
+    }
     this.showLoadBar = true;
     const filter = this.barComponentRef.parameterFilter;
-    this.discussionService.discussions(filter).then(result => {
+    this.discussionService.discussions(filter, this.settingsRef.settings).then(result => {
       console.log(result);
       this.postsModel = result;
       this.clickCreate(-1);
@@ -111,7 +123,7 @@ export class AppComponent implements AfterViewInit {
     localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
     //this.selectSortType = this.sortTypes[0];
     this.selectSortArrow = this.sortArrows[0];
-    
+
   }
 
   clickAuthor(sort?: number) {
@@ -175,8 +187,8 @@ export class AppComponent implements AfterViewInit {
     //this.activeVotesService.activeVoteListBuilder(post.author, post.permlink).then(r => console.log(r));
     //this.activeVotesService.activeVoteListBuilder(post.author, post.permlink).then(result => console.log(result));
     this.selectedPost = post;
-    this.isModalClosed = false;
-    
+    this.isModalPostClosed = false;
+
     //console.log(this.md.render(post.body));
     //console.log(this.postsModel.negativeVotes(post));
     console.log(this.selectedPost);
@@ -192,11 +204,27 @@ export class AppComponent implements AfterViewInit {
   }
 
   showGraph() {
-    console.log("show graph" + this.visibleGraph);
     if (this.visibleGraph)
       this.visibleGraph = false;
     else
       this.visibleGraph = true;
+  }
+
+  showSettings() {
+    this.isModalSettingsClosed = false;
+  }
+
+  saveSettings() {
+    console.log(this.settingsRef.settings);
+    if (this.settingsRef.settings) {
+      let settings = this.settingsRef.settings;
+      localStorage.setItem("days", String(settings.days));
+      localStorage.setItem("maxPosts", String(settings.maxPosts));
+      localStorage.setItem("loadPosts", String(settings.loadPosts));
+      localStorage.setItem("node", settings.node);
+      localStorage.setItem("rows", String(settings.rows));
+    }
+    this.rows = this.settingsRef.settings.rows;
   }
 
   onChangeTypeSort() {
@@ -228,5 +256,29 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Stránkování na konec
+   * @param index 
+   */
+  pageUp(index: number) {
+    if ((this.postsModel.actualViewPosts[index].actualViewPost + this.settingsRef.settings.rows) < this.postsModel.postsSorted[index].length) {
+      this.postsModel.actualViewPosts[index].actualViewPost += this.settingsRef.settings.rows;
+      this.postsModel.actualViewPosts[index].actualPages++;
+    }
+    console.log(this.postsModel);
+  }
 
+  /**
+   * Stránkování na začátek
+   * @param index 
+   */
+  pageDown(index: number) {
+    this.postsModel.actualViewPosts[index].actualViewPost -= this.settingsRef.settings.rows;
+    this.postsModel.actualViewPosts[index].actualPages --;
+    if (this.postsModel.actualViewPosts[index].actualViewPost < 0) {
+      this.postsModel.actualViewPosts[index].actualViewPost = 0;
+      this.postsModel.actualViewPosts[index].actualPages = 1;
+    }
+    console.log(this.postsModel);
+  }
 }

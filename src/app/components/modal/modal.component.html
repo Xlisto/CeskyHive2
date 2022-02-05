@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{title}}</h5>
-                <button (click)="crossClicked.emit()" type="button" class="close">
+                <button (click)="crossClicked.emit()" type="button" class="btn btn-secondary">
                     <span>&times;</span>
                 </button>
             </div>
@@ -12,8 +12,8 @@
                 <ng-content></ng-content>
             </div>
             <div class="modal-footer">
-                <!-- Footer -->
-            </div>
+                <ng-content select="[footer]"></ng-content>
+             </div>
         </div>
     </div>
 </div>
