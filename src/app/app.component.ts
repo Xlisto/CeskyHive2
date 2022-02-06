@@ -62,6 +62,8 @@ export class AppComponent implements AfterViewInit {
   selectSortType = this.sortTypes[0];
   selectSortArrow = this.sortArrows[0];
   rows = 5;
+  items = 1;//počet dní/týdnů ve výsledku
+  node = "https://api.hive.blog";
 
   @ViewChild(BarComponent, { static: false })
   private barComponentRef!: BarComponent;
@@ -97,6 +99,7 @@ export class AppComponent implements AfterViewInit {
    */
   load() {
     this.rows = this.settingsRef.settings.rows;
+    this.items = this.settingsRef.settings.days;
     if (this.postsModel) {
       this.postsModel.postsSorted = [[]];
       this.postsModel.postsAuthor = [[]];
@@ -224,7 +227,16 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem("node", settings.node);
       localStorage.setItem("rows", String(settings.rows));
     }
+    
     this.rows = this.settingsRef.settings.rows;
+    this.items = this.settingsRef.settings.days;
+    this.isModalSettingsClosed = true;
+    for(let pages of this.postsModel.actualViewPosts){
+      pages.rowsPages = this.rows;
+      pages.actualViewPost = 0;
+      pages.actualPages = 1;
+    }
+    //this.settingsRef.resetForm();
   }
 
   onChangeTypeSort() {
@@ -265,7 +277,7 @@ export class AppComponent implements AfterViewInit {
       this.postsModel.actualViewPosts[index].actualViewPost += this.settingsRef.settings.rows;
       this.postsModel.actualViewPosts[index].actualPages++;
     }
-    console.log(this.postsModel);
+    //console.log(this.postsModel);
   }
 
   /**
@@ -279,6 +291,6 @@ export class AppComponent implements AfterViewInit {
       this.postsModel.actualViewPosts[index].actualViewPost = 0;
       this.postsModel.actualViewPosts[index].actualPages = 1;
     }
-    console.log(this.postsModel);
+    //console.log(this.postsModel);
   }
 }

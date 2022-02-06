@@ -28,6 +28,7 @@ export class SettingsComponent implements OnInit {
       this.settings.node = node;
     if (node)
       this.settings.rows = rows;
+
   }
 
 }

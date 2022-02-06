@@ -8,4 +8,14 @@ export class PagesModel {
 
     actualPages = 1;
 
+    //totalPages = 1;
+
+    totalPosts = 0;
+
+    rowsPages = 100;
+
+    getTotalPages() {
+        return Math.ceil(this.totalPosts/this.rowsPages);
+    }
+
 }

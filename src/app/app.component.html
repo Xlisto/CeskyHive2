@@ -8,15 +8,15 @@
     <div class="accordion" id="accordionExample" *ngIf="!visibleGraph">
         <div *ngFor="let posts of postsModel.postsSorted; index as i" class="">
 
-            <div class="accordion-item">
+            <div class="accordion-item" *ngIf="i<items">
                 <h2 class="accordion-header" [attr.id]="'heading' + i">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
                         [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
                         <div class="container-fluid">
                             <div class="row row-cols-auto">
-                                <div class="col-sm-3 my-1">{{postsModel.dates[i].dateFrom}} -
-                                    {{postsModel.dates[i].dateUntil}}
+                                <div class="col-sm-3 my-1">od {{postsModel.dates[i].dateFrom}} <br/>
+                                    do {{postsModel.dates[i].dateUntil}}
                                 </div>
                                 <div class="col-sm-1 text-end my-1">Postů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
@@ -56,11 +56,14 @@
                         <div *ngIf="showData === 'post'">
                             <!--data pro desktop-->
                             <div class="desktop">
-                                <div class="text-center">
+                                <div class="text-center" *ngIf="postsModel.actualViewPosts[i].getTotalPages()>1">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-dark" (click)="pageDown(i)">«</button>
-                                        <button type="button" class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}</button>
-                                        <button type="button" class="btn btn-outline-dark" (click)="pageUp(i)">»</button>
+                                        <button type="button" class="btn btn-outline-dark"
+                                            (click)="pageDown(i)">«</button>
+                                        <button type="button"
+                                            class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}/{{postsModel.actualViewPosts[i].getTotalPages()}}</button>
+                                        <button type="button" class="btn btn-outline-dark"
+                                            (click)="pageUp(i)">»</button>
                                     </div>
                                 </div>
 
@@ -114,15 +117,18 @@
                                             class="text-danger">{{postsModel.totalCount[i].totalNegativeVotes}} |
                                         </span>{{postsModel.totalCount[i].totalVotes}}</div>
                                 </div>
-                                
+
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
                                 <div class="text-center mb-2">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-dark" (click)="pageDown(i)">«</button>
-                                        <button type="button" class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}</button>
-                                        <button type="button" class="btn btn-outline-dark" (click)="pageUp(i)">»</button>
+                                        <button type="button" class="btn btn-outline-dark"
+                                            (click)="pageDown(i)">«</button>
+                                        <button type="button"
+                                            class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}/{{postsModel.actualViewPosts[i].getTotalPages()}}</button>
+                                        <button type="button" class="btn btn-outline-dark"
+                                            (click)="pageUp(i)">»</button>
                                     </div>
                                 </div>
 
@@ -142,8 +148,8 @@
                                     </form>
                                 </div>
 
-                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)" class="row item my-1 mobile-item"
-                                    (click)="clickItem(post)">
+                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
+                                    class="row item my-1 mobile-item" (click)="clickItem(post)">
                                     <div class="col-sm text-start fw-bold mx-1">{{post.title}}</div>
                                     <div class="col-sm">
                                         <div class="float-start">{{this.dateFormat.getLocaleDate(post.created)}}</div>

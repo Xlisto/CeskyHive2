@@ -19,7 +19,6 @@ export class DiscussionService {
 
 
   client = new Client("https://api.hive.blog");
-  //client = new Client("https://api.openhive.network");
   postsModel: PostsModel;
   loadPosts = 0;//počet načtených postů
   byAuthor = 1;//nastavení směru třídění u autora
@@ -32,6 +31,8 @@ export class DiscussionService {
   byPost = 1;
   actualDate!: Date;
   lastDate!: Date;
+  rows = 10; //počet řádků na jedné stránce
+  settings!:SettingsModel;
   query = {
     tag: 'cesky', // This tag is used to filter the results by a specific post tag
     limit: 50, // This limit allows us to limit the overall results returned to 5
@@ -62,6 +63,7 @@ export class DiscussionService {
     this.loadPosts = 0;//počet načtených postů
     this.actualDate = new Date();
     this.lastDate = new Date();
+    this.client = new Client(settings.node);
 
     //vymazání případných hodnot z předchozího hledání
     this.postsModel.posts.splice(0,this.postsModel.posts.length);
@@ -70,6 +72,8 @@ export class DiscussionService {
     this.query.start_permlink = '';
     //načítání hodnoot z nastavení
     this.query.limit = settings.loadPosts;
+    this.rows = settings.rows;
+    this.settings = settings;
     this.lastDate.setDate(this.actualDate.getDate() - settings.days);
     return new Promise((resolve) => {
       this.discussionsBuilder(resolve, filter);
@@ -147,12 +151,14 @@ export class DiscussionService {
           this.postsModel.postsSorted[index] = [];
           this.postsModel.postsAuthor[index] = [];
           this.postsModel.actualViewPosts.push(new PagesModel());
+          
         }
         today.setDate(today.getDate() - filter.getInterval());
         this.postsModel.dates[index] = dates;
-        
+       
       }
       this.postsModel.postsSorted[index].push(post);
+     
       
       let obj = this.postsModel.postsAuthor[index].find(o => o.author === post.author);
       //console.log(obj);
@@ -169,6 +175,13 @@ export class DiscussionService {
     this.postsModel.counts();
     this.byCreate = -1;
     this.sortByCreate();
+    for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
+      let totalPages = Math.ceil(this.postsModel.postsSorted[i].length/this.rows);
+      this.postsModel.actualViewPosts[i].totalPosts = this.postsModel.postsSorted[i].length;
+      this.postsModel.actualViewPosts[i].rowsPages = this.settings.rows;
+          //console.log(Math.ceil(this.postsModel.postsSorted[index].length/this.rows));
+    }
+
     resolve(this.postsModel);
   }
 
