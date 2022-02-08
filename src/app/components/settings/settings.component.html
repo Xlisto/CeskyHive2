@@ -20,8 +20,8 @@
 
         <div class="form-group col-sm-12 col-lg">
             <label for="days">Dní do historie:</label>
-            <input #name="ngModel" type="number" [(ngModel)]="settings.days" required name="days" class="form-control" min="0" 
-                id="days">
+            <input #name="ngModel" type="number" [(ngModel)]="settings.days" required name="days" class="form-control"
+                min="0" id="days">
             <small *ngIf="formRef.touched && name.invalid" class="text-danger">
                 Počet dní načtení historie.
             </small>
@@ -38,11 +38,47 @@
 
         <div class="form-group col-sm-12 col-lg">
             <label for="days">Počet řádků:</label>
-            <input #name="ngModel" type="number" [(ngModel)]="settings.rows" required name="rows" class="form-control" min="0" 
-                id="rows">
+            <input #name="ngModel" type="number" [(ngModel)]="settings.rows" required name="rows" class="form-control"
+                min="1" id="rows">
             <small *ngIf="formRef.touched && name.invalid" class="text-danger">
                 Počet zobrazených řádků na stránku.
             </small>
         </div>
+    </div>
+    <div class="row">
+        <div class="form-group h6">Zobrazené sloupce</div>
+    </div>
+    <div class="row">
+
+
+
+        <div class="form-group col-sm-12 col-lg">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkPays" [(ngModel)]="settings.showPayout"  name="showPayout">
+                <label class="form-check-label" for="checkPays">Platby</label>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12 col-lg">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkComment" [(ngModel)]="settings.showComment"  name="showComment">
+                <label class="form-check-label" for="checkComment">
+                    Komentáře
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12 col-lg">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkVotes" [(ngModel)]="settings.showVote"  name="showVote">
+                <label class="form-check-label" for="checkVotes">
+                    Hlasy
+                </label>
+            </div>
+        </div>
+
+
+
+
     </div>
 </form>

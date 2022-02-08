@@ -24,7 +24,7 @@
     border-radius: 5px;
 }
 
-@media screen and (min-width:576px) {
+@media screen and (min-width:992px) {
     #list {
         margin-top: 70px;
         margin-bottom: 55px;
@@ -62,5 +62,17 @@
 .item:hover {
     background-color: rgba(227, 19, 55, 0.1);
     border: 1px solid rgba(227, 19, 55, 0.9);
+}
+
+.accordion-body {
+    background-color: ivory;
+}
+
+.nav-link.active {
+    background-color: ivory; 
+}
+
+.wrap-text {
+    overflow-wrap: break-word;
 }
 

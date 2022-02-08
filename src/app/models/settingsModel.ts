@@ -7,6 +7,9 @@ export class SettingsModel {
     maxPosts = 10000; //maximální počet postů při kterém se ukončí načítání a zobrazí se výsledeky
     days = 28; //početnačtených dní do historie
     rows = 5;//počet řádků na stránku
+    showPayout = true;
+    showComment = true;
+    showVote = true;
     node = "https://api.hive.blog";
     nodes = [
         "https://api.hive.blog",

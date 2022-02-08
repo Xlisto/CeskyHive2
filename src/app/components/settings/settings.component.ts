@@ -18,6 +18,10 @@ export class SettingsComponent implements OnInit {
     let loadPosts = Number(localStorage.getItem("loadPosts"));
     let node = localStorage.getItem("node");
     let rows = Number(localStorage.getItem("rows"));
+    this.settings.showPayout = localStorage.getItem("showPayout") === "true";
+    this.settings.showComment = localStorage.getItem("showComment") === "true";
+    this.settings.showVote = localStorage.getItem("showVote") === "true";
+    
     if (days)
       this.settings.days = days;
     if (maxPosts)
@@ -28,7 +32,6 @@ export class SettingsComponent implements OnInit {
       this.settings.node = node;
     if (node)
       this.settings.rows = rows;
-
   }
 
 }

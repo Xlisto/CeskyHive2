@@ -15,21 +15,21 @@
                         [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
                         <div class="container-fluid">
                             <div class="row row-cols-auto">
-                                <div class="col-sm-3 my-1">od {{postsModel.dates[i].dateFrom}} <br/>
+                                <div class="col-lg-3 my-1">od {{postsModel.dates[i].dateFrom}} <br/>
                                     do {{postsModel.dates[i].dateUntil}}
                                 </div>
-                                <div class="col-sm-1 text-end my-1">Postů: <br><span
+                                <div class="col-lg-1 text-end my-1">Postů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
-                                <div class="col-sm-1 text-end my-1">Autorů: <br><span
+                                <div class="col-lg-1 text-end my-1">Autorů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
-                                <div class="col-sm-1 text-end my-1">Komentářů: <br><span
+                                <div class="col-lg-1 text-end my-1">Komentářů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
-                                <div class="col-sm-2 text-end my-1">Hlasů: <br><span
+                                <div class="col-lg-2 text-end my-1">Hlasů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
-                                <div class="col-sm-2 text-end my-1">Čekající: <br><span
+                                <div class="col-lg-2 text-end my-1">Čekající: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
                                 </div>
-                                <div class="col-sm-2 text-end my-1">Vyplaceno: <br><span
+                                <div class="col-lg-2 text-end my-1">Vyplaceno: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
                                 </div>
                             </div>
@@ -68,51 +68,51 @@
                                 </div>
 
                                 <div class="row h6 fw-bold" *ngIf="posts.length>0">
-                                    <div class="col-sm-2 text-start py-2" (click)="clickCreate()"
+                                    <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
                                         [class.activeSort]="selectClickedColl==='created'">Vytvořeno</div>
-                                    <div class="col-sm-1 text-start py-2" (click)="clickAuthor()"
+                                    <div class="col-lg-2 text-start py-2" (click)="clickAuthor()"
                                         [class.activeSort]="selectClickedColl==='author'">Autor</div>
-                                    <div class="col-sm-3 text-start py-2" (click)="clickTitle()"
+                                    <div class="col-lg-4 text-start py-2" (click)="clickTitle()"
                                         [class.activeSort]="selectClickedColl==='title'">Nadpis</div>
-                                    <div class="col-sm-2 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'">Čekající</div>
-                                    <div class="col-sm-2 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'">Vyplaceno</div>
-                                    <div class="col-sm-1 text-end py-2" (click)="clickChildren()"
-                                        [class.activeSort]="selectClickedColl==='children'">Komentáře</div>
-                                    <div class="col-sm-1 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'">Hlasy</div>
+                                    <div class="col-lg-1 text-end py-2" (click)="clickPending()"
+                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">Čekající</div>
+                                    <div class="col-lg-1 text-end py-2" (click)="clickPayout()"
+                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">Vyplaceno</div>
+                                    <div class="col-lg-1 text-end py-2" (click)="clickChildren()"
+                                        [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">Komentáře</div>
+                                    <div class="col-lg-1 text-end py-2" (click)="clickActiveVotes()"
+                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
                                 </div>
 
                                 <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
                                     class="row item" (click)="clickItem(post)">
                                     <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
                                     </div>
-                                    <div class="col-sm-1 text-start">@{{post.author}}</div>
-                                    <div class="col-sm-3 text-start">{{post.title}}</div>
-                                    <div class="col-sm-2 text-end">{{post.pending_payout_value}}</div>
-                                    <div class="col-sm-2 text-end">{{post.total_payout_value}}</div>
-                                    <div class="col-sm-1 text-end">{{post.children}}</div>
-                                    <div class="col-sm-1 text-end"><span *ngIf="postsModel.negativeVotes(post)>0"
+                                    <div class="col-lg-2 text-start wrap-text">@{{post.author}}</div>
+                                    <div class="col-lg-4 text-start">{{post.title}}</div>
+                                    <div class="col-lg-1 text-end" *ngIf="showPayout">{{post.pending_payout_value}}</div>
+                                    <div class="col-lg-1 text-end" *ngIf="showPayout">{{post.total_payout_value}}</div>
+                                    <div class="col-lg-1 text-end" *ngIf="showComment">{{post.children}}</div>
+                                    <div class="col-lg-1 text-end" *ngIf="showVote"><span *ngIf="postsModel.negativeVotes(post)>0"
                                             class="text-danger">{{postsModel.negativeVotes(post)}} |
                                         </span>{{post.active_votes.length}}</div>
                                 </div>
 
 
                                 <div class="row h6 fw-bold mt-2" *ngIf="posts.length>0">
-                                    <div class="col-sm-2 text-start">Celkem</div>
-                                    <div class="col-sm-1 text-start">Autorů: {{postsModel.totalCount[i].totalAuthors}}
+                                    <div class="col-lg-2 text-start">Celkem</div>
+                                    <div class="col-lg-2 text-start">Autorů: {{postsModel.totalCount[i].totalAuthors}}
                                     </div>
-                                    <div class="col-sm-3 text-start">Postů: {{postsModel.totalCount[i].totalPosts}}
+                                    <div class="col-lg-4 text-start">Postů: {{postsModel.totalCount[i].totalPosts}}
                                     </div>
-                                    <div class="col-sm-2 text-end">{{postsModel.totalCount[i].totalPending.toFixed(3)}}
+                                    <div class="col-lg-1 text-end" *ngIf="showPayout">{{postsModel.totalCount[i].totalPending.toFixed(3)}}
                                         HBD
                                     </div>
-                                    <div class="col-sm-2 text-end">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}
+                                    <div class="col-lg-1 text-end" *ngIf="showPayout">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}
                                         HBD
                                     </div>
-                                    <div class="col-sm-1 text-end">{{postsModel.totalCount[i].totalComments}}</div>
-                                    <div class="col-sm-1 text-end"><span
+                                    <div class="col-lg-1 text-end" *ngIf="showComment">{{postsModel.totalCount[i].totalComments}}</div>
+                                    <div class="col-lg-1 text-end" *ngIf="showVote"><span
                                             *ngIf="postsModel.totalCount[i].totalNegativeVotes>0"
                                             class="text-danger">{{postsModel.totalCount[i].totalNegativeVotes}} |
                                         </span>{{postsModel.totalCount[i].totalVotes}}</div>
@@ -121,7 +121,7 @@
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
-                                <div class="text-center mb-2">
+                                <div class="text-center mb-2" *ngIf="postsModel.actualViewPosts[i].getTotalPages()>1">
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <button type="button" class="btn btn-outline-dark"
                                             (click)="pageDown(i)">«</button>
@@ -150,20 +150,20 @@
 
                                 <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
                                     class="row item my-1 mobile-item" (click)="clickItem(post)">
-                                    <div class="col-sm text-start fw-bold mx-1">{{post.title}}</div>
-                                    <div class="col-sm">
+                                    <div class="col-lg text-start fw-bold mx-1">{{post.title}}</div>
+                                    <div class="col-lg">
                                         <div class="float-start">{{this.dateFormat.getLocaleDate(post.created)}}</div>
                                         <div class="float-end">@{{post.author}}</div>
                                     </div>
 
-                                    <div class="col-sm">
-                                        <div class="float-start">Čekající: {{post.pending_payout_value}}</div>
-                                        <div class="float-end">Vyplaceno: {{post.total_payout_value}}</div>
+                                    <div class="col-lg">
+                                        <div class="float-start" *ngIf="showPayout">Čekající: {{post.pending_payout_value}}</div>
+                                        <div class="float-end" *ngIf="showPayout">Vyplaceno: {{post.total_payout_value}}</div>
                                     </div>
 
-                                    <div class="col-sm">
-                                        <div class="float-start">Komentáře: {{post.children}}</div>
-                                        <div class="float-end">Hlasy:
+                                    <div class="col-lg">
+                                        <div class="float-start" *ngIf="showComment">Komentáře: {{post.children}}</div>
+                                        <div class="float-end" *ngIf="showVote">Hlasy:
                                             <span *ngIf="postsModel.negativeVotes(post)>0" class="text-danger">
                                                 {{postsModel.negativeVotes(post)}} |
                                             </span>{{post.active_votes.length}}
@@ -181,40 +181,40 @@
 
 
                                 <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
-                                    <div class="col-2 text-center py-2" (click)="clickAuthor()"
+                                    <div class="col-lg-2 text-center py-2" (click)="clickAuthor()"
                                         [class.activeSort]="selectClickedColl==='author'">Autor</div>
-                                    <div class="col-2 text-center py-2" (click)="clickPost()"
+                                    <div class="col-lg-2 text-center py-2" (click)="clickPost()"
                                         [class.activeSort]="selectClickedColl==='post'">Posty</div>
-                                    <div class="col-2 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'">Čekající</div>
-                                    <div class="col-2 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'">Vyplaceno</div>
-                                    <div class="col-2 text-end py-2" (click)="clickChildren()"
-                                        [class.activeSort]="selectClickedColl==='children'">Komentáře</div>
-                                    <div class="col-2 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'">Hlasy</div>
+                                    <div class="col-lg-2 text-end py-2" (click)="clickPending()"
+                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">Čekající</div>
+                                    <div class="col-lg-2 text-end py-2" (click)="clickPayout()"
+                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">Vyplaceno</div>
+                                    <div class="col-lg-2 text-end py-2" (click)="clickChildren()"
+                                        [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">Komentáře</div>
+                                    <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
+                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
                                 </div>
 
                                 <div *ngFor="let author of postsModel.postsAuthor[i]" class="row item">
-                                    <div class="col-2">@{{author.author}}</div>
-                                    <div class="col-2 text-center">{{author.posts}}</div>
-                                    <div class="col-2 text-end">{{author.pendingPayoutValue.toFixed(3)}} HBD</div>
-                                    <div class="col-2 text-end">{{author.totalPayoutValue.toFixed(3)}} HBD</div>
-                                    <div class="col-2 text-end">{{author.comments}}</div>
-                                    <div class="col-2 text-end"><span *ngIf="author.negativeVotes>0"
+                                    <div class="col-lg-2">@{{author.author}}</div>
+                                    <div class="col-lg-2 text-center">{{author.posts}}</div>
+                                    <div class="col-lg-2 text-end" *ngIf="showPayout">{{author.pendingPayoutValue.toFixed(3)}} HBD</div>
+                                    <div class="col-lg-2 text-end" *ngIf="showPayout">{{author.totalPayoutValue.toFixed(3)}} HBD</div>
+                                    <div class="col-lg-2 text-end" *ngIf="showComment">{{author.comments}}</div>
+                                    <div class="col-lg-2 text-end" *ngIf="showVote"><span *ngIf="author.negativeVotes>0"
                                             class="text-danger">{{author.negativeVotes}} | </span>{{author.votes}}</div>
                                 </div>
 
                                 <div class="row h6 fw-bold mt-2" *ngIf="postsModel.postsAuthor[i].length>0">
-                                    <div class="col-2 text-center">Autorů: {{postsModel.totalCount[i].totalAuthors}}
+                                    <div class="col-lg-2 text-center">Autorů: {{postsModel.totalCount[i].totalAuthors}}
                                     </div>
-                                    <div class="col-2 text-center">Postů: {{postsModel.totalCount[i].totalPosts}}</div>
-                                    <div class="col-2 text-end">{{postsModel.totalCount[i].totalPending.toFixed(3)}} HBD
+                                    <div class="col-lg-2 text-center">Postů: {{postsModel.totalCount[i].totalPosts}}</div>
+                                    <div class="col-lg-2 text-end" *ngIf="showPayout">{{postsModel.totalCount[i].totalPending.toFixed(3)}} HBD
                                     </div>
-                                    <div class="col-2 text-end">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}} HBD
+                                    <div class="col-lg-2 text-end" *ngIf="showPayout">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}} HBD
                                     </div>
-                                    <div class="col-2 text-end">{{postsModel.totalCount[i].totalComments}}</div>
-                                    <div class="col-2 text-end"><span
+                                    <div class="col-lg-2 text-end" *ngIf="showComment">{{postsModel.totalCount[i].totalComments}}</div>
+                                    <div class="col-lg-2 text-end" *ngIf="showVote"><span
                                             *ngIf="postsModel.totalCount[i].totalNegativeVotes>0"
                                             class="text-danger">{{postsModel.totalCount[i].totalNegativeVotes}} |
                                         </span>{{postsModel.totalCount[i].totalVotes}}</div>
@@ -243,17 +243,17 @@
                                         <div class="float-end text-end">Posty: {{author.posts}}</div>
                                     </div>
                                     <div class="col-sm">
-                                        <div class="float-start text-start">Čekající:<br />
+                                        <div class="float-start text-start" *ngIf="showPayout">Čekající:<br />
                                             {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
 
-                                        <div class="float-end text-end">Vyplaceno:<br />
+                                        <div class="float-end text-end" *ngIf="showPayout">Vyplaceno:<br />
                                             {{author.totalPayoutValue.toFixed(3)}} HBD
                                         </div>
                                     </div>
 
                                     <div class="col-sm">
-                                        <div class="float-start text-start">Komentáře: {{author.comments}} </div>
-                                        <div class="float-end text-end">Hlasy: <span *ngIf="author.negativeVotes>0"
+                                        <div class="float-start text-start" *ngIf="showComment">Komentáře: {{author.comments}} </div>
+                                        <div class="float-end text-end" *ngIf="showVote">Hlasy: <span *ngIf="author.negativeVotes>0"
                                                 class="text-danger">{{author.negativeVotes}}
                                                 | </span>{{author.votes}}</div>
                                     </div>

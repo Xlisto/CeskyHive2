@@ -60,10 +60,20 @@ export class AppComponent implements AfterViewInit {
   selectClickedColl = "created";
 
   selectSortType = this.sortTypes[0];
+
   selectSortArrow = this.sortArrows[0];
+
   rows = 5;
+
   items = 1;//počet dní/týdnů ve výsledku
+
   node = "https://api.hive.blog";
+
+  showPayout = true;
+
+  showComment = true;
+
+  showVote = true;
 
   @ViewChild(BarComponent, { static: false })
   private barComponentRef!: BarComponent;
@@ -100,6 +110,9 @@ export class AppComponent implements AfterViewInit {
   load() {
     this.rows = this.settingsRef.settings.rows;
     this.items = this.settingsRef.settings.days;
+    this.showPayout = this.settingsRef.settings.showPayout;
+    this.showComment = this.settingsRef.settings.showComment;
+    this.showVote = this.settingsRef.settings.showVote;
     if (this.postsModel) {
       this.postsModel.postsSorted = [[]];
       this.postsModel.postsAuthor = [[]];
@@ -226,15 +239,24 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem("loadPosts", String(settings.loadPosts));
       localStorage.setItem("node", settings.node);
       localStorage.setItem("rows", String(settings.rows));
+      localStorage.setItem("showPayout", String(settings.showPayout));
+      localStorage.setItem("showComment", String(settings.showComment));
+      localStorage.setItem("showVote", String(settings.showVote));
     }
-    
+
     this.rows = this.settingsRef.settings.rows;
     this.items = this.settingsRef.settings.days;
+    this.showPayout = this.settingsRef.settings.showPayout;
+    this.showComment = this.settingsRef.settings.showComment;
+    this.showVote = this.settingsRef.settings.showVote;
     this.isModalSettingsClosed = true;
-    for(let pages of this.postsModel.actualViewPosts){
-      pages.rowsPages = this.rows;
-      pages.actualViewPost = 0;
-      pages.actualPages = 1;
+    //nastavení stránky na první
+    if (this.postsModel) {
+      for (let pages of this.postsModel.actualViewPosts) {
+        pages.rowsPages = this.rows;
+        pages.actualViewPost = 0;
+        pages.actualPages = 1;
+      }
     }
     //this.settingsRef.resetForm();
   }
@@ -286,7 +308,7 @@ export class AppComponent implements AfterViewInit {
    */
   pageDown(index: number) {
     this.postsModel.actualViewPosts[index].actualViewPost -= this.settingsRef.settings.rows;
-    this.postsModel.actualViewPosts[index].actualPages --;
+    this.postsModel.actualViewPosts[index].actualPages--;
     if (this.postsModel.actualViewPosts[index].actualViewPost < 0) {
       this.postsModel.actualViewPosts[index].actualViewPost = 0;
       this.postsModel.actualViewPosts[index].actualPages = 1;
