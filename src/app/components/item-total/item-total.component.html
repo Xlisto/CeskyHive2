@@ -1,0 +1,71 @@
+<!--Zobrazení desktopového součtu-->
+<div class="desktop">
+    <div *ngIf="showData === 'author'">
+        <div class="row h6 fw-bold mt-2" *ngIf="totalCount[i].totalAuthors>0">
+            <div class="col-lg-2 text-center">Autorů: {{totalCount[i].totalAuthors}}
+            </div>
+            <div class="col-lg-2 text-center">Postů: {{totalCount[i].totalPosts}}
+            </div>
+            <div class="col-lg-2 text-end" *ngIf="settings.showPayout">
+                {{totalCount[i].totalPending.toFixed(3)}} HBD
+            </div>
+            <div class="col-lg-2 text-end" *ngIf="settings.showPayout">
+                {{totalCount[i].totalPayouts.toFixed(3)}} HBD
+            </div>
+            <div class="col-lg-2 text-end" *ngIf="settings.showComment">
+                {{totalCount[i].totalComments}}</div>
+            <div class="col-lg-2 text-end" *ngIf="settings.showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
+                    class="text-danger">{{totalCount[i].totalNegativeVotes}} |
+                </span>{{totalCount[i].totalVotes}}</div>
+        </div>
+    </div>
+
+    <div *ngIf="showData === 'post'">
+        <div class="row h6 fw-bold mt-2" *ngIf="totalCount[i].totalPosts>0">
+            <div class="col-lg-2 text-start">Celkem</div>
+            <div class="col-lg-2 text-start">Autorů: {{totalCount[i].totalAuthors}}
+            </div>
+            <div class="col-lg-4 text-start">Postů: {{totalCount[i].totalPosts}}
+            </div>
+            <div class="col-lg-1 text-end" *ngIf="settings.showPayout">
+                {{totalCount[i].totalPending.toFixed(3)}}
+                HBD
+            </div>
+            <div class="col-lg-1 text-end" *ngIf="settings.showPayout">
+                {{totalCount[i].totalPayouts.toFixed(3)}}
+                HBD
+            </div>
+            <div class="col-lg-1 text-end" *ngIf="settings.showComment">
+                {{totalCount[i].totalComments}}</div>
+            <div class="col-lg-1 text-end" *ngIf="settings.showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
+                    class="text-danger">{{totalCount[i].totalNegativeVotes}} |
+                </span>{{totalCount[i].totalVotes}}</div>
+        </div>
+    </div>
+
+
+</div>
+
+<!--Zobrazení mobilního součtu-->
+<div class="mobile">
+    <div class="row item my-1 mobile-item border">
+        <div class="col-lg">
+            <div class="float-start text-start fw-bold">Autorů:
+                {{totalCount[i].totalAuthors}}</div>
+            <div class="float-end text-end fw-bold">Postů:
+                {{totalCount[i].totalPosts}}</div>
+        </div>
+        <div class="col-lg">
+            <div class="float-start text-start fw-bold" *ngIf="settings.showPayout">Vyplaceno:
+                {{totalCount[i].totalPayouts.toFixed(3)}} HBD</div>
+            <div class="float-end text-end fw-bold" *ngIf="settings.showPayout">Čekající:
+                {{totalCount[i].totalPending.toFixed(3)}} HBD</div>
+        </div>
+        <div class="col-lg">
+            <div class="float-start text-start fw-bold" *ngIf="settings.showComment">Komentářu:
+                {{totalCount[i].totalComments}}</div>
+            <div class="float-end text-end fw-bold" *ngIf="settings.showVote">Hlasů:
+                {{totalCount[i].totalVotes}}</div>
+        </div>
+    </div>
+</div>

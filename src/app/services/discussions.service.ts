@@ -144,14 +144,16 @@ export class DiscussionService {
       this.postsModel.dates[index] = dates;
 
       if (new Date(post.created).getTime() < today.getTime()) {
-        isFistDate = false;
+        
         //pokud se předchozí pole ničím nenaplnilo, použije se znova
         if (this.postsModel.postsSorted[index].length > 0) {
+          isFistDate = false;
           index++;
           this.postsModel.postsSorted[index] = [];
           this.postsModel.postsAuthor[index] = [];
           this.postsModel.actualViewPosts.push(new PagesModel());
-          
+        } else {
+          isFistDate = true;
         }
         today.setDate(today.getDate() - filter.getInterval());
         this.postsModel.dates[index] = dates;

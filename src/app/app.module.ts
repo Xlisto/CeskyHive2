@@ -12,6 +12,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
 import { PostContentComponent } from './components/post-content/post-content.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { ItemTotalComponent } from './components/item-total/item-total.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     FooterComponent,
     LineChartComponent,
     PostContentComponent,
-    SettingsComponent
+    SettingsComponent,
+    ItemTotalComponent
   ],
   imports: [
     BrowserModule,

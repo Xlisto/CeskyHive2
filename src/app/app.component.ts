@@ -36,6 +36,8 @@ export class AppComponent implements AfterViewInit {
 
   isModalSettingsClosed = true;
 
+  isLoadingData = false;
+
   selectedPost!: Discussion;
 
   selectedActiveVotes!: ActiveVotesModel[];
@@ -85,7 +87,7 @@ export class AppComponent implements AfterViewInit {
   private lineChartRef!: LineChartComponent;
 
   @ViewChild(SettingsComponent, { static: false })
-  private settingsRef!: SettingsComponent;
+  settingsRef!: SettingsComponent;
 
   constructor(
     private readonly discussionService: DiscussionService,
@@ -108,37 +110,44 @@ export class AppComponent implements AfterViewInit {
    * Zobrazení průběhu načítání
    */
   load() {
-    this.rows = this.settingsRef.settings.rows;
-    this.items = this.settingsRef.settings.days;
-    this.showPayout = this.settingsRef.settings.showPayout;
-    this.showComment = this.settingsRef.settings.showComment;
-    this.showVote = this.settingsRef.settings.showVote;
-    if (this.postsModel) {
-      this.postsModel.postsSorted = [[]];
-      this.postsModel.postsAuthor = [[]];
-      this.postsModel.posts = [];
-    }
-    this.showLoadBar = true;
-    const filter = this.barComponentRef.parameterFilter;
-    this.discussionService.discussions(filter, this.settingsRef.settings).then(result => {
-      console.log(result);
-      this.postsModel = result;
-      this.clickCreate(-1);
-    }).catch(e => console.log(e))
-      .finally(() => {
-        this.showLoadBar = false;
-        this.modalLoadBarRef.stopInterval();
-        //this.lineChartRef.loadChart();
-        this.reloadGraph();
-      });
+    if (!this.isLoadingData) {
+      this.isLoadingData = true;
+      this.rows = this.settingsRef.settings.rows;
+      this.items = this.settingsRef.settings.days;
+      this.showPayout = this.settingsRef.settings.showPayout;
+      this.showComment = this.settingsRef.settings.showComment;
+      this.showVote = this.settingsRef.settings.showVote;
+      if (this.postsModel) {
+        this.postsModel.postsSorted = [[]];
+        this.postsModel.postsAuthor = [[]];
+        this.postsModel.posts = [];
+      }
+      this.showLoadBar = true;
+      const filter = this.barComponentRef.parameterFilter;
+      this.discussionService.discussions(filter, this.settingsRef.settings)
+        .then(result => {
+          console.log(result);
+          this.postsModel = result;
+          this.clickCreate(-1);
+        })
+        .catch(e => console.log(e))
+        .finally(() => {
+          this.isLoadingData = false;
+          this.showLoadBar = false;
+          this.modalLoadBarRef.stopInterval();
+          //this.lineChartRef.loadChart();
+          this.reloadGraph();
+        });
 
-    localStorage.setItem('tag', this.barComponentRef.parameterFilter.tag);
-    localStorage.setItem('time', this.barComponentRef.parameterFilter.time);
-    localStorage.setItem('interval', this.barComponentRef.parameterFilter.interval);
-    localStorage.setItem('dayCount', this.barComponentRef.parameterFilter.dayCount.toString());
-    localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
-    //this.selectSortType = this.sortTypes[0];
-    this.selectSortArrow = this.sortArrows[0];
+      localStorage.setItem('tag', this.barComponentRef.parameterFilter.tag);
+      localStorage.setItem('time', this.barComponentRef.parameterFilter.time);
+      localStorage.setItem('interval', this.barComponentRef.parameterFilter.interval);
+      localStorage.setItem('dayCount', this.barComponentRef.parameterFilter.dayCount.toString());
+      localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
+      //this.selectSortType = this.sortTypes[0];
+      this.selectSortArrow = this.sortArrows[0];
+    }
+
 
   }
 
