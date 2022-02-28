@@ -11,7 +11,7 @@ export class SettingsComponent implements OnInit {
 
   public settings = new SettingsModel();
 
-  @ViewChild(NgForm,{static:false})
+  @ViewChild(NgForm, { static: false })
   public formRef!: NgForm;
 
   constructor() { }
@@ -25,9 +25,9 @@ export class SettingsComponent implements OnInit {
     let loadPosts = Number(localStorage.getItem("loadPosts"));
     let node = localStorage.getItem("node");
     let rows = Number(localStorage.getItem("rows"));
-    this.settings.showPayout = localStorage.getItem("showPayout") === "true";
-    this.settings.showComment = localStorage.getItem("showComment") === "true";
-    this.settings.showVote = localStorage.getItem("showVote") === "true";
+    let showPayout = localStorage.getItem("showPayout") === "true";
+    let showComment = localStorage.getItem("showComment") === "true";
+    let showVote = localStorage.getItem("showVote") === "true";
 
     if (days)
       this.settings.days = days;
@@ -37,8 +37,14 @@ export class SettingsComponent implements OnInit {
       this.settings.loadPosts = loadPosts;
     if (node)
       this.settings.node = node;
-    if (node)
+    if (rows)
       this.settings.rows = rows;
+    if (showPayout)
+      this.settings.showPayout = showPayout;
+    if (showComment)
+      this.settings.showComment = showComment;
+    if (showVote)
+      this.settings.showVote = showVote;
   }
 
 }
