@@ -2,7 +2,7 @@
     [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
 
-<div class="container-fluid" id="list" *ngIf="postsModel != undefined">
+<div class="container-fluid" id="list" *ngIf="postsModel != undefined && !isLoadingData">
     <app-line-chart *ngIf="visibleGraph"></app-line-chart>
 
     <div class="accordion" id="accordionExample" *ngIf="!visibleGraph">
@@ -104,7 +104,7 @@
                                 </div>
 
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [settings]="settingsRef.settings"  [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i"></app-item-total>
 
                             </div>
                             <!--data pro mobil-->
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [settings]="settingsRef.settings"  [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
 
                             </div>
                         </div>
@@ -203,7 +203,7 @@
                                             class="text-danger">{{author.negativeVotes}} | </span>{{author.votes}}</div>
                                 </div>
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [settings]="settingsRef.settings"  [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
@@ -246,7 +246,7 @@
                                     </div>
                                 </div>
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [settings]="settingsRef.settings" [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
 
                             </div>
                         </div>
@@ -277,6 +277,6 @@
     <app-modal [isClosed]="isModalSettingsClosed" [title]="'Nastavení'" (crossClicked)="isModalSettingsClosed = true">
         <app-settings></app-settings>
         <button footer type="button" class="btn btn-primary" (click)="saveSettings()">Uložit</button>
-        <button footer type="button" class="btn btn-secondary" (click)="isModalSettingsClosed = true">Zavřít</button>
+        <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">Zavřít</button>
     </app-modal>
 </div>

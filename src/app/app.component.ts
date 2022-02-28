@@ -11,6 +11,7 @@ import { ActiveVotesModel } from './models/activeVotesModel';
 import { PropertiesService } from './services/properties.service';
 import { CurrentRevardFundModel } from './models/currentRewardFundModel';
 import { SettingsComponent } from './components/settings/settings.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,7 @@ export class AppComponent implements AfterViewInit {
 
   isModalSettingsClosed = true;
 
-  isLoadingData = false;
+  public isLoadingData = false;
 
   selectedPost!: Discussion;
 
@@ -112,6 +113,7 @@ export class AppComponent implements AfterViewInit {
   load() {
     if (!this.isLoadingData) {
       this.isLoadingData = true;
+      console.log(this.settingsRef.settings.rows)
       this.rows = this.settingsRef.settings.rows;
       this.items = this.settingsRef.settings.days;
       this.showPayout = this.settingsRef.settings.showPayout;
@@ -121,6 +123,7 @@ export class AppComponent implements AfterViewInit {
         this.postsModel.postsSorted = [[]];
         this.postsModel.postsAuthor = [[]];
         this.postsModel.posts = [];
+        this.postsModel.totalCount = [];
       }
       this.showLoadBar = true;
       const filter = this.barComponentRef.parameterFilter;
@@ -236,11 +239,13 @@ export class AppComponent implements AfterViewInit {
   }
 
   showSettings() {
+    this.settingsRef.initData();
     this.isModalSettingsClosed = false;
   }
 
+  /**Uloží nastavení */
   saveSettings() {
-    console.log(this.settingsRef.settings);
+    console.log(this.settingsRef.formRef);
     if (this.settingsRef.settings) {
       let settings = this.settingsRef.settings;
       localStorage.setItem("days", String(settings.days));
@@ -268,6 +273,14 @@ export class AppComponent implements AfterViewInit {
       }
     }
     //this.settingsRef.resetForm();
+  }
+
+  cancelSettings() {
+    
+    console.log(this.settingsRef.formRef);
+    this.isModalSettingsClosed = true;
+    //this.settingsRef.formRef.resetForm();
+    
   }
 
   onChangeTypeSort() {

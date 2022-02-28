@@ -6,15 +6,15 @@
             </div>
             <div class="col-lg-2 text-center">Postů: {{totalCount[i].totalPosts}}
             </div>
-            <div class="col-lg-2 text-end" *ngIf="settings.showPayout">
+            <div class="col-lg-2 text-end" *ngIf="showPayout">
                 {{totalCount[i].totalPending.toFixed(3)}} HBD
             </div>
-            <div class="col-lg-2 text-end" *ngIf="settings.showPayout">
+            <div class="col-lg-2 text-end" *ngIf="showPayout">
                 {{totalCount[i].totalPayouts.toFixed(3)}} HBD
             </div>
-            <div class="col-lg-2 text-end" *ngIf="settings.showComment">
+            <div class="col-lg-2 text-end" *ngIf="showComment">
                 {{totalCount[i].totalComments}}</div>
-            <div class="col-lg-2 text-end" *ngIf="settings.showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
+            <div class="col-lg-2 text-end" *ngIf="showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
                     class="text-danger">{{totalCount[i].totalNegativeVotes}} |
                 </span>{{totalCount[i].totalVotes}}</div>
         </div>
@@ -27,17 +27,17 @@
             </div>
             <div class="col-lg-4 text-start">Postů: {{totalCount[i].totalPosts}}
             </div>
-            <div class="col-lg-1 text-end" *ngIf="settings.showPayout">
+            <div class="col-lg-1 text-end" *ngIf="showPayout">
                 {{totalCount[i].totalPending.toFixed(3)}}
                 HBD
             </div>
-            <div class="col-lg-1 text-end" *ngIf="settings.showPayout">
+            <div class="col-lg-1 text-end" *ngIf="showPayout">
                 {{totalCount[i].totalPayouts.toFixed(3)}}
                 HBD
             </div>
-            <div class="col-lg-1 text-end" *ngIf="settings.showComment">
+            <div class="col-lg-1 text-end" *ngIf="showComment">
                 {{totalCount[i].totalComments}}</div>
-            <div class="col-lg-1 text-end" *ngIf="settings.showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
+            <div class="col-lg-1 text-end" *ngIf="showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
                     class="text-danger">{{totalCount[i].totalNegativeVotes}} |
                 </span>{{totalCount[i].totalVotes}}</div>
         </div>
@@ -56,15 +56,15 @@
                 {{totalCount[i].totalPosts}}</div>
         </div>
         <div class="col-lg">
-            <div class="float-start text-start fw-bold" *ngIf="settings.showPayout">Vyplaceno:
+            <div class="float-start text-start fw-bold" *ngIf="showPayout">Vyplaceno:
                 {{totalCount[i].totalPayouts.toFixed(3)}} HBD</div>
-            <div class="float-end text-end fw-bold" *ngIf="settings.showPayout">Čekající:
+            <div class="float-end text-end fw-bold" *ngIf="showPayout">Čekající:
                 {{totalCount[i].totalPending.toFixed(3)}} HBD</div>
         </div>
         <div class="col-lg">
-            <div class="float-start text-start fw-bold" *ngIf="settings.showComment">Komentářu:
+            <div class="float-start text-start fw-bold" *ngIf="showComment">Komentářu:
                 {{totalCount[i].totalComments}}</div>
-            <div class="float-end text-end fw-bold" *ngIf="settings.showVote">Hlasů:
+            <div class="float-end text-end fw-bold" *ngIf="showVote">Hlasů:
                 {{totalCount[i].totalVotes}}</div>
         </div>
     </div>

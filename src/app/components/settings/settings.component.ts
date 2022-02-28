@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { SettingsModel } from 'src/app/models/settingsModel';
 
 @Component({
@@ -10,9 +11,15 @@ export class SettingsComponent implements OnInit {
 
   public settings = new SettingsModel();
 
+  @ViewChild(NgForm,{static:false})
+  public formRef!: NgForm;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  initData() {
     let days = Number(localStorage.getItem("days"));
     let maxPosts = Number(localStorage.getItem("maxPosts"));
     let loadPosts = Number(localStorage.getItem("loadPosts"));
@@ -21,7 +28,7 @@ export class SettingsComponent implements OnInit {
     this.settings.showPayout = localStorage.getItem("showPayout") === "true";
     this.settings.showComment = localStorage.getItem("showComment") === "true";
     this.settings.showVote = localStorage.getItem("showVote") === "true";
-    
+
     if (days)
       this.settings.days = days;
     if (maxPosts)

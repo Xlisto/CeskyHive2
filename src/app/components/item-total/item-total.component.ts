@@ -20,10 +20,16 @@ export class ItemTotalComponent implements OnInit {
   i = 0;
 
   @Input()
-  settings!:SettingsModel;
+  showData = "";
 
   @Input()
-  showData = "";
+  showPayout = true;
+
+  @Input()
+  showComment = true;
+
+  @Input()
+  showVote = true;
 
   constructor() { }
 
