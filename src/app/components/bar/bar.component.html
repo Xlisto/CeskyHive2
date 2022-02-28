@@ -32,42 +32,45 @@
       <button class="btn btn-outline-success me-2 my-1" type="submit" (click)="onShowSettings.emit()">Nastavení</button>
       <button class="btn btn-outline-success me-2 my-1" type="submit"
         (click)="onShowGraph.emit();changeTextButtonGraph($event.target);">Graf</button>
-      <form class="d-flex"><select class="form-select me-2 my-1" aria-label="Výběr intervalu"
-          [(ngModel)]="parameterFilter.interval" name="interval">
-          <option value="tyden" selected>Týdenní</option>
-          <option value="den">Denní</option>
-        </select>
-        <select class="form-select me-2 my-1" aria-label="Výběr dne" [(ngModel)]="parameterFilter.day" name="day"
-          *ngIf="parameterFilter.interval === 'tyden'">
-          <option value="1">Pondělí</option>
-          <option value="2">Úterý</option>
-          <option value="3">Středa</option>
-          <option value="4" selected>Čtvrtek</option>
-          <option value="5">Pátek</option>
-          <option value="6">Sobota</option>
-          <option value="0">Neděle</option>
-        </select>
-      </form>
-      <form class="d-flex">
-        <select class="form-select me-2 my-1" aria-label="Počet dní" [(ngModel)]="parameterFilter.dayCount" name="dayCount"
-          *ngIf="parameterFilter.interval !== 'tyden'">
-          <option value="1" selected>1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-        </select>
-        <input class="form-control me-2 my-1" type="time" placeholder="time" aria-label="Time"
-          [(ngModel)]="parameterFilter.time" name="time">
-        <input class="form-control me-2 my-1" type="text" placeholder="tag" aria-label="Tag"
-          [(ngModel)]="parameterFilter.tag" name="tag">
+      <form class="d-flex flex-column flex-sm-row">
+       
+          <select class="form-select me-2 my-1" aria-label="Výběr intervalu" [(ngModel)]="parameterFilter.interval"
+            name="interval">
+            <option value="tyden" selected>Týdenní</option>
+            <option value="den">Denní</option>
+          </select>
 
-      </form>
-      <form class="d-flex flex-row-reverse">
-        <button class="btn btn-outline-success me-2 my-1" type="submit" (click)="onLoad.emit()" data-bs-toggle="collapse"
-          data-bs-target=".navbar-collapse.show">Hledej</button>
+          <select class="form-select me-2 my-1" aria-label="Výběr dne" [(ngModel)]="parameterFilter.day" name="day"
+            *ngIf="parameterFilter.interval === 'tyden'">
+            <option value="1">Pondělí</option>
+            <option value="2">Úterý</option>
+            <option value="3">Středa</option>
+            <option value="4" selected>Čtvrtek</option>
+            <option value="5">Pátek</option>
+            <option value="6">Sobota</option>
+            <option value="0">Neděle</option>
+          </select>
+
+          <select class="form-select me-2 my-1" aria-label="Počet dní" [(ngModel)]="parameterFilter.dayCount"
+            name="dayCount" *ngIf="parameterFilter.interval !== 'tyden'">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+          </select>
+      
+          <input class="form-control me-2 my-1" type="time" placeholder="time" aria-label="Time"
+            [(ngModel)]="parameterFilter.time" name="time">
+
+          <input class="form-control me-2 my-1" type="text" placeholder="tag" aria-label="Tag"
+            [(ngModel)]="parameterFilter.tag" name="tag">
+        
+          <button class="btn btn-outline-success my-1" type="submit" (click)="onLoad.emit()"
+            data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Hledej</button>
+       
       </form>
     </div>
   </div>
