@@ -6,7 +6,7 @@ img {
     border-radius: 4px !important;
     margin-top: 5px !important;
     margin-bottom: 5px !important;
-    margin:5px auto;
+    margin: 5px auto;
     display: block;
 }
 
@@ -26,7 +26,7 @@ blockquote {
 .markdown {
     font-family: "Source Serif Pro", serif;
     font-size: 120%;
-    
+
     box-sizing: inherit;
     text-align: justify;
     margin: 0;
@@ -34,7 +34,7 @@ blockquote {
     line-height: 1.6 !important;
 }
 
-.float-start,.float-end {
+.float-start, .float-end {
     width: 50%;
     padding: 0px 5px;
 }
@@ -52,6 +52,13 @@ blockquote {
     display: initial;
 }
 
+@media screen and (max-width:992px) {
+    .resp-text {
+        font-size: 1.5vw;
+    }
+}
+
+
 @media screen and (min-width:992px) {
     #list {
         margin-top: 70px;
@@ -66,5 +73,3 @@ blockquote {
         display: none;
     }
 }
-
-

@@ -15,23 +15,23 @@
                         [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
                         <div class="container-fluid">
                             <div class="row row-cols-auto">
-                                <div class="col-lg-3 my-1">od {{postsModel.dates[i].dateFrom}} <br />
+                                <div class="col-lg my-1">od {{postsModel.dates[i].dateFrom}} <br />
                                     do {{postsModel.dates[i].dateUntil}}
                                 </div>
                                 <div class="col-lg-1 text-end my-1">Postů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
                                 <div class="col-lg-1 text-end my-1">Autorů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
-                                <div class="col-lg-1 text-end my-1">Komentářů: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
-                                <div class="col-lg-2 text-end my-1">Hlasů: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
-                                <div class="col-lg-2 text-end my-1">Čekající: <br><span
+                                <div class="col-lg-1 text-end my-1">Čekající: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
                                 </div>
-                                <div class="col-lg-2 text-end my-1">Vyplaceno: <br><span
+                                <div class="col-lg-1 text-end my-1">Vyplaceno: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
                                 </div>
+                                <div class="col-lg-1 text-end my-1">Komentářů: <br><span
+                                        class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
+                                <div class="col-lg-1 text-end my-1">Hlasů: <br><span
+                                        class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
                             </div>
                         </div>
 

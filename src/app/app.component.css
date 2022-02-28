@@ -24,9 +24,6 @@
 }
 
 
-
-
-
 .activeSort {
     background-color: rgba(227, 19, 54, 0.5);
 }
@@ -51,4 +48,6 @@
 .wrap-text {
     overflow-wrap: break-word;
 }
+
+
 
