@@ -37,6 +37,8 @@ export class AppComponent implements AfterViewInit {
 
   isModalSettingsClosed = true;
 
+  isMaxLoadPosts = false;//kontrola načtení maximálního povolého počtu načtených postů; def = 10000
+
   public isLoadingData = false;
 
   selectedPost!: Discussion;
@@ -113,7 +115,6 @@ export class AppComponent implements AfterViewInit {
   load() {
     if (!this.isLoadingData) {
       this.isLoadingData = true;
-      console.log(this.settingsRef.settings.rows)
       this.rows = this.settingsRef.settings.rows;
       this.items = this.settingsRef.settings.days;
       this.showPayout = this.settingsRef.settings.showPayout;
@@ -140,6 +141,14 @@ export class AppComponent implements AfterViewInit {
           this.modalLoadBarRef.stopInterval();
           //this.lineChartRef.loadChart();
           this.reloadGraph();
+          this.selectSortArrow = this.sortArrows[0];
+          if (this.postsModel.posts.length >= this.settingsRef.settings.maxPosts)
+            this.isMaxLoadPosts = true;
+          else
+            this.isMaxLoadPosts = false;
+          console.log(this.postsModel.posts.length);
+          console.log(this.settingsRef.settings.maxPosts);
+          console.log(this.isMaxLoadPosts);
         });
 
       localStorage.setItem('tag', this.barComponentRef.parameterFilter.tag);
@@ -148,7 +157,7 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem('dayCount', this.barComponentRef.parameterFilter.dayCount.toString());
       localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
       //this.selectSortType = this.sortTypes[0];
-      this.selectSortArrow = this.sortArrows[0];
+
     }
 
 
@@ -245,7 +254,6 @@ export class AppComponent implements AfterViewInit {
 
   /**Uloží nastavení */
   saveSettings() {
-    console.log(this.settingsRef.formRef);
     if (this.settingsRef.settings) {
       let settings = this.settingsRef.settings;
       localStorage.setItem("days", String(settings.days));
@@ -276,11 +284,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   cancelSettings() {
-    
-    console.log(this.settingsRef.formRef);
     this.isModalSettingsClosed = true;
-    //this.settingsRef.formRef.resetForm();
-    
   }
 
   onChangeTypeSort() {

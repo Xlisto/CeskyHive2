@@ -57,8 +57,21 @@ export class PostsModel {
             authors = postAuthor.length;
             this.totalCount.push(new TotalsCountModel(posts,authors,pendings,payouts,votes,negativeVotes,comments));
             
-            console.log(pendings);
+            //console.log(pendings);
         }
+    }
+
+     /**Vynulování, vyprázdnění polí */
+     public init(){
+        let index = 0;//inicializace prvního indexu pole
+        this.postsSorted.splice(0,this.postsSorted.length);//inicializace pole
+        this.postsSorted[index] = [];//inicializace pole na prvním indexu
+        this.postsSorted[index].splice(0,this.postsSorted[index].length);//vymazání 
+        this.postsAuthor.splice(0,this.postsAuthor.length);
+        this.postsAuthor = [[]];
+        this.totalCount.splice(0,this.totalCount.length);
+        this.dates.splice(0,this.dates.length);
+        this.actualViewPosts = [];
     }
 
 }

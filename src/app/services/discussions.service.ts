@@ -3,6 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Client, Discussion, DynamicGlobalProperties } from "@hiveio/dhive";
+import { interval } from 'rxjs';
 import { AuthorSortModel } from '../models/authorSortModel';
 import { DatesModel } from '../models/datesModel';
 import { PagesModel } from '../models/pagesModel';
@@ -15,8 +16,6 @@ import { PropertiesService } from './properties.service';
   providedIn: 'root'
 })
 export class DiscussionService {
-
-
 
   client = new Client("https://api.hive.blog");
   postsModel: PostsModel;
@@ -32,7 +31,7 @@ export class DiscussionService {
   actualDate!: Date;
   lastDate!: Date;
   rows = 10; //počet řádků na jedné stránce
-  settings!:SettingsModel;
+  settings!: SettingsModel;
   query = {
     tag: 'cesky', // This tag is used to filter the results by a specific post tag
     limit: 50, // This limit allows us to limit the overall results returned to 5
@@ -66,15 +65,17 @@ export class DiscussionService {
     this.client = new Client(settings.node);
 
     //vymazání případných hodnot z předchozího hledání
-    this.postsModel.posts.splice(0,this.postsModel.posts.length);
+    this.postsModel.posts.splice(0, this.postsModel.posts.length);
     this.query.tag = filter.tag.trim().toLocaleLowerCase();
     this.query.start_author = '';
     this.query.start_permlink = '';
+
     //načítání hodnoot z nastavení
     this.query.limit = settings.loadPosts;
     this.rows = settings.rows;
     this.settings = settings;
-    this.lastDate.setDate(this.actualDate.getDate() - settings.days);
+
+    this.lastDate.setDate(this.actualDate.getDate() - settings.days - 7);
     return new Promise((resolve) => {
       this.discussionsBuilder(resolve, filter);
     });
@@ -86,21 +87,27 @@ export class DiscussionService {
   */
   private discussionsBuilder(resolve: any, filter: ParameterFilter) {
 
-    this.getDiscussions().then(result => {
-      //this.postsModel.posts.splice(0,this.postsModel.posts.length);
-      this.postsModel.posts = this.postsModel.posts.concat(result);
-      this.loadPosts = this.postsModel.posts.length;
-      let lastIndexPost = this.postsModel.posts.length - 1;
-      this.query.start_author = this.postsModel.posts[lastIndexPost].author;
-      this.query.start_permlink = this.postsModel.posts[lastIndexPost].permlink;
-      //podmínka opětovného načítání, když je datum větší než nastavená mez, nebo dokud je stejně postů jako je nastavený limit
-      if (new Date(this.postsModel.posts[lastIndexPost].created).getTime() >= this.lastDate.getTime() && result.length == this.query.limit) {
-        this.discussionsBuilder(resolve, filter);
-        //console.log(this.postsModel.posts[lastIndexPost].created);
-      } else {
-        this.parsePosts(resolve, filter);
-      }
-    }).catch(err => console.log(err));
+    this.getDiscussions()
+      .then(result => {
+        //this.postsModel.posts.splice(0,this.postsModel.posts.length);
+        this.postsModel.posts = this.postsModel.posts.concat(result);
+        this.loadPosts = this.postsModel.posts.length;
+        let lastIndexPost = this.postsModel.posts.length - 1;
+        this.query.start_author = this.postsModel.posts[lastIndexPost].author;
+        this.query.start_permlink = this.postsModel.posts[lastIndexPost].permlink;
+        //podmínka opětovného načítání, když je datum větší než nastavená mez, nebo dokud je stejně postů jako je nastavený limit
+        if (new Date(this.postsModel.posts[lastIndexPost].created).getTime() >= this.lastDate.getTime() && result.length == this.query.limit && this.postsModel.posts.length < this.settings.maxPosts) {
+          this.discussionsBuilder(resolve, filter);
+          //console.log(this.postsModel.posts[lastIndexPost].created);
+        } else {
+          this.parsePosts(resolve, filter);
+        }
+        if (this.postsModel.posts.length > this.settings.maxPosts)
+          console.log("dosaženo limitu");
+        console.log("Načteno " + this.postsModel.posts.length);
+        console.log("Max     " + this.settings.maxPosts);
+      })
+      .catch(err => console.log(err));
   }
 
   /**
@@ -110,78 +117,73 @@ export class DiscussionService {
    */
   private parsePosts(resolve: any, filter: ParameterFilter) {
     let index = 0;//inicializace prvního indexu pole
-    //this.postsModel.postsSorted = [];
-    this.postsModel.postsSorted.splice(0,this.postsModel.postsSorted.length);//inicializace pole
-    this.postsModel.postsSorted[index] = [];//inicializace pole na prvním indxu
-    this.postsModel.postsSorted[index].splice(0,this.postsModel.postsSorted[index].length);//vymazání 
-    this.postsModel.postsAuthor.splice(0,this.postsModel.postsAuthor.length);
-    this.postsModel.postsAuthor = [[]];
-    this.postsModel.totalCount.splice(0,this.postsModel.totalCount.length);
-    this.postsModel.dates.splice(0,this.postsModel.dates.length);
-    this.postsModel.actualViewPosts = [];
-    let today = new Date();
-    today.setHours(Number.parseInt(filter.time.substr(0, 2)));
-    today.setMinutes(Number.parseInt(filter.time.substr(3, 2)));
-    today.setSeconds(1);//nastavení výchozího intervalu jedně vteřiny
-    today.setMilliseconds(0);
+    let items = 30; //počet zobrazených položek// při týdenním děleno 7 a zaokrouhleno nahoru
+    let isFistDate = true; //nastavení první skupiny záznamů, který budou mít aktuální datum a čas
+    this.postsModel.init();
+
+    let periodTime = new Date();
+    periodTime.setHours(Number.parseInt(filter.time.substr(0, 2)));
+    periodTime.setMinutes(Number.parseInt(filter.time.substr(3, 2)));
+    periodTime.setSeconds(1);//nastavení výchozího intervalu jedně vteřiny
+    periodTime.setMilliseconds(0);
     if (filter.interval === "tyden") {
       //nastavení na týdenní interval
-      while (today.getDay() != Number(filter.day)) {
-        today.setDate(today.getDate() - 1);
+      while (periodTime.getDay() != Number(filter.day)) {
+        periodTime.setDate(periodTime.getDate() - 1);
       }
+      items = Math.ceil(this.settings.days / 7);
+    } else {
+      items = this.settings.days;
     }
-    if (today.getHours() === 0)
-      today.setDate(today.getDate() - 1);
-    today.setHours(today.getUTCHours());//převod z místního času na čas UTC - čas blockchainu
-    today.setMinutes(today.getUTCMinutes());
+    if (periodTime.getHours() === 0)
+      periodTime.setDate(periodTime.getDate() - 1);
+    periodTime.setHours(periodTime.getUTCHours());//převod z místního času na čas UTC - čas blockchainu
+    periodTime.setMinutes(periodTime.getUTCMinutes());
     //today.setDate(today.getUTCDate());
-    let isFistDate = true;
-    for (let i = 0; i < this.postsModel.posts.length; i++) {
 
-      const post = this.postsModel.posts[i];
-      const datePost = new Date(post.created);
-      var dates = new DatesModel(new Date(today), filter.getInterval(), isFistDate);
+    while (index < items) {
+      //sestavení intervalů s datumy
+      let dates = new DatesModel(new Date(periodTime), filter.getInterval(), isFistDate);
       this.postsModel.dates[index] = dates;
+      periodTime.setDate(periodTime.getDate() - filter.getInterval());
+      isFistDate = false;
 
-      if (new Date(post.created).getTime() < today.getTime()) {
-        
-        //pokud se předchozí pole ničím nenaplnilo, použije se znova
-        if (this.postsModel.postsSorted[index].length > 0) {
-          isFistDate = false;
-          index++;
-          this.postsModel.postsSorted[index] = [];
-          this.postsModel.postsAuthor[index] = [];
-          this.postsModel.actualViewPosts.push(new PagesModel());
+      //roztřídění postů
+      this.postsModel.postsSorted[index] = this.postsModel.posts.filter(
+        post => (new Date(post.created).getTime() < new Date(this.postsModel.dates[index].dateUntilAsDate).getTime())
+          && (new Date(post.created).getTime() > new Date(this.postsModel.dates[index].dateFromAsDate).getTime())
+      );
+
+      //roztřídění podle autorů
+      this.postsModel.postsAuthor[index] = [];
+      for (let i = 0; i < this.postsModel.postsSorted[index].length; i++) {
+        let post = this.postsModel.postsSorted[index][i];
+        let author = this.postsModel.postsAuthor[index].find(o => o.author === post.author);
+
+        if (author) {
+          author.add(post.children, post.active_votes.length, this.postsModel.negativeVotes(post), post.pending_payout_value.toString(), post.total_payout_value.toString());
         } else {
-          isFistDate = true;
+          this.postsModel.postsAuthor[index].push(new AuthorSortModel(post.author, post.children, post.active_votes.length, this.postsModel.negativeVotes(post), post.pending_payout_value.toString(), post.total_payout_value.toString()));
         }
-        today.setDate(today.getDate() - filter.getInterval());
-        this.postsModel.dates[index] = dates;
-       
       }
-      this.postsModel.postsSorted[index].push(post);
-     
-      
-      let obj = this.postsModel.postsAuthor[index].find(o => o.author === post.author);
-      //console.log(obj);
-      if (obj) {
-        obj.add(post.children, post.active_votes.length, this.postsModel.negativeVotes(post), post.pending_payout_value.toString(), post.total_payout_value.toString());
-      } else {
-        this.postsModel.postsAuthor[index].push(new AuthorSortModel(post.author, post.children, post.active_votes.length, this.postsModel.negativeVotes(post), post.pending_payout_value.toString(), post.total_payout_value.toString()));
-      }
+
+      //záznam o stránkování
+      this.postsModel.actualViewPosts.push(new PagesModel());
+      index++;
     }
+
     //odebírám poslední položku pole, protože jsou neúplná
-    this.postsModel.dates.pop();
+    /*this.postsModel.dates.pop();
     this.postsModel.postsSorted.pop();
-    this.postsModel.postsAuthor.pop();
+    this.postsModel.postsAuthor.pop();*/
     this.postsModel.counts();
     this.byCreate = -1;
     this.sortByCreate();
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
-      let totalPages = Math.ceil(this.postsModel.postsSorted[i].length/this.rows);
+      let totalPages = Math.ceil(this.postsModel.postsSorted[i].length / this.rows);
       this.postsModel.actualViewPosts[i].totalPosts = this.postsModel.postsSorted[i].length;
       this.postsModel.actualViewPosts[i].rowsPages = this.settings.rows;
-          //console.log(Math.ceil(this.postsModel.postsSorted[index].length/this.rows));
+      //console.log(Math.ceil(this.postsModel.postsSorted[index].length/this.rows));
     }
 
     resolve(this.postsModel);
@@ -194,6 +196,11 @@ export class DiscussionService {
     return this.client.database.getDiscussions('created', this.query);
   }
 
+  /**
+   * Převede textové číslo s příponou na typ number
+   * @param s 
+   * @returns 
+   */
   private convertHBDToNumber(s: any): number {
     return Number(s.toString().replace("HBD", ""));
   }

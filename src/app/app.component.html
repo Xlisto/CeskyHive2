@@ -87,6 +87,10 @@
                                         [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
                                 </div>
 
+                                <div class="row fw-bold" *ngIf="posts.length==0">
+                                    <div class="col">Zde nic není napsáno</div>
+                                </div>
+
                                 <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
                                     class="row item" (click)="clickItem(post)">
                                     <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
@@ -120,7 +124,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex">
                                         <select [(ngModel)]="selectSortType" (change)="onChangeTypeSort()"
                                             name="typeSort" class="form-select mx-1">
@@ -162,7 +166,11 @@
                                     </div>
                                 </div>
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+                                <div class="row fw-bold" *ngIf="posts.length==0">
+                                    <div class="col">Zde nic není napsáno</div>
+                                </div>
+
+                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
 
                             </div>
                         </div>
@@ -203,11 +211,15 @@
                                             class="text-danger">{{author.negativeVotes}} | </span>{{author.votes}}</div>
                                 </div>
 
+                                <div class="row fw-bold" *ngIf="posts.length==0">
+                                    <div class="col">Žádný autor nic nepublikoval</div>
+                                </div>
+
                                 <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
-                                <div class="row">
+                                <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex"><select [(ngModel)]="selectSortType"
                                             (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
                                             <option *ngFor="let sort of sortTypes" [ngValue]="sort">{{sort.type}}
@@ -246,7 +258,11 @@
                                     </div>
                                 </div>
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+                                <div class="row fw-bold" *ngIf="posts.length==0">
+                                    <div class="col">Žádný autor nic nepublikoval</div>
+                                </div>
+
+                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
 
                             </div>
                         </div>
