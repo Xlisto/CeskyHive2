@@ -126,12 +126,14 @@ export class DiscussionService {
     periodTime.setMinutes(Number.parseInt(filter.time.substr(3, 2)));
     periodTime.setSeconds(1);//nastavení výchozího intervalu jedně vteřiny
     periodTime.setMilliseconds(0);
+    if (periodTime.getTime() > new Date().getTime())
+        periodTime.setDate(periodTime.getDate() - 1);
     if (filter.interval === "tyden") {
       //nastavení na týdenní interval
       while (periodTime.getDay() != Number(filter.day)) {
         periodTime.setDate(periodTime.getDate() - 1);
       }
-      items = Math.ceil(this.settings.days / 7);
+      items = Math.ceil((this.settings.days / 7)+1);
     } else {
       items = this.settings.days;
     }
