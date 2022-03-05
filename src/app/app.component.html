@@ -108,7 +108,9 @@
                                 </div>
 
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
+                                    [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i">
+                                </app-item-total>
 
                             </div>
                             <!--data pro mobil-->
@@ -170,7 +172,9 @@
                                     <div class="col">Zde nic není napsáno</div>
                                 </div>
 
-                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount"
+                                    [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
+                                </app-item-total>
 
                             </div>
                         </div>
@@ -215,7 +219,8 @@
                                     <div class="col">Žádný autor nic nepublikoval</div>
                                 </div>
 
-                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
+                                    [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
@@ -234,7 +239,8 @@
                                     </form>
                                 </div>
 
-                                <div *ngFor="let author of postsModel.postsAuthor[i]" class="row item my-1 mobile-item border">
+                                <div *ngFor="let author of postsModel.postsAuthor[i]"
+                                    class="row item my-1 mobile-item border">
                                     <div class="col-lg">
                                         <div class="float-start text-start fw-bold">@{{author.author}}</div>
                                         <div class="float-end text-end">Posty: {{author.posts}}</div>
@@ -262,7 +268,9 @@
                                     <div class="col">Žádný autor nic nepublikoval</div>
                                 </div>
 
-                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount" [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount"
+                                    [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
+                                </app-item-total>
 
                             </div>
                         </div>
@@ -280,6 +288,7 @@
 <app-footer id="footer"></app-footer>
 
 <app-modalloadbar *ngIf="showLoadBar"></app-modalloadbar>
+
 <div *ngIf="selectedPost">
     <app-modal [isClosed]="isModalPostClosed" [title]="selectedPost.title" (crossClicked)="isModalPostClosed = true">
 
@@ -294,5 +303,13 @@
         <app-settings></app-settings>
         <button footer type="button" class="btn btn-primary" (click)="saveSettings()">Uložit</button>
         <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">Zavřít</button>
+    </app-modal>
+</div>
+<div>
+    <app-modal [isClosed]="isModalNextLoadClosed" [title]="'Dosažen limit'"
+        (crossClicked)="isModalNextLoadClosed = true">
+        <app-next-load [maxPosts]="maxPosts"></app-next-load>
+        <button footer type="button" class="btn btn-primary" (click)="loadNextPosts()">Pokračovat</button>
+        <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">Zavřít</button>
     </app-modal>
 </div>

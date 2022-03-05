@@ -1,0 +1,9 @@
+<form #formRef="ngForm" class="container">
+    <div class="row">
+        <div class="form-group col-sm-12 col-lg">
+            <label for="maxPosts">Navýšit současný ({{maxPosts}}) maximální počet načtených postů o:</label>
+            <input #name="ngModel" type="number" [(ngModel)]="addMaxPosts" required name="addMaxPosts" 
+                class="form-control" id="maxPosts" step="100">
+        </div>
+    </div>
+</form>

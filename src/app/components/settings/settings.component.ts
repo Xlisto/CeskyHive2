@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SettingsModel } from 'src/app/models/settingsModel';
 
@@ -8,7 +8,7 @@ import { SettingsModel } from 'src/app/models/settingsModel';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-
+  @Output()
   public settings = new SettingsModel();
 
   @ViewChild(NgForm, { static: false })

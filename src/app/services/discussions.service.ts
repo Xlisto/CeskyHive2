@@ -39,6 +39,7 @@ export class DiscussionService {
     start_permlink: '',
   };
 
+
   constructor(properties: PropertiesService) {
     this.postsModel = new PostsModel();
     const pr1 = properties.getDynamicGlobalProperties().then(result => this.postsModel.dynamicGlobalProperties = result);
@@ -50,8 +51,8 @@ export class DiscussionService {
       let vysledek = rshare / this.postsModel.rewardFund.recent_claims * properties.convertHiveToNumber(this.postsModel.rewardFund.reward_balance) * this.postsModel.price.base.amount;
       console.log(vysledek);
     });
-
   }
+
 
   /**
    * Zavolá promisu na sestavení diskuze (postů do pole)
@@ -81,6 +82,19 @@ export class DiscussionService {
     });
   }
 
+
+  /**
+   * Zavolá promisu na sestavení diskuze (postů do pole) - připojí jej ke stávajícímu
+   * @returns Pole s diskuzí (posty) bude připojeno k již stávajícímu
+   */
+  discussionContinue(filter: ParameterFilter, settings:SettingsModel): Promise<PostsModel> {
+    this.settings = settings;
+    return new Promise((resolve) => {
+      this.discussionsBuilder(resolve, filter);
+    });
+  }
+
+
   /** 
   * Sestaví dotaz na seznam diskuzí a pokračuje dokud datumy diskuzí budou v datumové mezi
   * Sestaví pole diskuzí (postů) 
@@ -102,13 +116,14 @@ export class DiscussionService {
         } else {
           this.parsePosts(resolve, filter);
         }
-        if (this.postsModel.posts.length > this.settings.maxPosts)
+        if (this.postsModel.posts.length >= this.settings.maxPosts) {
           console.log("dosaženo limitu");
-        console.log("Načteno " + this.postsModel.posts.length);
-        console.log("Max     " + this.settings.maxPosts);
+          //this.discussionsBuilder(resolve, filter);
+        }
       })
       .catch(err => console.log(err));
   }
+
 
   /**
    * Rozdělí načtené pole s posty podle kritéria ve filtru na pole polí
@@ -127,13 +142,13 @@ export class DiscussionService {
     periodTime.setSeconds(1);//nastavení výchozího intervalu jedně vteřiny
     periodTime.setMilliseconds(0);
     if (periodTime.getTime() > new Date().getTime())
-        periodTime.setDate(periodTime.getDate() - 1);
+      periodTime.setDate(periodTime.getDate() - 1);
     if (filter.interval === "tyden") {
       //nastavení na týdenní interval
       while (periodTime.getDay() != Number(filter.day)) {
         periodTime.setDate(periodTime.getDate() - 1);
       }
-      items = Math.ceil((this.settings.days / 7)+1);
+      items = Math.ceil((this.settings.days / 7) + 1);
     } else {
       items = this.settings.days;
     }
@@ -174,6 +189,7 @@ export class DiscussionService {
       index++;
     }
 
+
     //odebírám poslední položku pole, protože jsou neúplná
     /*this.postsModel.dates.pop();
     this.postsModel.postsSorted.pop();
@@ -191,12 +207,14 @@ export class DiscussionService {
     resolve(this.postsModel);
   }
 
+
   /**
   * Dotaz na seznam diskuzí
   */
   private getDiscussions(): Promise<Discussion[]> {
     return this.client.database.getDiscussions('created', this.query);
   }
+
 
   /**
    * Převede textové číslo s příponou na typ number
@@ -206,6 +224,7 @@ export class DiscussionService {
   private convertHBDToNumber(s: any): number {
     return Number(s.toString().replace("HBD", ""));
   }
+
 
   sortByAuthor(sort?: number) {
     if (sort)
@@ -220,6 +239,7 @@ export class DiscussionService {
     return this.postsModel;
   }
 
+
   sortByCreate(sort?: number) {
     if (sort)
       this.byCreate = sort;
@@ -230,6 +250,7 @@ export class DiscussionService {
     return this.postsModel;
   }
 
+
   sortByTitle(sort?: number) {
     if (sort)
       this.byTitle = sort;
@@ -239,6 +260,7 @@ export class DiscussionService {
     this.byTitle *= -1;
     return this.postsModel;
   }
+
 
   sortByPending(sort?: number) {
     if (sort)
@@ -255,6 +277,7 @@ export class DiscussionService {
     return this.postsModel;
   }
 
+
   sortByPayout(sort?: number) {
     if (sort)
       this.byPayout = sort;
@@ -270,6 +293,7 @@ export class DiscussionService {
     return this.postsModel;
   }
 
+
   sortByChildren(sort?: number) {
     if (sort)
       this.byChildren = sort;
@@ -283,6 +307,7 @@ export class DiscussionService {
     return this.postsModel;
   }
 
+
   sortByActiveVotes(sort?: number) {
     if (sort)
       this.byActiveVotes = sort;
@@ -295,6 +320,7 @@ export class DiscussionService {
     this.byActiveVotes *= -1;
     return this.postsModel;
   }
+
 
   sortByPosts(sort?: number) {
     if (sort)

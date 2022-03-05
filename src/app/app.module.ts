@@ -13,6 +13,7 @@ import { LineChartComponent } from './components/line-chart/line-chart.component
 import { PostContentComponent } from './components/post-content/post-content.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { ItemTotalComponent } from './components/item-total/item-total.component';
+import { NextLoadComponent } from './components/next-load/next-load.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ItemTotalComponent } from './components/item-total/item-total.component
     LineChartComponent,
     PostContentComponent,
     SettingsComponent,
-    ItemTotalComponent
+    ItemTotalComponent,
+    NextLoadComponent
   ],
   imports: [
     BrowserModule,

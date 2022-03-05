@@ -12,6 +12,7 @@ import { PropertiesService } from './services/properties.service';
 import { CurrentRevardFundModel } from './models/currentRewardFundModel';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NgForm } from '@angular/forms';
+import { NextLoadComponent } from './components/next-load/next-load.component';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,8 @@ export class AppComponent implements AfterViewInit {
   isModalPostClosed = true;
 
   isModalSettingsClosed = true;
+
+  isModalNextLoadClosed = true;
 
   isMaxLoadPosts = false;//kontrola načtení maximálního povolého počtu načtených postů; def = 10000
 
@@ -80,6 +83,8 @@ export class AppComponent implements AfterViewInit {
 
   showVote = true;
 
+  maxPosts = 10000;
+
   @ViewChild(BarComponent, { static: false })
   private barComponentRef!: BarComponent;
 
@@ -90,7 +95,10 @@ export class AppComponent implements AfterViewInit {
   private lineChartRef!: LineChartComponent;
 
   @ViewChild(SettingsComponent, { static: false })
-  settingsRef!: SettingsComponent;
+  public settingsRef!: SettingsComponent;
+
+  @ViewChild(NextLoadComponent, { static: false })
+  public nextLoadRef!: NextLoadComponent;
 
   constructor(
     private readonly discussionService: DiscussionService,
@@ -110,7 +118,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   /**
-   * Zobrazení průběhu načítání
+   * Načte první sadu postů, zobrazí loadbar
    */
   load() {
     if (!this.isLoadingData) {
@@ -120,6 +128,7 @@ export class AppComponent implements AfterViewInit {
       this.showPayout = this.settingsRef.settings.showPayout;
       this.showComment = this.settingsRef.settings.showComment;
       this.showVote = this.settingsRef.settings.showVote;
+      this.maxPosts = this.settingsRef.settings.maxPosts;
       if (this.postsModel) {
         this.postsModel.postsSorted = [[]];
         this.postsModel.postsAuthor = [[]];
@@ -142,13 +151,13 @@ export class AppComponent implements AfterViewInit {
           //this.lineChartRef.loadChart();
           this.reloadGraph();
           this.selectSortArrow = this.sortArrows[0];
-          if (this.postsModel.posts.length >= this.settingsRef.settings.maxPosts)
+          if (this.postsModel.posts.length >= this.settingsRef.settings.maxPosts) {
             this.isMaxLoadPosts = true;
+            this.isModalNextLoadClosed = false;
+            this.maxPosts = this.settingsRef.settings.maxPosts;
+          }
           else
             this.isMaxLoadPosts = false;
-          console.log(this.postsModel.posts.length);
-          console.log(this.settingsRef.settings.maxPosts);
-          console.log(this.isMaxLoadPosts);
         });
 
       localStorage.setItem('tag', this.barComponentRef.parameterFilter.tag);
@@ -157,10 +166,35 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem('dayCount', this.barComponentRef.parameterFilter.dayCount.toString());
       localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
       //this.selectSortType = this.sortTypes[0];
-
     }
+  }
 
-
+  /**
+   * Načte další sadu postů
+   */
+  loadNextPosts() {
+    this.isLoadingData = true;
+    this.showLoadBar = true;
+    const filter = this.barComponentRef.parameterFilter;
+    this.settingsRef.settings.maxPosts += this.nextLoadRef.addMaxPosts;
+    this.discussionService.discussionContinue(filter, this.settingsRef.settings)
+      .then(result => {
+        this.postsModel = result;
+      })
+      .catch(e => console.log(e))
+      .finally(() => {
+        this.isLoadingData = false;
+        this.showLoadBar = false;
+        this.reloadGraph();
+        if (this.postsModel.posts.length >= this.settingsRef.settings.maxPosts) {
+          this.isMaxLoadPosts = true;
+          this.isModalNextLoadClosed = false;
+          this.maxPosts = this.settingsRef.settings.maxPosts;
+        }
+        else
+          this.isMaxLoadPosts = false;
+      });
+    this.isModalNextLoadClosed = true;
   }
 
   clickAuthor(sort?: number) {
@@ -210,26 +244,27 @@ export class AppComponent implements AfterViewInit {
     this.selectClickedColl = "post";
   }
 
-  //přepínač mezi seznamem postů a seznamemn autorů
+
+  /**přepínač mezi seznamem postů a seznamemn autorů*/
   clickChangeShowData(data: string) {
     this.showData = data;
     //console.log(data);
   }
 
+
+  /**
+   * Kliknutí na
+   * @param post  
+   */
   clickItem(post: Discussion) {
     this.activeVotesService.activeVoteListBuilder(post.author, post.permlink)
       .then(result => { console.log(result), this.selectedActiveVotes = result; })
       .catch(error => console.log(error)
       );
-    //this.activeVotesService.activeVoteListBuilder(post.author, post.permlink).then(r => console.log(r));
-    //this.activeVotesService.activeVoteListBuilder(post.author, post.permlink).then(result => console.log(result));
     this.selectedPost = post;
     this.isModalPostClosed = false;
-
-    //console.log(this.md.render(post.body));
-    //console.log(this.postsModel.negativeVotes(post));
-    console.log(this.selectedPost);
   }
+
 
   /**
    * Aktualizace dat grafů
@@ -240,6 +275,10 @@ export class AppComponent implements AfterViewInit {
       this.lineChartRef.updateChart();
   }
 
+
+  /**
+   * Zobrazení grafů
+   */
   showGraph() {
     if (this.visibleGraph)
       this.visibleGraph = false;
@@ -247,12 +286,17 @@ export class AppComponent implements AfterViewInit {
       this.visibleGraph = true;
   }
 
+
+  /**
+   * Zobrazení dialogového okna s nastavením a načte nastavení z localstorage
+   */
   showSettings() {
     this.settingsRef.initData();
     this.isModalSettingsClosed = false;
   }
 
-  /**Uloží nastavení */
+
+  /**Uloží nastavení a zavře dialogové okno*/
   saveSettings() {
     if (this.settingsRef.settings) {
       let settings = this.settingsRef.settings;
@@ -283,10 +327,26 @@ export class AppComponent implements AfterViewInit {
     //this.settingsRef.resetForm();
   }
 
+
+  /**
+   * Zavře dialogové okno nastavení
+   */
   cancelSettings() {
     this.isModalSettingsClosed = true;
   }
 
+
+  /**
+   * Zavře okno s dotazem na další načtení postů
+   */
+  cancelNextLoad() {
+    this.isModalNextLoadClosed = true;
+  }
+
+
+  /**
+   * Nastaveníí třídění v mobilním zobrazení
+   */
   onChangeTypeSort() {
     console.log(this.selectSortType, this.selectSortArrow);
     let sort = Number(this.selectSortArrow.id);
@@ -316,6 +376,7 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+
   /**
    * Stránkování na konec
    * @param index 
@@ -327,6 +388,7 @@ export class AppComponent implements AfterViewInit {
     }
     //console.log(this.postsModel);
   }
+
 
   /**
    * Stránkování na začátek
