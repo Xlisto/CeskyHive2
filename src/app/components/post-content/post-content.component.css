@@ -8,6 +8,18 @@
 }
 
 .tag {
-   background-color: rgba(227, 19, 55, 0.1);
-   display: inline-flex;
+    background-color: rgba(227, 19, 55, 0.1);
+    display: inline-flex;
 }
+
+.pull-left{
+    float: left;
+    box-sizing: border-box;
+}
+
+.pull-right{
+    float: right;
+    box-sizing: border-box;
+    background-color: blueviolet !important;
+}
+

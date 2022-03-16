@@ -4,33 +4,24 @@
             <label for="loadPosts">Posty na jeden dotaz:</label>
             <input #name="ngModel" type="number" [(ngModel)]="settings.loadPosts" required name="loadPosts"
                 class="form-control" id="loadPosts" min="1" max="99">
-            <small *ngIf="formRef.touched && name.invalid" class="text-danger">
-                Počet postů musí být mezi 1 a 99.
-            </small>
         </div>
 
         <div class="form-group col-sm-12 col-lg">
             <label for="maxPosts">Maximum postů:</label>
             <input #name="ngModel" type="number" [(ngModel)]="settings.maxPosts" required name="maxPosts"
                 class="form-control" id="maxPosts" step="100">
-            <small *ngIf="formRef.touched && name.invalid" class="text-danger">
-                Maximální počet postů při kterém se ukončí načítání.
-            </small>
         </div>
 
         <div class="form-group col-sm-12 col-lg">
             <label for="days">Dní do historie:</label>
             <input #name="ngModel" type="number" [(ngModel)]="settings.days" required name="days" class="form-control"
                 min="0" id="days">
-            <small *ngIf="formRef.touched && name.invalid" class="text-danger">
-                Počet dní načtení historie.
-            </small>
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-sm-12 col-lg">
-            <label for="days">Uzel:</label>
+            <label for="node">Uzel:</label>
             <select class="form-control" [(ngModel)]="settings.node" name="node">
                 <option *ngFor="let node of settings.nodes" [attr.value]="node">{{node}}</option>
             </select>
@@ -40,11 +31,16 @@
             <label for="days">Počet řádků:</label>
             <input #name="ngModel" type="number" [(ngModel)]="settings.rows" required name="rows" class="form-control"
                 min="1" id="rows">
-            <small *ngIf="formRef.touched && name.invalid" class="text-danger">
-                Počet zobrazených řádků na stránku.
-            </small>
+        </div>
+
+        <div class="form-group col-sm-12 col-lg">
+            <label for="site">Výchozí prostředí:</label>
+            <select class="form-control" [(ngModel)]="settings.hiveSite" name="site">
+                <option *ngFor="let site of settings.hiveSites" [attr.value]="site">{{site}}</option>
+            </select>
         </div>
     </div>
+
     <div class="row mt-3">
         <div class="form-group h6">Zobrazit sloupce</div>
     </div>

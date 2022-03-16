@@ -29,6 +29,7 @@ export class SettingsComponent implements OnInit {
     let showPayout = localStorage.getItem("showPayout") === "true";
     let showComment = localStorage.getItem("showComment") === "true";
     let showVote = localStorage.getItem("showVote") === "true";
+    let site = localStorage.getItem("site");
 
     if (days)
       this.settings.days = days;
@@ -46,6 +47,8 @@ export class SettingsComponent implements OnInit {
       this.settings.showComment = showComment;
     if (showVote)
       this.settings.showVote = showVote;
+    if (site)
+      this.settings.hiveSite = site;
   }
 
 }

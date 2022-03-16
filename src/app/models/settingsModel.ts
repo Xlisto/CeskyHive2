@@ -10,7 +10,6 @@ export class SettingsModel {
     showPayout = true;
     showComment = true;
     showVote = true;
-    node = "https://api.hive.blog";
     nodes = [
         "https://api.hive.blog",
         "https://api.openhive.network",
@@ -25,6 +24,14 @@ export class SettingsModel {
         "https://api.c0ff33a.uk",
         "https://hive-api.arcange.eu",
         "https://api.pharesim.me"
-    ]
-
+    ];
+    node = this.nodes[0];
+    hiveSites = [
+        "https://hive.blog",
+        "https://peakd.com",
+        "https://ecency.com",
+        "https://leofinance.io",
+        "https://d.buzz"
+    ];
+    hiveSite = this.hiveSites[0];
 }

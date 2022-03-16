@@ -2,8 +2,7 @@
  * Načte seznam diskuzí
  */
 import { Injectable } from '@angular/core';
-import { Client, Discussion, DynamicGlobalProperties } from "@hiveio/dhive";
-import { interval } from 'rxjs';
+import { Client, Discussion } from "@hiveio/dhive";
 import { AuthorSortModel } from '../models/authorSortModel';
 import { DatesModel } from '../models/datesModel';
 import { PagesModel } from '../models/pagesModel';
@@ -190,10 +189,6 @@ export class DiscussionService {
     }
 
 
-    //odebírám poslední položku pole, protože jsou neúplná
-    /*this.postsModel.dates.pop();
-    this.postsModel.postsSorted.pop();
-    this.postsModel.postsAuthor.pop();*/
     this.postsModel.counts();
     this.byCreate = -1;
     this.sortByCreate();

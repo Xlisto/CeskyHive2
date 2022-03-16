@@ -175,6 +175,7 @@ export class AppComponent implements AfterViewInit {
   loadNextPosts() {
     this.isLoadingData = true;
     this.showLoadBar = true;
+    this.isMaxLoadPosts = false;
     const filter = this.barComponentRef.parameterFilter;
     this.settingsRef.settings.maxPosts += this.nextLoadRef.addMaxPosts;
     this.discussionService.discussionContinue(filter, this.settingsRef.settings)
@@ -308,6 +309,7 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem("showPayout", String(settings.showPayout));
       localStorage.setItem("showComment", String(settings.showComment));
       localStorage.setItem("showVote", String(settings.showVote));
+      localStorage.setItem('site', settings.hiveSite)
     }
 
     this.rows = this.settingsRef.settings.rows;

@@ -1,3 +1,17 @@
+<div class="alert alert-danger d-flex" role="alert" *ngIf="isMaxLoadPosts">
+    <div class="align-self-center text-danger fw-bold">
+        Dosáhli jste maximálního limitu počtu načtených postů. Některé výledky nemusí být kompletní. Nastavte si větší
+        limit.
+    </div>
+    <div class=" align-self-center flex-fill  mx-3">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="alert" aria-label="Nyvýšit limit"
+            (click)="isModalNextLoadClosed = false;">Navýšit limit</button>
+    </div>
+    <div class="align-self-center">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zavřít"></button>
+    </div>
+</div>
+
 <app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" [title]="title"
     [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
@@ -15,8 +29,8 @@
                         [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
                         <div class="container-fluid">
                             <div class="row row-cols-auto">
-                                <div class="col-lg my-1">od {{postsModel.dates[i].dateFrom}} <br />
-                                    do {{postsModel.dates[i].dateUntil}}
+                                <div class="col-lg my-1">{{postsModel.dates[i].dateFrom}} <br />
+                                    {{postsModel.dates[i].dateUntil}}
                                 </div>
                                 <div class="col-lg-1 text-end my-1">Postů: <br><span
                                         class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
@@ -291,11 +305,14 @@
 
 <div *ngIf="selectedPost">
     <app-modal [isClosed]="isModalPostClosed" [title]="selectedPost.title" (crossClicked)="isModalPostClosed = true">
+        
+            <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost"
+                [hiveSite]="settingsRef.settings.hiveSite">
 
-        <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost">
-
-        </app-post-content>
+            </app-post-content>
+        
     </app-modal>
+
 </div>
 
 <div>
