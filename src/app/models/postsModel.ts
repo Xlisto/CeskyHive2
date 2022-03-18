@@ -14,7 +14,8 @@ export class PostsModel {
     postsSorted: [Discussion[]] | any = [[]]; //načtené posty, rozdělené podle datumu a setříděné
     postsAuthor: [AuthorSortModel[]] = [[]];
     totalCount: TotalsCountModel[] = [];
-    actualViewPosts: PagesModel[] = [];//nastavení počátečnáího tagu pro stránkování
+    actualViewPosts: PagesModel[] = [];//nastavení počátečního tagu pro stránkování postů
+    actualViewAuthors: PagesModel[] = [];
     dynamicGlobalProperties!: DynamicGlobalProperties;
     price!: Price;
     rewardFund!: CurrentRevardFundModel;

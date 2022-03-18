@@ -48,7 +48,7 @@ export class DiscussionService {
     Promise.all([pr1, pr2, pr3]).then(result => {
       let rshare = 1106385407406;
       let vysledek = rshare / this.postsModel.rewardFund.recent_claims * properties.convertHiveToNumber(this.postsModel.rewardFund.reward_balance) * this.postsModel.price.base.amount;
-      console.log(vysledek);
+      //console.log(vysledek);
     });
   }
 
@@ -185,6 +185,7 @@ export class DiscussionService {
 
       //záznam o stránkování
       this.postsModel.actualViewPosts.push(new PagesModel());
+      this.postsModel.actualViewAuthors.push(new PagesModel());
       index++;
     }
 
@@ -194,9 +195,14 @@ export class DiscussionService {
     this.sortByCreate();
     for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
       let totalPages = Math.ceil(this.postsModel.postsSorted[i].length / this.rows);
-      this.postsModel.actualViewPosts[i].totalPosts = this.postsModel.postsSorted[i].length;
+      this.postsModel.actualViewPosts[i].totalItems = this.postsModel.postsSorted[i].length;
       this.postsModel.actualViewPosts[i].rowsPages = this.settings.rows;
       //console.log(Math.ceil(this.postsModel.postsSorted[index].length/this.rows));
+    }
+    for(let i=0; i<this.postsModel.postsAuthor.length; i++) {
+      let totalPages = Math.ceil(this.postsModel.postsAuthor[i].length / this.rows);
+      this.postsModel.actualViewAuthors[i].totalItems = this.postsModel.postsAuthor[i].length;
+      this.postsModel.actualViewAuthors[i].rowsPages = this.settings.rows;
     }
 
     resolve(this.postsModel);

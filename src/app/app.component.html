@@ -70,16 +70,8 @@
                         <div *ngIf="showData === 'post'">
                             <!--data pro desktop-->
                             <div class="desktop">
-                                <div class="text-center" *ngIf="postsModel.actualViewPosts[i].getTotalPages()>1">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-dark"
-                                            (click)="pageDown(i)">«</button>
-                                        <button type="button"
-                                            class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}/{{postsModel.actualViewPosts[i].getTotalPages()}}</button>
-                                        <button type="button" class="btn btn-outline-dark"
-                                            (click)="pageUp(i)">»</button>
-                                    </div>
-                                </div>
+
+                                <app-pages-buttons [actualView]="postsModel.actualViewPosts[i]"></app-pages-buttons>
 
                                 <div class="row h6 fw-bold" *ngIf="posts.length>0">
                                     <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
@@ -105,7 +97,7 @@
                                     <div class="col">Zde nic není napsáno</div>
                                 </div>
 
-                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
+                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualView,this.postsModel.actualViewPosts[i].actualView+rows)"
                                     class="row item" (click)="clickItem(post)">
                                     <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
                                     </div>
@@ -126,19 +118,13 @@
                                     [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i">
                                 </app-item-total>
 
+                                <app-pages-buttons [actualView]="postsModel.actualViewPosts[i]"></app-pages-buttons>
+
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
-                                <div class="text-center mb-2" *ngIf="postsModel.actualViewPosts[i].getTotalPages()>1">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-dark"
-                                            (click)="pageDown(i)">«</button>
-                                        <button type="button"
-                                            class="btn btn-outline-dark">{{postsModel.actualViewPosts[i].actualPages}}/{{postsModel.actualViewPosts[i].getTotalPages()}}</button>
-                                        <button type="button" class="btn btn-outline-dark"
-                                            (click)="pageUp(i)">»</button>
-                                    </div>
-                                </div>
+
+                                <app-pages-buttons [actualView]="postsModel.actualViewPosts[i]"></app-pages-buttons>
 
                                 <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex">
@@ -156,7 +142,7 @@
                                     </form>
                                 </div>
 
-                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualViewPost,this.postsModel.actualViewPosts[i].actualViewPost+rows)"
+                                <div *ngFor="let post of posts.slice(this.postsModel.actualViewPosts[i].actualView,this.postsModel.actualViewPosts[i].actualView+rows)"
                                     class="row item my-1 mobile-item border" (click)="clickItem(post)">
                                     <div class="col-lg text-start fw-bold mx-1">{{post.title}}</div>
                                     <div class="col-lg">
@@ -190,6 +176,8 @@
                                     [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
                                 </app-item-total>
 
+                                <app-pages-buttons [actualView]="postsModel.actualViewPosts[i]"></app-pages-buttons>
+
                             </div>
                         </div>
 
@@ -197,6 +185,7 @@
                         <div *ngIf="showData === 'author'">
                             <!--data pro desktop-->
                             <div class="desktop">
+                                <app-pages-buttons [actualView]="postsModel.actualViewAuthors[i]"></app-pages-buttons>
 
 
                                 <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
@@ -216,8 +205,8 @@
                                     <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
                                         [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
                                 </div>
-
-                                <div *ngFor="let author of postsModel.postsAuthor[i]" class="row item">
+                                
+                                <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualViewAuthors[i].actualView,this.postsModel.actualViewAuthors[i].actualView+rows)" class="row item">
                                     <div class="col-lg-2">@{{author.author}}</div>
                                     <div class="col-lg-2 text-center">{{author.posts}}</div>
                                     <div class="col-lg-2 text-end" *ngIf="showPayout">
@@ -235,9 +224,13 @@
 
                                 <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
                                     [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+
+                                <app-pages-buttons [actualView]="postsModel.actualViewAuthors[i]"></app-pages-buttons>
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
+                                <app-pages-buttons [actualView]="postsModel.actualViewAuthors[i]"></app-pages-buttons>
+
                                 <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex"><select [(ngModel)]="selectSortType"
                                             (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
@@ -253,7 +246,7 @@
                                     </form>
                                 </div>
 
-                                <div *ngFor="let author of postsModel.postsAuthor[i]"
+                                <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualViewAuthors[i].actualView,this.postsModel.actualViewAuthors[i].actualView+rows)"
                                     class="row item my-1 mobile-item border">
                                     <div class="col-lg">
                                         <div class="float-start text-start fw-bold">@{{author.author}}</div>
@@ -286,6 +279,8 @@
                                     [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
                                 </app-item-total>
 
+                                <app-pages-buttons [actualView]="postsModel.actualViewAuthors[i]"></app-pages-buttons>
+
                             </div>
                         </div>
 
@@ -305,12 +300,12 @@
 
 <div *ngIf="selectedPost">
     <app-modal [isClosed]="isModalPostClosed" [title]="selectedPost.title" (crossClicked)="isModalPostClosed = true">
-        
-            <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost"
-                [hiveSite]="settingsRef.settings.hiveSite">
 
-            </app-post-content>
-        
+        <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost"
+            [hiveSite]="settingsRef.settings.hiveSite">
+
+        </app-post-content>
+
     </app-modal>
 
 </div>

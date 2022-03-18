@@ -322,7 +322,7 @@ export class AppComponent implements AfterViewInit {
     if (this.postsModel) {
       for (let pages of this.postsModel.actualViewPosts) {
         pages.rowsPages = this.rows;
-        pages.actualViewPost = 0;
+        pages.actualView = 0;
         pages.actualPages = 1;
       }
     }
@@ -378,31 +378,4 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-
-  /**
-   * Stránkování na konec
-   * @param index 
-   */
-  pageUp(index: number) {
-    if ((this.postsModel.actualViewPosts[index].actualViewPost + this.settingsRef.settings.rows) < this.postsModel.postsSorted[index].length) {
-      this.postsModel.actualViewPosts[index].actualViewPost += this.settingsRef.settings.rows;
-      this.postsModel.actualViewPosts[index].actualPages++;
-    }
-    //console.log(this.postsModel);
-  }
-
-
-  /**
-   * Stránkování na začátek
-   * @param index 
-   */
-  pageDown(index: number) {
-    this.postsModel.actualViewPosts[index].actualViewPost -= this.settingsRef.settings.rows;
-    this.postsModel.actualViewPosts[index].actualPages--;
-    if (this.postsModel.actualViewPosts[index].actualViewPost < 0) {
-      this.postsModel.actualViewPosts[index].actualViewPost = 0;
-      this.postsModel.actualViewPosts[index].actualPages = 1;
-    }
-    //console.log(this.postsModel);
-  }
 }

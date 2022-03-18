@@ -1,0 +1,8 @@
+<div class="text-center my-1" *ngIf="actualView.getTotalPages()>1">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="pageDown()">«</button>
+        <button type="button"
+            class="btn btn-outline-dark btn-sm">{{actualView.actualPages}}/{{actualView.getTotalPages()}}</button>
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="pageUp()">»</button>
+    </div>
+</div>
