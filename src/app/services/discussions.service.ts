@@ -86,7 +86,7 @@ export class DiscussionService {
    * Zavolá promisu na sestavení diskuze (postů do pole) - připojí jej ke stávajícímu
    * @returns Pole s diskuzí (posty) bude připojeno k již stávajícímu
    */
-  discussionContinue(filter: ParameterFilter, settings:SettingsModel): Promise<PostsModel> {
+  discussionContinue(filter: ParameterFilter, settings: SettingsModel): Promise<PostsModel> {
     this.settings = settings;
     return new Promise((resolve) => {
       this.discussionsBuilder(resolve, filter);
@@ -193,17 +193,16 @@ export class DiscussionService {
     this.postsModel.counts();
     this.byCreate = -1;
     this.sortByCreate();
-    for (let i = 0; i < this.postsModel.postsSorted.length; i++) {
-      let totalPages = Math.ceil(this.postsModel.postsSorted[i].length / this.rows);
-      this.postsModel.actualViewPosts[i].totalItems = this.postsModel.postsSorted[i].length;
+
+    this.postsModel.postsSorted.forEach((posts: Discussion[],i: number) => {
+      this.postsModel.actualViewPosts[i].totalItems = posts.length;
       this.postsModel.actualViewPosts[i].rowsPages = this.settings.rows;
-      //console.log(Math.ceil(this.postsModel.postsSorted[index].length/this.rows));
-    }
-    for(let i=0; i<this.postsModel.postsAuthor.length; i++) {
-      let totalPages = Math.ceil(this.postsModel.postsAuthor[i].length / this.rows);
-      this.postsModel.actualViewAuthors[i].totalItems = this.postsModel.postsAuthor[i].length;
+    })
+
+    this.postsModel.postsAuthor.forEach((authors:AuthorSortModel[], i: number) => {
+      this.postsModel.actualViewAuthors[i].totalItems = authors.length;
       this.postsModel.actualViewAuthors[i].rowsPages = this.settings.rows;
-    }
+    });
 
     resolve(this.postsModel);
   }
