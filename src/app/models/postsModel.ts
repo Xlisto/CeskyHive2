@@ -4,6 +4,7 @@ import { CurrentRevardFundModel } from "./currentRewardFundModel";
 import { DatesModel } from "./datesModel";
 import { PagesModel } from "./pagesModel";
 import { TotalsCountModel } from "./totalsCountModel";
+import { ViewPageModel } from "./viewPageModel";
 
 /**
  * Model obsahující rozčleněný seznam diskusí (postů)
@@ -14,8 +15,9 @@ export class PostsModel {
     postsSorted: [Discussion[]] | any = [[]]; //načtené posty, rozdělené podle datumu a setříděné
     postsAuthor: [AuthorSortModel[]] = [[]];
     totalCount: TotalsCountModel[] = [];
-    actualViewPosts: PagesModel[] = [];//nastavení počátečního tagu pro stránkování postů
-    actualViewAuthors: PagesModel[] = [];
+    //actualViewPosts: PagesModel[] = [];//nastavení počátečního tagu pro stránkování postů
+    //actualViewAuthors: PagesModel[] = [];
+    actualView = new ViewPageModel();
     dynamicGlobalProperties!: DynamicGlobalProperties;
     price!: Price;
     rewardFund!: CurrentRevardFundModel;
@@ -72,7 +74,7 @@ export class PostsModel {
         this.postsAuthor = [[]];
         this.totalCount.splice(0,this.totalCount.length);
         this.dates.splice(0,this.dates.length);
-        this.actualViewPosts = [];
+        this.actualView = new ViewPageModel();
     }
 
 }

@@ -320,13 +320,11 @@ export class AppComponent implements AfterViewInit {
     this.isModalSettingsClosed = true;
     //nastavení stránky na první
     if (this.postsModel) {
-      for (let pages of this.postsModel.actualViewPosts) {
-        pages.rowsPages = this.rows;
+      for (let pages of this.postsModel.actualView.actualViewPosts) {
         pages.actualView = 0;
         pages.actualPages = 1;
       }
     }
-    //this.settingsRef.resetForm();
   }
 
 

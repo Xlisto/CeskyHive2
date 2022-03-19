@@ -184,8 +184,9 @@ export class DiscussionService {
       }
 
       //záznam o stránkování
-      this.postsModel.actualViewPosts.push(new PagesModel());
-      this.postsModel.actualViewAuthors.push(new PagesModel());
+      this.postsModel.actualView.actualViewPosts.push(new PagesModel());
+      this.postsModel.actualView.actualViewAuthors.push(new PagesModel());
+      this.postsModel.actualView.rowsPages = this.settings.rows;
       index++;
     }
 
@@ -195,13 +196,11 @@ export class DiscussionService {
     this.sortByCreate();
 
     this.postsModel.postsSorted.forEach((posts: Discussion[],i: number) => {
-      this.postsModel.actualViewPosts[i].totalItems = posts.length;
-      this.postsModel.actualViewPosts[i].rowsPages = this.settings.rows;
+      this.postsModel.actualView.actualViewPosts[i].totalItems = posts.length;
     })
 
     this.postsModel.postsAuthor.forEach((authors:AuthorSortModel[], i: number) => {
-      this.postsModel.actualViewAuthors[i].totalItems = authors.length;
-      this.postsModel.actualViewAuthors[i].rowsPages = this.settings.rows;
+      this.postsModel.actualView.actualViewAuthors[i].totalItems = authors.length;
     });
 
     resolve(this.postsModel);
