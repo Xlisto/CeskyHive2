@@ -42,14 +42,14 @@ export class PostContentComponent implements OnChanges {
     let arr = this.selectedPost.body.split("\n");
     arr.forEach((o, i) => {
       //kontrola na výskyt znaku @
-      if (o.match(/@\w+/gi)) {
+      if (o.match(/@[a-zA-Z0-9_-]+/gi)) {
         //rozparsování podle mezer
         let arr2 = o.split(" ");
         arr2.forEach((o2, i2) => {
           //kontrola na výskyt @, který musí být na začátku případně doplněné o znak *
-          if (o2.match(/^[\*]*@\w+/gi)) {
+          if (o2.match(/^[\*]*@[a-zA-Z0-9_-]+/gi)) {
             //výběr jména autora
-            let authorName = o2.match(/@[a-zA-Z0-9_]+/gi);
+            let authorName = o2.match(/@[a-zA-Z0-9_-]+/gi);//
             if (authorName) {
               arr2[i2] = arr2[i2].replace(authorName[0], '<a href="' + this.hiveSite + '/' + authorName + '" target="_blank">' + authorName + '</a>');
             }
@@ -64,9 +64,9 @@ export class PostContentComponent implements OnChanges {
         let arr2 = o.split(" ");
         arr2.forEach((o2,i2) => {
           //kontrola na výskyt #, který musí být na začátku případně doplněné o znak *
-          if(o2.match(/^[\*]*#\w+/gi)) {
+          if(o2.match(/^[\*]*#[a-zA-Z0-9_-]+/gi)) {
             //výběr tagu
-            let tagName = o2.match(/[a-zA-Z0-9_]+/gi);
+            let tagName = o2.match(/[a-zA-Z0-9_-]+/gi);
             if(tagName) {
               arr2[i2] = arr2[i2].replace('#'+tagName[0], '<a href="' + this.hiveSite + '/trending/' + tagName + '" target="_blank">#' + tagName + '</a>');
             }
