@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
-import * as echarts from 'echarts';
 
 @Component({
   selector: 'app-line-chart',
@@ -93,11 +92,10 @@ export class LineChartComponent implements AfterViewInit {
       formatter: function (params: any) {
         var colorSpan = (color: any) => '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + color + '"></span>';
         let rez = params[0].axisValue + '<br/>';
-        console.log(params); //quite useful for debug
+        //console.log(params); //quite useful for debug
         params.forEach((item: any) => {
-          console.log(item); //quite useful for debug
-          var xx = colorSpan(item.color) + ' ' + item.seriesName + ': ' + '<div class="float-end text-end m-0" style="font-weight: bold;">' + item.data + ' HBD</div><br/>'
-          rez += xx;
+          //console.log(item); //quite useful for debug
+          rez += colorSpan(item.color) + ' ' + item.seriesName + ': ' + '<div class="float-end text-end m-0" style="font-weight: bold;">' + item.data + ' HBD</div><br/>';
         });
 
         return rez;

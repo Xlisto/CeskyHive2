@@ -4,7 +4,7 @@
         limit.
     </div>
     <div class=" align-self-center flex-fill  mx-3">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="alert" aria-label="Nyvýšit limit"
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="alert" aria-label="Navýšit limit"
             (click)="isModalNextLoadClosed = false;">Navýšit limit</button>
     </div>
     <div class="align-self-center">
@@ -28,24 +28,46 @@
                         [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
                         [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
                         <div class="container-fluid">
-                            <div class="row row-cols-auto">
-                                <div class="col-lg my-1">{{postsModel.dates[i].dateFrom}} <br />
-                                    {{postsModel.dates[i].dateUntil}}
+                            <!--data pro desktop-->
+                            <div class="desktop">
+                                <div class="row row-cols-auto">
+                                    <div class="col-lg my-1">{{postsModel.dates[i].dateFrom}} <br />
+                                        {{postsModel.dates[i].dateUntil}}
+                                    </div>
+                                    <div class="col-lg-1 text-end my-1">Postů: <br><span
+                                            class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
+                                    <div class="col-lg-1 text-end my-1">Autorů: <br><span
+                                            class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
+                                    <div class="col-lg-1 text-end my-1">Čekající: <br><span
+                                            class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
+                                    </div>
+                                    <div class="col-lg-1 text-end my-1">Vyplaceno: <br><span
+                                            class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
+                                    </div>
+                                    <div class="col-lg-1 text-end my-1">Komentářů: <br><span
+                                            class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
+                                    <div class="col-lg-1 text-end my-1">Hlasů: <br><span
+                                            class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
                                 </div>
-                                <div class="col-lg-1 text-end my-1">Postů: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
-                                <div class="col-lg-1 text-end my-1">Autorů: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
-                                <div class="col-lg-1 text-end my-1">Čekající: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
+                            </div>
+
+                            <div class="mobile">
+                                <div class="row row-cols-auto">
+                                    <div class="col my-1">{{postsModel.dates[i].dateFrom}} -
+                                        {{postsModel.dates[i].dateUntil}}</div>
                                 </div>
-                                <div class="col-lg-1 text-end my-1">Vyplaceno: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
+                                <div class="row row-cols-auto">
+                                    <div class="col-6 my-1">Postů: {{postsModel.totalCount[i].totalPosts}}
+                                    </div>
+                                    <div class="col-6 text-end my-1">Autorů: {{postsModel.totalCount[i].totalAuthors}}
+                                    </div>
                                 </div>
-                                <div class="col-lg-1 text-end my-1">Komentářů: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
-                                <div class="col-lg-1 text-end my-1">Hlasů: <br><span
-                                        class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
+                                <div class="row row-cols-auto">
+                                    <div class="col-6 my-1">Komentářů: {{postsModel.totalCount[i].totalComments}}
+                                    </div>
+                                    <div class="col-6 text-end my-1">Hlasů: {{postsModel.totalCount[i].totalVotes}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -63,6 +85,10 @@
                             <button class="nav-link" (click)="clickChangeShowData('author')"
                                 [class.active]="showData === 'author'">Autoři</button>
                         </li>
+                        <li class="nav-item">
+                            <button class="nav-link" (click)="clickChangeShowData('graph')"
+                                [class.active]="showData === 'graph'">Statistika</button>
+                        </li>
                     </ul>
 
                     <div class="accordion-body">
@@ -71,7 +97,8 @@
                             <!--data pro desktop-->
                             <div class="desktop">
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
                                 <div class="row h6 fw-bold" *ngIf="posts.length>0">
                                     <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
@@ -118,13 +145,15 @@
                                     [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i">
                                 </app-item-total>
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
                                 <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex">
@@ -176,7 +205,8 @@
                                     [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
                                 </app-item-total>
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
                             </div>
                         </div>
@@ -185,7 +215,8 @@
                         <div *ngIf="showData === 'author'">
                             <!--data pro desktop-->
                             <div class="desktop">
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
 
                                 <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
@@ -205,8 +236,9 @@
                                     <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
                                         [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
                                 </div>
-                                
-                                <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)" class="row item">
+
+                                <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
+                                    class="row item">
                                     <div class="col-lg-2">@{{author.author}}</div>
                                     <div class="col-lg-2 text-center">{{author.posts}}</div>
                                     <div class="col-lg-2 text-end" *ngIf="showPayout">
@@ -225,11 +257,13 @@
                                 <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
                                     [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
                                 <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex"><select [(ngModel)]="selectSortType"
@@ -279,10 +313,17 @@
                                     [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
                                 </app-item-total>
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]" [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
 
                             </div>
                         </div>
+
+                        <div *ngIf="showData === 'graph'">
+                            <app-pie-chart [index]="i"></app-pie-chart>
+                        </div>
+
+
 
 
                     </div>

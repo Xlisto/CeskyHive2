@@ -15,6 +15,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { ItemTotalComponent } from './components/item-total/item-total.component';
 import { NextLoadComponent } from './components/next-load/next-load.component';
 import { PagesButtonsComponent } from './components/pages-buttons/pages-buttons.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PagesButtonsComponent } from './components/pages-buttons/pages-buttons.
     SettingsComponent,
     ItemTotalComponent,
     NextLoadComponent,
-    PagesButtonsComponent
+    PagesButtonsComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,

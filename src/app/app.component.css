@@ -23,6 +23,12 @@
     z-index: 100;
 }
 
+@media (max-width: 768px) {
+    * {
+        font-size: small;
+    }
+}
+
 
 .activeSort {
     background-color: rgba(227, 19, 54, 0.5);
@@ -42,7 +48,7 @@
 }
 
 .nav-link.active {
-    background-color: ivory; 
+    background-color: ivory;
 }
 
 .wrap-text {
@@ -56,4 +62,3 @@
     left: 0;
     right: 0;
 }
-

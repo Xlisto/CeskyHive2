@@ -166,6 +166,8 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem('dayCount', this.barComponentRef.parameterFilter.dayCount.toString());
       localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
       //this.selectSortType = this.sortTypes[0];
+      let element = document.getElementsByClassName('accordion-body');
+      
     }
   }
 
@@ -259,7 +261,7 @@ export class AppComponent implements AfterViewInit {
    */
   clickItem(post: Discussion) {
     this.activeVotesService.activeVoteListBuilder(post.author, post.permlink)
-      .then(result => { console.log(result), this.selectedActiveVotes = result; })
+      .then(result => {this.selectedActiveVotes = result; })
       .catch(error => console.log(error)
       );
     this.selectedPost = post;
