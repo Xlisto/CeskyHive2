@@ -1,5 +1,7 @@
+/**
+ * komponeta zobrazení celkového součtu
+ */
 import { Component, Input, OnInit } from '@angular/core';
-import { SettingsModel } from 'src/app/models/settingsModel';
 import { TotalsCountModel } from 'src/app/models/totalsCountModel';
 
 @Component({

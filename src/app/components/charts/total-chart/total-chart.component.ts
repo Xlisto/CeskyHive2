@@ -1,13 +1,17 @@
+/**
+ * Graf celkové statistiky
+ */
+
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
-  selector: 'app-line-chart',
-  templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css']
+  selector: 'app-total-chart',
+  templateUrl: './total-chart.component.html',
+  styleUrls: ['./total-chart.component.css']
 })
-export class LineChartComponent implements AfterViewInit {
+export class TotalChartComponent implements AfterViewInit {
 
   private author = "author";
   private comment = "comment";

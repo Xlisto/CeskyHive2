@@ -1,13 +1,16 @@
+/**
+ * Graf (koláčový) statistiky autorů
+ */
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
-  selector: 'app-pie-chart',
-  templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.css']
+  selector: 'app-authors-chart',
+  templateUrl: './authors-chart.component.html',
+  styleUrls: ['./authors-chart.component.css']
 })
-export class PieChartComponent implements OnInit {
+export class AuthorsChartComponent implements OnInit {
 
   @Input()
   index = 0;

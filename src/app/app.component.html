@@ -17,7 +17,7 @@
 </app-bar>
 
 <div class="container-fluid" id="list" *ngIf="postsModel != undefined && !isLoadingData">
-    <app-line-chart *ngIf="visibleGraph"></app-line-chart>
+    <app-total-chart *ngIf="visibleGraph"></app-total-chart>
 
     <div class="accordion" id="accordionExample" *ngIf="!visibleGraph">
         <div *ngFor="let posts of postsModel.postsSorted; index as i" class="">
@@ -324,11 +324,11 @@
                         </div>
 
                         <div *ngIf="showData === 'graph-post'">
-                            <app-pie-chart [index]="i"></app-pie-chart>
+                            <app-authors-chart [index]="i"></app-authors-chart>
                         </div>
 
                         <div *ngIf="showData === 'graph-vote'">
-                            <app-bar-chart [index]="i"></app-bar-chart>
+                            <app-votes-chart [index]="i"></app-votes-chart>
                         </div>
 
 

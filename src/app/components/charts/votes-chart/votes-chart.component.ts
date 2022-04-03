@@ -1,12 +1,16 @@
+/**
+ * Graf statistiky hlasování autorů
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
-  selector: 'app-bar-chart',
-  templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.css']
+  selector: 'app-votes-chart',
+  templateUrl: './votes-chart.component.html',
+  styleUrls: ['./votes-chart.component.css']
 })
-export class BarChartComponent implements OnInit {
+export class VotesChartComponent implements OnInit {
 
   @Input()
   index = 0;
@@ -26,7 +30,7 @@ export class BarChartComponent implements OnInit {
       authorVoteGiven.push(author.voteGiven);
       authorSelfVote.push(author.selfVote);
     });
-    console.log(authorNames);
+    
     let labelOption = "labeloption";
     this.option = {
       tooltip: {

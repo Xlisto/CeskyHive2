@@ -5,7 +5,7 @@ import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.co
 import { DateFormat } from './models/dateFormat';
 import { PostsModel } from './models/postsModel';
 import { DiscussionService } from './services/discussions.service';
-import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
+import { TotalChartComponent } from './components/charts/total-chart/total-chart.component';
 import { ActiveVotesService } from './services/active-votes.service';
 import { ActiveVotesModel } from './models/activeVotesModel';
 import { PropertiesService } from './services/properties.service';
@@ -91,8 +91,8 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(ModalLoadBarComponent, { static: false })
   private modalLoadBarRef!: ModalLoadBarComponent;
 
-  @ViewChild(LineChartComponent, { static: false })
-  private lineChartRef!: LineChartComponent;
+  @ViewChild(TotalChartComponent, { static: false })
+  private lineChartRef!: TotalChartComponent;
 
   @ViewChild(SettingsComponent, { static: false })
   public settingsRef!: SettingsComponent;
