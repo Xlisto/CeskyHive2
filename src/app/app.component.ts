@@ -5,7 +5,7 @@ import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.co
 import { DateFormat } from './models/dateFormat';
 import { PostsModel } from './models/postsModel';
 import { DiscussionService } from './services/discussions.service';
-import { LineChartComponent } from './components/line-chart/line-chart.component';
+import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
 import { ActiveVotesService } from './services/active-votes.service';
 import { ActiveVotesModel } from './models/activeVotesModel';
 import { PropertiesService } from './services/properties.service';

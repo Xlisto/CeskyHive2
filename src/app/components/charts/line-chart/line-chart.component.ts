@@ -38,7 +38,20 @@ export class LineChartComponent implements AfterViewInit {
       axisPointer: {
         type: 'shadow',
       }
-    }
+    },
+    toolbox: {
+      show: true,
+      orient: 'vertical',
+      right: 'right',
+      top: 'center',
+      feature: {
+        mark: { show: true },
+        dataView: { show: false, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
   };
 
   chartComment: EChartsOption = {
@@ -54,7 +67,20 @@ export class LineChartComponent implements AfterViewInit {
       axisPointer: {
         type: 'shadow',
       }
-    }
+    },
+    toolbox: {
+      show: true,
+      orient: 'vertical',
+      right: 'right',
+      top: 'center',
+      feature: {
+        mark: { show: true },
+        dataView: { show: false, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
   };
 
   chartVote: EChartsOption = {
@@ -69,6 +95,19 @@ export class LineChartComponent implements AfterViewInit {
       trigger: 'axis',
       axisPointer: {
         type: 'shadow',
+      }
+    },
+    toolbox: {
+      show: true,
+      orient: 'vertical',
+      right: 'right',
+      top: 'center',
+      feature: {
+        mark: { show: true },
+        dataView: { show: false, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
       }
     },
     color: ["#91cc75"],
@@ -100,7 +139,20 @@ export class LineChartComponent implements AfterViewInit {
 
         return rez;
       }
-    }
+    },
+    toolbox: {
+      show: true,
+      orient: 'vertical',
+      right: 'right',
+      top: 'center',
+      feature: {
+        mark: { show: true },
+        dataView: { show: false, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
 
   };
 

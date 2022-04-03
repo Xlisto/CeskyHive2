@@ -102,7 +102,6 @@ export class DiscussionService {
 
     this.getDiscussions()
       .then(result => {
-        //this.postsModel.posts.splice(0,this.postsModel.posts.length);
         this.postsModel.posts = this.postsModel.posts.concat(result);
         this.loadPosts = this.postsModel.posts.length;
         let lastIndexPost = this.postsModel.posts.length - 1;
@@ -136,6 +135,7 @@ export class DiscussionService {
     this.postsModel.init();
 
     let periodTime = new Date();
+
     periodTime.setHours(Number.parseInt(filter.time.substr(0, 2)));
     periodTime.setMinutes(Number.parseInt(filter.time.substr(3, 2)));
     periodTime.setSeconds(1);//nastavení výchozího intervalu jedně vteřiny
@@ -153,9 +153,7 @@ export class DiscussionService {
     }
     if (periodTime.getHours() === 0)
       periodTime.setDate(periodTime.getDate() - 1);
-    periodTime.setHours(periodTime.getUTCHours());//převod z místního času na čas UTC - čas blockchainu
-    periodTime.setMinutes(periodTime.getUTCMinutes());
-    //today.setDate(today.getUTCDate());
+
 
     while (index < items) {
       //sestavení intervalů s datumy
@@ -166,8 +164,8 @@ export class DiscussionService {
 
       //roztřídění postů
       this.postsModel.postsSorted[index] = this.postsModel.posts.filter(
-        post => (new Date(post.created).getTime() < new Date(this.postsModel.dates[index].dateUntilAsDate).getTime())
-          && (new Date(post.created).getTime() > new Date(this.postsModel.dates[index].dateFromAsDate).getTime())
+        post => (new Date(post.created).getTime() < new Date(this.postsModel.dates[index].dateUntilAsDateUTC).getTime())
+          && (new Date(post.created).getTime() > new Date(this.postsModel.dates[index].dateFromAsDateUTC).getTime())
       );
 
       //roztřídění podle autorů
@@ -195,12 +193,43 @@ export class DiscussionService {
     this.byCreate = -1;
     this.sortByCreate();
 
-    this.postsModel.postsSorted.forEach((posts: Discussion[],i: number) => {
-      this.postsModel.actualView.actualViewPosts[i].totalItems = posts.length;
-    })
+    //let votes: any[] = [];
 
-    this.postsModel.postsAuthor.forEach((authors:AuthorSortModel[], i: number) => {
+    this.postsModel.postsSorted.forEach((posts: Discussion[], i: number) => {
+      this.postsModel.actualView.actualViewPosts[i].totalItems = posts.length;
+
+      /*posts.forEach((post: Discussion) => {
+        console.log(post.author + " " + i);
+        if (votes[i]) 
+          votes[i].push(post.active_votes);
+        else {
+          votes[i] = [];
+          votes[i] = post.active_votes;
+        }
+      });*/
+    });
+
+    this.postsModel.postsAuthor.forEach((authors: AuthorSortModel[], i: number) => {
       this.postsModel.actualView.actualViewAuthors[i].totalItems = authors.length;
+    });
+
+    this.postsModel.postsAuthor.forEach((authors: AuthorSortModel[], i: number) => {
+      authors.forEach((author: AuthorSortModel) => {
+        this.postsModel.postsSorted[i].forEach((post: Discussion) => {
+          post.active_votes.find(act_votes => {
+            if (author.author === act_votes.voter) {
+
+              if (author.author === post.author)
+                author.addSelfVote();
+              else
+                author.addVoteGiven();
+            }
+          });
+
+        });
+
+      });
+
     });
 
     resolve(this.postsModel);

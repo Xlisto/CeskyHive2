@@ -86,8 +86,12 @@
                                 [class.active]="showData === 'author'">Autoři</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" (click)="clickChangeShowData('graph')"
-                                [class.active]="showData === 'graph'">Statistika</button>
+                            <button class="nav-link" (click)="clickChangeShowData('graph-post')"
+                                [class.active]="showData === 'graph-post'">Statistika postů</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" (click)="clickChangeShowData('graph-vote')"
+                                [class.active]="showData === 'graph-vote'">Statistika hlasů</button>
                         </li>
                     </ul>
 
@@ -319,11 +323,13 @@
                             </div>
                         </div>
 
-                        <div *ngIf="showData === 'graph'">
+                        <div *ngIf="showData === 'graph-post'">
                             <app-pie-chart [index]="i"></app-pie-chart>
                         </div>
 
-
+                        <div *ngIf="showData === 'graph-vote'">
+                            <app-bar-chart [index]="i"></app-bar-chart>
+                        </div>
 
 
                     </div>

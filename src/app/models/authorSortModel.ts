@@ -8,6 +8,8 @@ export class AuthorSortModel {
     negativeVotes = 0;
     pendingPayoutValue = 0;
     totalPayoutValue = 0;
+    voteGiven = 0; //rozdané hlasy
+    selfVote = 0; //hlas pro sebe
 
     constructor(author: string, comments: number, votes: number, negativeVotes: number, pending: string, payout: string) {
         this.author = author;
@@ -26,6 +28,14 @@ export class AuthorSortModel {
         this.negativeVotes += negativeVotes;
         this.pendingPayoutValue += this.convertHBD(pending);
         this.totalPayoutValue += this.convertHBD(payout);
+    }
+
+    addVoteGiven() {
+        this.voteGiven++;
+    }
+
+    addSelfVote() {
+        this.selfVote++;
     }
 
     private convertHBD(s: String) {

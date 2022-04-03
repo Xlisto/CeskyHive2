@@ -1,9 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
-import { EChartsOption, getInstanceByDom } from 'echarts';
-import * as echarts from 'echarts';
-import { NgxEchartsDirective } from 'ngx-echarts';
-//import * as echarts from 'echarts/types/dist/echarts';
-//import * as echarts from 'echarts/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
@@ -16,7 +12,7 @@ export class PieChartComponent implements OnInit {
   @Input()
   index = 0;
 
-  chartOptionAuthor: EChartsOption = {};
+  chartOptionAuthor = {};
   chartOptionComments: EChartsOption = {};
 
   constructor(private readonly hiveService: DiscussionService, private elRef: ElementRef) { }
@@ -33,6 +29,16 @@ export class PieChartComponent implements OnInit {
     this.chartOptionAuthor = {
       title: { text: "Napsané posty", subtext: "", left: "center" },
       tooltip: { trigger: 'item' },
+      toolbox: {
+        show: true,
+        orient: 'vertical',
+        right: 'right',
+        top: 'top',
+        feature: {
+          mark: { show: true },
+          saveAsImage: { show: true }
+        }
+      },
       series: [{
         name: "Napsané posty", type: "pie", radius: "60%",
         data: authors,
@@ -50,8 +56,18 @@ export class PieChartComponent implements OnInit {
     this.chartOptionComments = {
       title: { text: "Obdržené komentáře", subtext: "", left: "center" },
       tooltip: { trigger: 'item' },
+      toolbox: {
+        show: true,
+        orient: 'vertical',
+        right: 'right',
+        top: 'top',
+        feature: {
+          mark: { show: true },
+          saveAsImage: { show: true }
+        }
+      },
       series: [{
-        name: "Napsané komentáře", type: "pie", radius: "60%",
+        name: "Obdržené komentáře", type: "pie", radius: "60%",
         data: comments,
         emphasis: {
           itemStyle: {

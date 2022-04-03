@@ -9,13 +9,14 @@ import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.co
 import { ModalComponent } from './components/modal/modal.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { LineChartComponent } from './components/line-chart/line-chart.component';
+import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
 import { PostContentComponent } from './components/post-content/post-content.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { ItemTotalComponent } from './components/item-total/item-total.component';
 import { NextLoadComponent } from './components/next-load/next-load.component';
 import { PagesButtonsComponent } from './components/pages-buttons/pages-buttons.component';
-import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
+import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
     ItemTotalComponent,
     NextLoadComponent,
     PagesButtonsComponent,
-    PieChartComponent
+    PieChartComponent,
+    BarChartComponent
   ],
   imports: [
     BrowserModule,
