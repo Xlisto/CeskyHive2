@@ -52,4 +52,20 @@ export class SettingsComponent implements OnInit {
       this.settings.hiveSite = site;
   }
 
+   /**Uloží nastavení do lokalní paměti*/
+   public saveSettings() {
+    if (this.settings) {
+      let settings = this.settings;
+      localStorage.setItem("days", String(settings.days));
+      localStorage.setItem("maxPosts", String(settings.maxPosts));
+      localStorage.setItem("loadPosts", String(settings.loadPosts));
+      localStorage.setItem("node", settings.node);
+      localStorage.setItem("rows", String(settings.rows));
+      localStorage.setItem("showPayout", String(settings.showPayout));
+      localStorage.setItem("showComment", String(settings.showComment));
+      localStorage.setItem("showVote", String(settings.showVote));
+      localStorage.setItem('site', settings.hiveSite)
+    }
+  }
+
 }

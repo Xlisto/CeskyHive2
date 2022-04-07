@@ -49,6 +49,7 @@ export class ClipboardButtonComponent implements AfterViewInit {
     let total: TotalsCountModel = this.postsModel.totalCount[i];;
 
     if (this.showData === "post") {
+      
       //hlavička + zápatí
       let tableHeader = "|Datum|Autor|Titulek|";
       let tableSeparator = "|-|-|-|";

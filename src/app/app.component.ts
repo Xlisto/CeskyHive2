@@ -13,6 +13,7 @@ import { CurrentRevardFundModel } from './models/currentRewardFundModel';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NgForm } from '@angular/forms';
 import { NextLoadComponent } from './components/next-load/next-load.component';
+import { settings } from 'cluster';
 
 @Component({
   selector: 'app-root',
@@ -301,18 +302,8 @@ export class AppComponent implements AfterViewInit {
 
   /**Uloží nastavení a zavře dialogové okno*/
   saveSettings() {
-    if (this.settingsRef.settings) {
-      let settings = this.settingsRef.settings;
-      localStorage.setItem("days", String(settings.days));
-      localStorage.setItem("maxPosts", String(settings.maxPosts));
-      localStorage.setItem("loadPosts", String(settings.loadPosts));
-      localStorage.setItem("node", settings.node);
-      localStorage.setItem("rows", String(settings.rows));
-      localStorage.setItem("showPayout", String(settings.showPayout));
-      localStorage.setItem("showComment", String(settings.showComment));
-      localStorage.setItem("showVote", String(settings.showVote));
-      localStorage.setItem('site', settings.hiveSite)
-    }
+    if (this.settingsRef.settings) 
+      this.settingsRef.saveSettings();
 
     this.rows = this.settingsRef.settings.rows;
     this.items = this.settingsRef.settings.days;
@@ -320,12 +311,18 @@ export class AppComponent implements AfterViewInit {
     this.showComment = this.settingsRef.settings.showComment;
     this.showVote = this.settingsRef.settings.showVote;
     this.isModalSettingsClosed = true;
+    
     //nastavení stránky na první
     if (this.postsModel) {
       for (let pages of this.postsModel.actualView.actualViewPosts) {
         pages.actualView = 0;
         pages.actualPages = 1;
       }
+      for (let pages of this.postsModel.actualView.actualViewAuthors) {
+        pages.actualView = 0;
+        pages.actualPages = 1;
+      }
+      this.postsModel.actualView.rowsPages = this.settingsRef.settings.rows;
     }
   }
 
@@ -376,25 +373,6 @@ export class AppComponent implements AfterViewInit {
         this.clickActiveVotes(sort);
         break;
     }
-  }
-
-  /**
-   * Vloží naformátovaný obsah do schránky
-   * @param i 
-   */
-  copyText(i:number) {
-    console.log("copytext "+i);
-    let textCopy = "|Datum|Autor|Titulek|Čekající|Vyplaceno|Komentáře|Hlasy|\n|-|-|-|-|-|-|-|\n";
-    //sestavení seznamu postů
-    this.postsModel.postsSorted[i].forEach((post: Discussion) => {
-      textCopy += "|"+this.dateFormat.getLocaleDate(new Date(post.created))+"|@"+post.author+"|"+post.title+"|"+post.pending_payout_value+"|"+post.total_payout_value+"|"+post.children+"|"+post.active_votes.length+"|\n"
-      
-    });
-    let total = this.postsModel.totalCount[i];
-    textCopy+="|**Celkem**|**Autorů: "+total.totalAuthors+"**|**Postů: "+total.totalPosts+"**|**"+total.totalPending.toFixed(3)+"HBD**|**"+total.totalPayouts.toFixed(3)+"HBD**|**"+total.totalComments+"**|**"+total.totalVotes+"**|"
-    console.log(textCopy);
-
-    navigator.clipboard.writeText(textCopy);
   }
 
 }
