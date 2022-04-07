@@ -8,6 +8,7 @@ import { SettingsModel } from 'src/app/models/settingsModel';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+  
   @Output()
   public settings = new SettingsModel();
 

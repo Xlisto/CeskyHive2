@@ -1,6 +1,11 @@
+import { Injectable } from "@angular/core";
+
 /**
  * Konverze formátu Date na string
  */
+ @Injectable({
+    providedIn: 'root'
+  })
 export class DateFormat {
 
     formatDate = {

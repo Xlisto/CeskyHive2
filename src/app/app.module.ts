@@ -17,6 +17,7 @@ import { NextLoadComponent } from './components/next-load/next-load.component';
 import { PagesButtonsComponent } from './components/pages-buttons/pages-buttons.component';
 import { AuthorsChartComponent } from './components/charts/authors-chart/authors-chart.component';
 import { VotesChartComponent } from './components/charts/votes-chart/votes-chart.component';
+import { ClipboardButtonComponent } from './components/cliboard-button/clipboard-button.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { VotesChartComponent } from './components/charts/votes-chart/votes-chart
     NextLoadComponent,
     PagesButtonsComponent,
     AuthorsChartComponent,
-    VotesChartComponent
+    VotesChartComponent,
+    ClipboardButtonComponent
   ],
   imports: [
     BrowserModule,

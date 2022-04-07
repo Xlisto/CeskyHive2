@@ -100,10 +100,14 @@
                         <div *ngIf="showData === 'post'">
                             <!--data pro desktop-->
                             <div class="desktop">
-
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
-                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-
+                                <div class="d-flex justify-content-between ">
+                                    <div>
+                                        <app-clipboard-button [i]="i" [showData]="showData" [settings]="settingsRef.settings"></app-clipboard-button>
+                                    </div>
+                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                    <div></div>
+                                </div>
                                 <div class="row h6 fw-bold" *ngIf="posts.length>0">
                                     <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
                                         [class.activeSort]="selectClickedColl==='created'">Vytvořeno</div>
@@ -156,8 +160,13 @@
                             <!--data pro mobil-->
                             <div class="mobile">
 
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
-                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <app-clipboard-button [i]="i" [showData]="showData" [settings]="settingsRef.settings"></app-clipboard-button>
+
+                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                    <div></div>
+                                </div>
 
                                 <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex">
@@ -219,8 +228,13 @@
                         <div *ngIf="showData === 'author'">
                             <!--data pro desktop-->
                             <div class="desktop">
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
-                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                <div class="d-flex justify-content-between ">
+                                    <app-clipboard-button [i]="i" [showData]="showData" [settings]="settingsRef.settings"></app-clipboard-button>
+                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                    <div></div>
+                                </div>
+
 
 
                                 <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
@@ -266,8 +280,13 @@
                             </div>
                             <!--data pro mobil-->
                             <div class="mobile">
-                                <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
-                                    [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+
+                                <div class="d-flex justify-content-between">
+                                    <app-clipboard-button [i]="i" [showData]="showData" [settings]="settingsRef.settings"></app-clipboard-button>
+                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                                    <div></div>
+                                </div>
 
                                 <div class="row" *ngIf="posts.length>0">
                                     <form class="d-flex"><select [(ngModel)]="selectSortType"

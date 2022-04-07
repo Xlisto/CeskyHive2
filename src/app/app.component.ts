@@ -24,8 +24,6 @@ export class AppComponent implements AfterViewInit {
 
   postsModel!: PostsModel;
 
-  dateFormat = new DateFormat();
-
   currentRewardFunds!: CurrentRevardFundModel;
 
   price!: Price;
@@ -103,7 +101,9 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private readonly discussionService: DiscussionService,
     private readonly activeVotesService: ActiveVotesService,
-    private readonly properties: PropertiesService) {
+    private readonly properties: PropertiesService,
+    public readonly dateFormat: DateFormat
+    ) {
 
 
   }
@@ -376,6 +376,25 @@ export class AppComponent implements AfterViewInit {
         this.clickActiveVotes(sort);
         break;
     }
+  }
+
+  /**
+   * Vloží naformátovaný obsah do schránky
+   * @param i 
+   */
+  copyText(i:number) {
+    console.log("copytext "+i);
+    let textCopy = "|Datum|Autor|Titulek|Čekající|Vyplaceno|Komentáře|Hlasy|\n|-|-|-|-|-|-|-|\n";
+    //sestavení seznamu postů
+    this.postsModel.postsSorted[i].forEach((post: Discussion) => {
+      textCopy += "|"+this.dateFormat.getLocaleDate(new Date(post.created))+"|@"+post.author+"|"+post.title+"|"+post.pending_payout_value+"|"+post.total_payout_value+"|"+post.children+"|"+post.active_votes.length+"|\n"
+      
+    });
+    let total = this.postsModel.totalCount[i];
+    textCopy+="|**Celkem**|**Autorů: "+total.totalAuthors+"**|**Postů: "+total.totalPosts+"**|**"+total.totalPending.toFixed(3)+"HBD**|**"+total.totalPayouts.toFixed(3)+"HBD**|**"+total.totalComments+"**|**"+total.totalVotes+"**|"
+    console.log(textCopy);
+
+    navigator.clipboard.writeText(textCopy);
   }
 
 }
