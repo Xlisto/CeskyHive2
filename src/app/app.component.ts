@@ -11,9 +11,9 @@ import { ActiveVotesModel } from './models/activeVotesModel';
 import { PropertiesService } from './services/properties.service';
 import { CurrentRevardFundModel } from './models/currentRewardFundModel';
 import { SettingsComponent } from './components/settings/settings.component';
-import { NgForm } from '@angular/forms';
 import { NextLoadComponent } from './components/next-load/next-load.component';
-import { settings } from 'cluster';
+import { ClipboardButtonComponent } from './components/cliboard-button/clipboard-button.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @Component({
   selector: 'app-root',
@@ -84,6 +84,8 @@ export class AppComponent implements AfterViewInit {
 
   maxPosts = 10000;
 
+  alertClose = true;
+
   @ViewChild(BarComponent, { static: false })
   private barComponentRef!: BarComponent;
 
@@ -98,6 +100,9 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild(NextLoadComponent, { static: false })
   public nextLoadRef!: NextLoadComponent;
+
+  @ViewChild(AlertComponent, { static: false })
+  public alertRef!: AlertComponent;
 
   constructor(
     private readonly discussionService: DiscussionService,
@@ -373,6 +378,12 @@ export class AppComponent implements AfterViewInit {
         this.clickActiveVotes(sort);
         break;
     }
+  }
+
+  test(x:any) {
+    console.log('test');
+    console.log(x);
+    this.alertClose = x;
   }
 
 }

@@ -1,3 +1,4 @@
+<app-alert [(closed)]="alertClose"></app-alert> 
 <div class="alert alert-danger d-flex" role="alert" *ngIf="isMaxLoadPosts">
     <div class="align-self-center text-danger fw-bold">
         Dosáhli jste maximálního limitu počtu načtených postů. Některé výledky nemusí být kompletní. Nastavte si větší
@@ -9,12 +10,14 @@
     </div>
     <div class="align-self-center">
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zavřít"></button>
-    </div>
+    </div><br><br><br>
+    
 </div>
 
 <app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" [title]="title"
     [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
+
 
 <div class="container-fluid" id="list" *ngIf="postsModel != undefined && !isLoadingData">
     <app-total-chart *ngIf="visibleGraph"></app-total-chart>
@@ -103,7 +106,7 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"></app-clipboard-button>
+                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -158,7 +161,7 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"></app-clipboard-button>
+                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -171,7 +174,7 @@
 
                                 <div class="d-flex justify-content-between mb-2">
                                     <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings"></app-clipboard-button>
+                                        [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
 
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -231,7 +234,7 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"></app-clipboard-button>
+                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -247,7 +250,7 @@
                             <div class="desktop">
                                 <div class="d-flex justify-content-between ">
                                     <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings"></app-clipboard-button>
+                                        [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                                     <div></div>
@@ -296,7 +299,7 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"></app-clipboard-button>
+                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -308,7 +311,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings"></app-clipboard-button>
+                                        [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                                     <div></div>
@@ -364,7 +367,8 @@
 
                                 <div class="d-flex justify-content-between ">
                                     <div>
-                                        <app-clipboard-button [i]="i" [showData]="showData" [settings]="settingsRef.settings"></app-clipboard-button>
+                                        <app-clipboard-button [i]="i" [showData]="showData"
+                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -415,6 +419,7 @@
         <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">Zavřít</button>
     </app-modal>
 </div>
+
 <div>
     <app-modal [isClosed]="isModalNextLoadClosed" [title]="'Dosažen limit'"
         (crossClicked)="isModalNextLoadClosed = true">
@@ -423,3 +428,4 @@
         <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">Zavřít</button>
     </app-modal>
 </div>
+   

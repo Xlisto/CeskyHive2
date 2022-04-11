@@ -18,6 +18,8 @@ import { PagesButtonsComponent } from './components/pages-buttons/pages-buttons.
 import { AuthorsChartComponent } from './components/charts/authors-chart/authors-chart.component';
 import { VotesChartComponent } from './components/charts/votes-chart/votes-chart.component';
 import { ClipboardButtonComponent } from './components/cliboard-button/clipboard-button.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ClipboardButtonComponent } from './components/cliboard-button/clipboard
     PagesButtonsComponent,
     AuthorsChartComponent,
     VotesChartComponent,
-    ClipboardButtonComponent
+    ClipboardButtonComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { ClipboardButtonComponent } from './components/cliboard-button/clipboard
     FormsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    })
+    }),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

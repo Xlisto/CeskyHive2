@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Discussion } from '@hiveio/dhive';
 import { AuthorSortModel } from 'src/app/models/authorSortModel';
 import { DateFormat } from 'src/app/models/dateFormat';
@@ -6,7 +6,6 @@ import { PostsModel } from 'src/app/models/postsModel';
 import { SettingsModel } from 'src/app/models/settingsModel';
 import { TotalsCountModel } from 'src/app/models/totalsCountModel';
 import { DiscussionService } from 'src/app/services/discussions.service';
-import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-clipboard-button',
@@ -21,6 +20,9 @@ export class ClipboardButtonComponent implements AfterViewInit {
   @Input()
   showData = "";
 
+  @Output()
+  crossClicked: EventEmitter<void> = new EventEmitter<void>();
+
   postsModel!: PostsModel;
 
   @Input()
@@ -31,10 +33,8 @@ export class ClipboardButtonComponent implements AfterViewInit {
     public readonly dateFormat: DateFormat) {
     this.postsModel = this.discussionService.postsModel
   }
-  ngAfterViewInit(): void {
-  }
 
-
+  ngAfterViewInit(): void {}
 
   /**
    * Vloží naformátovaný obsah do schránky
@@ -49,7 +49,7 @@ export class ClipboardButtonComponent implements AfterViewInit {
     let total: TotalsCountModel = this.postsModel.totalCount[i];;
 
     if (this.showData === "post") {
-      
+
       //hlavička + zápatí
       let tableHeader = "|Datum|Autor|Titulek|";
       let tableSeparator = "|-|-|-|";
@@ -82,7 +82,7 @@ export class ClipboardButtonComponent implements AfterViewInit {
         if (showComment)
           textCopy += post.children + "|";
         if (showVote)
-          textCopy += post.active_votes.length + "|" + this.postsModel.negativeVotes(post);
+          textCopy += post.active_votes.length + "|" + this.postsModel.negativeVotes(post) + "|";
         textCopy += "\n";
 
       });
@@ -133,8 +133,11 @@ export class ClipboardButtonComponent implements AfterViewInit {
       textCopy += tableFooter;
     }
 
+    textCopy += "\nVytvořeno na stránce [www.hivetags.xlisto.com](https://hivetags.xlisto.com).";
 
     navigator.clipboard.writeText(textCopy);
   }
+
+  
 
 }
