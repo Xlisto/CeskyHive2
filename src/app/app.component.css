@@ -17,7 +17,7 @@
 #icon-magnifying-glass {
     min-width: 260px;
     display: flex;
-    min-height: 260px;
+    min-height: 130px;
     background-image: url("/assets/images/lupa.png");
     background-repeat: no-repeat;
     background-position: center;
@@ -45,10 +45,6 @@
 @media (max-width: 768px) {
     * {
         font-size: small;
-    }
-    
-    #icon-magnifying-glass {
-        min-height: 130px;
     }
 }
 
