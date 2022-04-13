@@ -18,6 +18,13 @@
     [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
 
+<div *ngIf="showMagnifyingGlass" class="center">
+    <div id="icon-magnifying-glass"></div>
+    <!--<img id="icon-magnifying-glass" src="assets/images/lupa.png">-->
+    <p class="fw-bold">
+        <br>Nastav interval, vyber tag a stiskni tlačítko Hledej</p>
+
+</div>
 
 <div class="container-fluid" id="list" *ngIf="postsModel != undefined && !isLoadingData">
     <app-total-chart *ngIf="visibleGraph"></app-total-chart>

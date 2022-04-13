@@ -14,6 +14,25 @@
 }
 
 
+#icon-magnifying-glass {
+    min-width: 260px;
+    display: flex;
+    min-height: 260px;
+    background-image: url("/assets/images/lupa.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
 
 #footer {
     position: fixed;
@@ -26,6 +45,10 @@
 @media (max-width: 768px) {
     * {
         font-size: small;
+    }
+    
+    #icon-magnifying-glass {
+        min-height: 130px;
     }
 }
 

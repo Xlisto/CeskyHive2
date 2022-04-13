@@ -43,6 +43,8 @@ export class AppComponent implements AfterViewInit {
 
   public isLoadingData = false;
 
+  public showMagnifyingGlass = true;
+
   selectedPost!: Discussion;
 
   selectedActiveVotes!: ActiveVotesModel[];
@@ -129,6 +131,7 @@ export class AppComponent implements AfterViewInit {
   load() {
     if (!this.isLoadingData) {
       this.isLoadingData = true;
+      this.showMagnifyingGlass = false;
       this.rows = this.settingsRef.settings.rows;
       this.items = this.settingsRef.settings.days;
       this.showPayout = this.settingsRef.settings.showPayout;
