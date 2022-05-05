@@ -14,7 +14,7 @@
     
 </div>
 
-<app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" [title]="title"
+<app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" (onChangeLang)="test(true)" [title]="title"
     [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
 
@@ -22,7 +22,7 @@
     <div id="icon-magnifying-glass"></div>
     <!--<img id="icon-magnifying-glass" src="assets/images/lupa.png">-->
     <p class="fw-bold">
-        <br>Nastav interval, vyber tag a stiskni tlačítko Hledej</p>
+        <br>{{'Intro'|translate}}</p>
 
 </div>
 
@@ -44,19 +44,19 @@
                                     <div class="col-lg my-1">{{postsModel.dates[i].dateFrom}} <br />
                                         {{postsModel.dates[i].dateUntil}}
                                     </div>
-                                    <div class="col-lg-1 text-end my-1">Postů: <br><span
+                                    <div class="col-lg-1 text-end my-1">{{'Posts'|translate}} <br><span
                                             class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
-                                    <div class="col-lg-1 text-end my-1">Autorů: <br><span
+                                    <div class="col-lg-1 text-end my-1">{{'Authors'|translate}} <br><span
                                             class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
-                                    <div class="col-lg-1 text-end my-1">Čekající: <br><span
+                                    <div class="col-lg-1 text-end my-1">{{'Pendings'|translate}} <br><span
                                             class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
                                     </div>
-                                    <div class="col-lg-1 text-end my-1">Vyplaceno: <br><span
+                                    <div class="col-lg-1 text-end my-1">{{'Payouts'|translate}} <br><span
                                             class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
                                     </div>
-                                    <div class="col-lg-1 text-end my-1">Komentářů: <br><span
+                                    <div class="col-lg-1 text-end my-1">{{'Comments'|translate}} <br><span
                                             class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
-                                    <div class="col-lg-1 text-end my-1">Hlasů: <br><span
+                                    <div class="col-lg-1 text-end my-1">{{'Votes'|translate}} <br><span
                                             class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
                                 </div>
                             </div>
@@ -67,15 +67,15 @@
                                         {{postsModel.dates[i].dateUntil}}</div>
                                 </div>
                                 <div class="row row-cols-auto">
-                                    <div class="col-6 my-1">Postů: {{postsModel.totalCount[i].totalPosts}}
+                                    <div class="col-6 my-1">{{'Posts'|translate}} {{postsModel.totalCount[i].totalPosts}}
                                     </div>
-                                    <div class="col-6 text-end my-1">Autorů: {{postsModel.totalCount[i].totalAuthors}}
+                                    <div class="col-6 text-end my-1">{{'Authors'|translate}} {{postsModel.totalCount[i].totalAuthors}}
                                     </div>
                                 </div>
                                 <div class="row row-cols-auto">
-                                    <div class="col-6 my-1">Komentářů: {{postsModel.totalCount[i].totalComments}}
+                                    <div class="col-6 my-1">{{'Comments'|translate}} {{postsModel.totalCount[i].totalComments}}
                                     </div>
-                                    <div class="col-6 text-end my-1">Hlasů: {{postsModel.totalCount[i].totalVotes}}
+                                    <div class="col-6 text-end my-1">{{'Votes'|translate}} {{postsModel.totalCount[i].totalVotes}}
                                     </div>
                                 </div>
                             </div>
@@ -89,19 +89,19 @@
                     <ul class="nav nav-tabs mt-3">
                         <li class="nav-item">
                             <button class="nav-link" (click)="clickChangeShowData('post')"
-                                [class.active]="showData === 'post'">Posty</button>
+                                [class.active]="showData === 'post'">{{'TabPosts'|translate}}</button>
                         </li>
                         <li class="nav-item">
                             <button class="nav-link" (click)="clickChangeShowData('author')"
-                                [class.active]="showData === 'author'">Autoři</button>
+                                [class.active]="showData === 'author'">{{'TabAuthors'|translate}}</button>
                         </li>
                         <li class="nav-item">
                             <button class="nav-link" (click)="clickChangeShowData('graph-post')"
-                                [class.active]="showData === 'graph-post'">Statistika postů</button>
+                                [class.active]="showData === 'graph-post'">{{'TabPostsStats'|translate}}</button>
                         </li>
                         <li class="nav-item">
                             <button class="nav-link" (click)="clickChangeShowData('graph-vote')"
-                                [class.active]="showData === 'graph-vote'">Statistika hlasů</button>
+                                [class.active]="showData === 'graph-vote'">{{'TabVotesStats'|translate}}</button>
                         </li>
                     </ul>
 
@@ -121,26 +121,26 @@
                                 </div>
                                 <div class="row h6 fw-bold" *ngIf="posts.length>0">
                                     <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
-                                        [class.activeSort]="selectClickedColl==='created'">Vytvořeno</div>
+                                        [class.activeSort]="selectClickedColl==='created'">{{'Created'|translate}}</div>
                                     <div class="col-lg-2 text-start py-2" (click)="clickAuthor()"
-                                        [class.activeSort]="selectClickedColl==='author'">Autor</div>
+                                        [class.activeSort]="selectClickedColl==='author'">{{'Author'|translate}}</div>
                                     <div class="col-lg-4 text-start py-2" (click)="clickTitle()"
-                                        [class.activeSort]="selectClickedColl==='title'">Nadpis</div>
+                                        [class.activeSort]="selectClickedColl==='title'">{{'Title'|translate}}</div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">Čekající
+                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">{{'HeadPendings'|translate}}
                                     </div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">Vyplaceno
+                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">{{'HeadPayouts'|translate}}
                                     </div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickChildren()"
                                         [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">
-                                        Komentáře</div>
+                                        {{'HeadComments'|translate}}</div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
+                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">{{'HeadVotes'|translate}}</div>
                                 </div>
 
                                 <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">Zde nic není napsáno</div>
+                                    <div class="col">{{'NothingIsWritten'|translate}}</div>
                                 </div>
 
                                 <div *ngFor="let post of posts.slice(this.postsModel.actualView.actualViewPosts[i].actualView,this.postsModel.actualView.actualViewPosts[i].actualView+rows)"
@@ -213,15 +213,15 @@
                                     </div>
 
                                     <div class="col-lg">
-                                        <div class="float-start" *ngIf="showPayout">Čekající:
+                                        <div class="float-start" *ngIf="showPayout">{{'Pendings'|translate}}
                                             {{post.pending_payout_value}}</div>
-                                        <div class="float-end" *ngIf="showPayout">Vyplaceno: {{post.total_payout_value}}
+                                        <div class="float-end" *ngIf="showPayout">{{'Payouts'|translate}} {{post.total_payout_value}}
                                         </div>
                                     </div>
 
                                     <div class="col-lg">
-                                        <div class="float-start" *ngIf="showComment">Komentáře: {{post.children}}</div>
-                                        <div class="float-end" *ngIf="showVote">Hlasy:
+                                        <div class="float-start" *ngIf="showComment">{{'Comments'|translate}} {{post.children}}</div>
+                                        <div class="float-end" *ngIf="showVote">{{'Votes'|translate}}
                                             <span *ngIf="postsModel.negativeVotes(post)>0" class="text-danger">
                                                 {{postsModel.negativeVotes(post)}} |
                                             </span>{{post.active_votes.length}}
@@ -231,7 +231,7 @@
                                 </div>
 
                                 <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">Zde nic není napsáno</div>
+                                    <div class="col">{{'NothingIsWritten'|translate}}</div>
                                 </div>
 
                                 <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount"
@@ -267,20 +267,20 @@
 
                                 <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
                                     <div class="col-lg-2 text-center py-2" (click)="clickAuthor()"
-                                        [class.activeSort]="selectClickedColl==='author'">Autor</div>
+                                        [class.activeSort]="selectClickedColl==='author'">{{'Author'|translate}}</div>
                                     <div class="col-lg-2 text-center py-2" (click)="clickPost()"
-                                        [class.activeSort]="selectClickedColl==='post'">Posty</div>
+                                        [class.activeSort]="selectClickedColl==='post'">{{'HeadPosts'|translate}}</div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">Čekající
+                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">{{'HeadPendings'|translate}}
                                     </div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">Vyplaceno
+                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">{{'HeadPayouts'|translate}}
                                     </div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickChildren()"
                                         [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">
-                                        Komentáře</div>
+                                        {{'HeadComments'|translate}}</div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">Hlasy</div>
+                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">{{'HeadVotes'|translate}}</div>
                                 </div>
 
                                 <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
@@ -297,7 +297,7 @@
                                 </div>
 
                                 <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">Žádný autor nic nepublikoval</div>
+                                    <div class="col">{{'NoAuthorHasPublished'|translate}}</div>
                                 </div>
 
                                 <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
@@ -343,21 +343,21 @@
                                     class="row item my-1 mobile-item border">
                                     <div class="col-lg">
                                         <div class="float-start text-start fw-bold">@{{author.author}}</div>
-                                        <div class="float-end text-end">Posty: {{author.posts}}</div>
+                                        <div class="float-end text-end">{{'Posts'|translate}} {{author.posts}}</div>
                                     </div>
                                     <div class="col-lg">
-                                        <div class="float-start text-start" *ngIf="showPayout">Čekající:<br />
+                                        <div class="float-start text-start" *ngIf="showPayout">{{'Pendings'|translate}}
                                             {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
 
-                                        <div class="float-end text-end" *ngIf="showPayout">Vyplaceno:<br />
+                                        <div class="float-end text-end" *ngIf="showPayout">{{'Payouts'|translate}}
                                             {{author.totalPayoutValue.toFixed(3)}} HBD
                                         </div>
                                     </div>
 
                                     <div class="col-lg">
-                                        <div class="float-start text-start" *ngIf="showComment">Komentáře:
+                                        <div class="float-start text-start" *ngIf="showComment">{{'Comments'|translate}}
                                             {{author.comments}} </div>
-                                        <div class="float-end text-end" *ngIf="showVote">Hlasy: <span
+                                        <div class="float-end text-end" *ngIf="showVote">{{'Votes'|translate}} <span
                                                 *ngIf="author.negativeVotes>0"
                                                 class="text-danger">{{author.negativeVotes}}
                                                 | </span>{{author.votes}}</div>
@@ -365,7 +365,7 @@
                                 </div>
 
                                 <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">Žádný autor nic nepublikoval</div>
+                                    <div class="col">{{'NoAuthorHasPublished'|translate}}</div>
                                 </div>
 
                                 <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount"
@@ -420,10 +420,10 @@
 </div>
 
 <div>
-    <app-modal [isClosed]="isModalSettingsClosed" [title]="'Nastavení'" (crossClicked)="isModalSettingsClosed = true">
+    <app-modal [isClosed]="isModalSettingsClosed" [title]="'Settings'|translate" (crossClicked)="isModalSettingsClosed = true">
         <app-settings></app-settings>
-        <button footer type="button" class="btn btn-primary" (click)="saveSettings()">Uložit</button>
-        <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">Zavřít</button>
+        <button footer type="button" class="btn btn-primary" (click)="saveSettings()">{{'Save'|translate}}</button>
+        <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">{{'Close'|translate}}</button>
     </app-modal>
 </div>
 
@@ -431,8 +431,8 @@
     <app-modal [isClosed]="isModalNextLoadClosed" [title]="'Dosažen limit'"
         (crossClicked)="isModalNextLoadClosed = true">
         <app-next-load [maxPosts]="maxPosts"></app-next-load>
-        <button footer type="button" class="btn btn-primary" (click)="loadNextPosts()">Pokračovat</button>
-        <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">Zavřít</button>
+        <button footer type="button" class="btn btn-primary" (click)="loadNextPosts()">{{'Continue'|translate}}</button>
+        <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">{{'Close'|translate}}</button>
     </app-modal>
 </div>
    

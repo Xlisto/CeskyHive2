@@ -3,6 +3,7 @@
  */
 
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
@@ -17,6 +18,13 @@ export class TotalChartComponent implements AfterViewInit {
   private comment = "comment";
   private vote = "vote";
   private payout = "payout";
+
+  nameAuthor = 'Author';
+  namePost = 'Post';
+  nameComments = "Comments";
+  nameVotes = "Votes";
+  namePayouts = "Payouts";
+  namePendings = "Pendings";
 
   /**
    * Pro aktualizovaná data grafu
@@ -160,9 +168,12 @@ export class TotalChartComponent implements AfterViewInit {
 
   };
 
-  constructor(private readonly hiveService: DiscussionService) { }
+  constructor(private readonly hiveService: DiscussionService, public translate: TranslateService) { }
 
   ngAfterViewInit(): void {
+
+    this.initLang();
+
     //data sloupců
     this.chartAuthor.series = this.builderSeries(this.author);
     this.chartComment.series = this.builderSeries(this.comment);
@@ -174,17 +185,12 @@ export class TotalChartComponent implements AfterViewInit {
     this.chartComment.xAxis = this.bulderXAxis();
     this.chartVote.xAxis = this.bulderXAxis();
     this.chartPayout.xAxis = this.bulderXAxis();
+
     //legenda
     this.chartAuthor.legend = this.builderLegend(this.author);
     this.chartComment.legend = this.builderLegend(this.comment);
     this.chartVote.legend = this.builderLegend(this.vote);
     this.chartPayout.legend = this.builderLegend(this.payout);
-    /*this.chartOption.title =  {
-      text: 'Autoři, napsané posty',
-      //subtext: 'Living Expenses in Shenzhen'
-    };*/
-
-    console.log(this.chartPayout.series);
   }
 
   /**
@@ -195,11 +201,21 @@ export class TotalChartComponent implements AfterViewInit {
     this.mergeComment = {};
     this.mergeVote = {};
     this.mergePayout = {};
+
+    this.initLang();
+
+    //legenda
+    this.mergeAuthor.legend = this.builderLegend(this.author);
+    this.mergeComment.legend = this.builderLegend(this.comment);
+    this.mergeVote.legend = this.builderLegend(this.vote);
+    this.mergePayout.legend = this.builderLegend(this.payout);
+
     //data sloupců
     this.mergeAuthor.series = this.builderSeries(this.author);
     this.mergeComment.series = this.builderSeries(this.comment);
     this.mergeVote.series = this.builderSeries(this.vote);
     this.mergePayout.series = this.builderSeries(this.payout);
+
     //popis
     this.mergeAuthor.xAxis = this.bulderXAxis();
     this.mergeComment.xAxis = this.bulderXAxis();
@@ -214,25 +230,25 @@ export class TotalChartComponent implements AfterViewInit {
   private builderSeries(typeData: string): any {
     let totalCounts = this.builderTotalCounts();
     let data1 = {
-      name: "Autor",
+      name: this.nameAuthor,
       data: totalCounts.authors,
       type: 'bar'
     };
     let data2 = {
-      name: "Post",
+      name: this.namePost,
       data: totalCounts.posts,
       type: 'bar'
     };
     if (typeData === this.comment) {
       data1 = {
-        name: "Komentáře",
+        name: this.nameComments,
         data: totalCounts.comments,
         type: 'bar'
       };
       return [data1];
     } else if (typeData === this.vote) {
       data2 = {
-        name: "Hlasy",
+        name: this.nameVotes,
         data: totalCounts.votes,
         type: 'bar',
 
@@ -241,12 +257,12 @@ export class TotalChartComponent implements AfterViewInit {
     }
     else if (typeData === this.payout) {
       data1 = {
-        name: "Čekající",
+        name: this.namePendings,
         data: totalCounts.pendings,
         type: 'bar'
       };
       data2 = {
-        name: "Vyplaceno",
+        name: this.namePayouts,
         data: totalCounts.payouts,
         type: 'bar'
       };
@@ -268,13 +284,13 @@ export class TotalChartComponent implements AfterViewInit {
   }
 
   private builderLegend(typeData: string): any {
-    let data = ['Autor', 'Post'];
+    let data = [this.nameAuthor, this.namePost];
     if (typeData === this.comment)
-      data = ['Komentáře'];
+      data = [this.nameComments];
     else if (typeData === this.vote)
-      data = ['Hlasy'];
+      data = [this.nameVotes];
     else if (typeData == this.payout)
-      data = ['Čekající', 'Vyplaceno'];
+      data = [this.namePendings, this.namePayouts];
     return {
       data: data
     };
@@ -318,6 +334,27 @@ export class TotalChartComponent implements AfterViewInit {
     pendings.reverse();
     payouts.reverse();
     return { authors: authors, posts: posts, comments: comments, votes: votes, pendings: pendings, payouts: payouts };
+  }
+
+  /**
+   * Inicializace textů
+   */
+  private initLang() {
+    if (this.translate.currentLang === 'en') {
+      this.nameAuthor = 'Author';
+      this.namePost = 'Post';
+      this.nameComments = "Comments";
+      this.nameVotes = "Votes";
+      this.namePayouts = "Payouts";
+      this.namePendings = "Pendings";
+    } else {
+      this.nameAuthor = 'Autor';
+      this.namePost = 'Post';
+      this.nameComments = "Komentáře";
+      this.nameVotes = "Hlasy";
+      this.namePayouts = "Vyplaceno";
+      this.namePendings = "Čekající";
+    }
   }
 
 }

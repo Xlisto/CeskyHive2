@@ -78,15 +78,18 @@ export class PostContentComponent implements OnChanges {
     this.selectedPost.body = arr.join("\n");
 
     this.selectedbody = this.md.render(this.selectedPost.body.replace(/pull-left/g, 'float-start').replace(/pull-right/g, 'float-end'));
-    //console.log(this.selectedPost.body);
+    console.log(this.selectedbody);
     this.selectedbody = this.selectedbody
       .replaceAll(/(<\/div>)+( )*\n/g, '</div>')//zrušení odrážky mezi dvěma divy
       .replaceAll(/(<hr>)+( )*\n/g, '<hr>')//zrušení odrážky po vodorovné čáře
       .replaceAll(/(<br>)+( )*(<br>)*\n/g, '<br>')//nahrazení dvou odrážek za jednu
-      .replaceAll(/(<br>)+/g, '')
+      //.replaceAll(/(<br>)+/g, '')
       .replaceAll(/:+\n/g, ':<br>')//zalomení za dvojtečkou
       .replaceAll(/\.+\n/g, '.<br>')//zalomení za tečkou
-      .replaceAll(/\n/g, '<br>');//ostatní zalomení
+      //.replace(/\n+/g, 'XX')//ostatní zalomení
+      .replaceAll(/(<table>)/g,'<table class="table table-secondary">')
+      ;
+      console.log(this.selectedbody);
   }
 
   clickChangeShowData(showTypeData: string) {

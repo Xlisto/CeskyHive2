@@ -2,6 +2,7 @@
  * Graf (koláčový) statistiky autorů
  */
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
@@ -18,11 +19,19 @@ export class AuthorsChartComponent implements OnInit {
   chartOptionAuthor = {};
   chartOptionComments: EChartsOption = {};
 
-  constructor(private readonly hiveService: DiscussionService, private elRef: ElementRef) { }
+  constructor(private readonly hiveService: DiscussionService, private elRef: ElementRef, public translate: TranslateService) { }
 
   ngOnInit(): void {
     let authors: { value: number; name: string; }[] = [];
     let comments: { value: number; name: string; }[] = [];
+    let writenPosts = "Napsané posty";
+    let commentsReceived = "Obdržené komentáře" 
+
+    if(this.translate.currentLang === 'en')  {
+      writenPosts = "Writen posts";
+      commentsReceived = "Comments received";
+    }
+
     this.hiveService.postsModel.postsAuthor[this.index].forEach(author => {
       authors.push({ value: author.posts, name: author.author });
       comments.push({ value: author.comments, name: author.author });
@@ -30,7 +39,7 @@ export class AuthorsChartComponent implements OnInit {
 
 
     this.chartOptionAuthor = {
-      title: { text: "Napsané posty", subtext: "", left: "center" },
+      title: { text: writenPosts, subtext: "", left: "center" },
       tooltip: { trigger: 'item' },
       toolbox: {
         show: true,
@@ -43,7 +52,7 @@ export class AuthorsChartComponent implements OnInit {
         }
       },
       series: [{
-        name: "Napsané posty", type: "pie", radius: "60%",
+        name: writenPosts, type: "pie", radius: "60%",
         data: authors,
         emphasis: {
           itemStyle: {
@@ -57,7 +66,7 @@ export class AuthorsChartComponent implements OnInit {
 
 
     this.chartOptionComments = {
-      title: { text: "Obdržené komentáře", subtext: "", left: "center" },
+      title: { text: commentsReceived, subtext: "", left: "center" },
       tooltip: { trigger: 'item' },
       toolbox: {
         show: true,
@@ -70,7 +79,7 @@ export class AuthorsChartComponent implements OnInit {
         }
       },
       series: [{
-        name: "Obdržené komentáře", type: "pie", radius: "60%",
+        name: commentsReceived, type: "pie", radius: "60%",
         data: comments,
         emphasis: {
           itemStyle: {

@@ -2,9 +2,9 @@
 <div class="desktop">
     <div *ngIf="showData === 'author'">
         <div class="row h6 fw-bold mt-2" *ngIf="totalCount[i].totalAuthors>0">
-            <div class="col-lg-2 text-center">Autorů: {{totalCount[i].totalAuthors}}
+            <div class="col-lg-2 text-center">{{'Authors'|translate}} {{totalCount[i].totalAuthors}}
             </div>
-            <div class="col-lg-2 text-center">Postů: {{totalCount[i].totalPosts}}
+            <div class="col-lg-2 text-center">{{'Posts'|translate}} {{totalCount[i].totalPosts}}
             </div>
             <div class="col-lg-2 text-end" *ngIf="showPayout">
                 {{totalCount[i].totalPending.toFixed(3)}} HBD
@@ -22,10 +22,10 @@
 
     <div *ngIf="showData === 'post'">
         <div class="row h6 fw-bold mt-2" *ngIf="totalCount[i].totalPosts>0">
-            <div class="col-lg-2 text-start">Celkem</div>
-            <div class="col-lg-2 text-start">Autorů: {{totalCount[i].totalAuthors}}
+            <div class="col-lg-2 text-start">{{'Total'|translate}}</div>
+            <div class="col-lg-2 text-start">{{'Authors'|translate}} {{totalCount[i].totalAuthors}}
             </div>
-            <div class="col-lg-4 text-start">Postů: {{totalCount[i].totalPosts}}
+            <div class="col-lg-4 text-start">{{'Posts'|translate}} {{totalCount[i].totalPosts}}
             </div>
             <div class="col-lg-1 text-end" *ngIf="showPayout">
                 {{totalCount[i].totalPending.toFixed(3)}}
@@ -50,21 +50,21 @@
 <div class="mobile">
     <div class="row item my-1 mobile-item border">
         <div class="col-lg">
-            <div class="float-start text-start fw-bold">Autorů:
+            <div class="float-start text-start fw-bold">{{'Authors'|translate}}
                 {{totalCount[i].totalAuthors}}</div>
-            <div class="float-end text-end fw-bold">Postů:
+            <div class="float-end text-end fw-bold">{{'Posts'|translate}}
                 {{totalCount[i].totalPosts}}</div>
         </div>
         <div class="col-lg">
-            <div class="float-start text-start fw-bold" *ngIf="showPayout">Vyplaceno:
+            <div class="float-start text-start fw-bold" *ngIf="showPayout">{{'Payouts'|translate}}
                 {{totalCount[i].totalPayouts.toFixed(3)}} HBD</div>
-            <div class="float-end text-end fw-bold" *ngIf="showPayout">Čekající:
+            <div class="float-end text-end fw-bold" *ngIf="showPayout">{{'Pendings'|translate}}
                 {{totalCount[i].totalPending.toFixed(3)}} HBD</div>
         </div>
         <div class="col-lg">
-            <div class="float-start text-start fw-bold" *ngIf="showComment">Komentářu:
+            <div class="float-start text-start fw-bold" *ngIf="showComment">{{'Comments'|translate}}
                 {{totalCount[i].totalComments}}</div>
-            <div class="float-end text-end fw-bold" *ngIf="showVote">Hlasů:
+            <div class="float-end text-end fw-bold" *ngIf="showVote">{{'Votes'|translate}}
                 {{totalCount[i].totalVotes}}</div>
         </div>
     </div>

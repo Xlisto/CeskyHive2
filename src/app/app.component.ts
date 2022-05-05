@@ -14,6 +14,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { NextLoadComponent } from './components/next-load/next-load.component';
 import { ClipboardButtonComponent } from './components/cliboard-button/clipboard-button.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -95,7 +96,7 @@ export class AppComponent implements AfterViewInit {
   private modalLoadBarRef!: ModalLoadBarComponent;
 
   @ViewChild(TotalChartComponent, { static: false })
-  private lineChartRef!: TotalChartComponent;
+  private totalChartRef!: TotalChartComponent;
 
   @ViewChild(SettingsComponent, { static: false })
   public settingsRef!: SettingsComponent;
@@ -111,10 +112,7 @@ export class AppComponent implements AfterViewInit {
     private readonly activeVotesService: ActiveVotesService,
     private readonly properties: PropertiesService,
     public readonly dateFormat: DateFormat
-    ) {
-
-
-  }
+    ) {}
 
   ngAfterViewInit(): void {
     this.properties.getRewardFund()
@@ -282,9 +280,9 @@ export class AppComponent implements AfterViewInit {
    * Aktualizace dat grafů
    */
   reloadGraph() {
-    console.log("reloadgraph");
-    if (this.lineChartRef)
-      this.lineChartRef.updateChart();
+    //console.log("reloadgraph");
+    if (this.totalChartRef)
+      this.totalChartRef.updateChart();
   }
 
 
@@ -384,9 +382,10 @@ export class AppComponent implements AfterViewInit {
   }
 
   test(x:any) {
-    console.log('test');
-    console.log(x);
-    this.alertClose = x;
+    //console.log(this.totalChartRef);
+    if(this.totalChartRef)
+    this.totalChartRef.updateChart();
+    //console.log(x);
   }
 
 }

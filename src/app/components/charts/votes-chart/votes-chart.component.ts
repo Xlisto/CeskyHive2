@@ -3,6 +3,7 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
@@ -17,13 +18,24 @@ export class VotesChartComponent implements OnInit {
 
   option = {};
 
-  constructor(private readonly hiveService: DiscussionService) { }
+  constructor(private readonly hiveService: DiscussionService, public translate: TranslateService) { }
 
   ngOnInit(): void {
     let authorNames: string[] = [];
     let authorPosts: number[] = [];
     let authorVoteGiven: number [] = [];
     let authorSelfVote: number []  =[];
+    let posts = "Posty";
+    let votesDistributed = "Rozdané hlasy";
+    let ownVotes = "Vlastní hlasy";
+
+    if(this.translate.currentLang === 'en'){
+      posts = 'Posts';
+      votesDistributed = 'Votes distributed';
+      ownVotes = 'Own Votes';
+    }
+
+
     this.hiveService.postsModel.postsAuthor[this.index].forEach(author => {
       authorNames.push(author.author);
       authorPosts.push(author.posts);
@@ -40,7 +52,7 @@ export class VotesChartComponent implements OnInit {
         }
       },
       legend: {
-        data: ['Posty', 'Rozdané hlasy', 'Vlastní hlasy']
+        data: [posts, votesDistributed, ownVotes]
       },
       toolbox: {
         show: true,
@@ -91,7 +103,7 @@ export class VotesChartComponent implements OnInit {
     ],
       series: [
         {
-          name: 'Posty',
+          name: posts,
           type: 'bar',
           barGap: 0,
           label: labelOption,
@@ -101,7 +113,7 @@ export class VotesChartComponent implements OnInit {
           data: authorPosts
         },
         {
-          name: 'Rozdané hlasy',
+          name: votesDistributed,
           type: 'bar',
           label: labelOption,
           emphasis: {
@@ -110,7 +122,7 @@ export class VotesChartComponent implements OnInit {
           data: authorVoteGiven
         },
         {
-          name: 'Vlastní hlasy',
+          name: ownVotes,
           type: 'bar',
           label: labelOption,
           emphasis: {

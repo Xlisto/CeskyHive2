@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Discussion } from '@hiveio/dhive';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorSortModel } from 'src/app/models/authorSortModel';
 import { DateFormat } from 'src/app/models/dateFormat';
 import { PostsModel } from 'src/app/models/postsModel';
@@ -30,7 +31,8 @@ export class ClipboardButtonComponent implements AfterViewInit {
 
   constructor(
     private readonly discussionService: DiscussionService,
-    public readonly dateFormat: DateFormat) {
+    public readonly dateFormat: DateFormat,
+    public translate: TranslateService) {
     this.postsModel = this.discussionService.postsModel
   }
 
@@ -44,6 +46,15 @@ export class ClipboardButtonComponent implements AfterViewInit {
     let showComment = this.settings.showComment;
     let showPayout = this.settings.showPayout;
     let showVote = this.settings.showVote;
+    let headPayout = "Čekající|Vyplaceno|";
+    let headComments = "Komentáře|";
+    let headVotes = "Hlasy|Záporné hlasy|";
+
+    if(this.translate.currentLang === 'en') {
+      headPayout = "Pendings|Payouts|";
+      headComments = "Comments|";
+      headVotes = "Votes|Downvotes|";
+    }
 
     let textCopy = "";
     let total: TotalsCountModel = this.postsModel.totalCount[i];;
@@ -54,19 +65,23 @@ export class ClipboardButtonComponent implements AfterViewInit {
       let tableHeader = "|Datum|Autor|Titulek|";
       let tableSeparator = "|-|-|-|";
       let tableFooter = "|**Celkem**|**Autorů: " + total.totalAuthors + "**|**Postů: " + total.totalPosts + "**|";
+      if(this.translate.currentLang === 'en') {
+        tableHeader = "|Date|Author|Title|";
+        tableFooter = "|**Total**|**Authors: " + total.totalAuthors + "**|**Posts: " + total.totalPosts + "**|";
+      }
 
       if (showPayout) {
-        tableHeader += "Čekající|Vyplaceno|";
+        tableHeader += headPayout;
         tableSeparator += "-|-|";
         tableFooter += "**" + total.totalPending.toFixed(3) + " HBD**|**" + total.totalPayouts.toFixed(3) + " HBD**|"
       }
       if (showComment) {
-        tableHeader += "Komentáře|";
+        tableHeader += headComments;
         tableSeparator += "-|";
         tableFooter += "**" + total.totalComments + "**|";
       }
       if (showVote) {
-        tableHeader += "Hlasy|Záporné hlasy|";
+        tableHeader += headVotes;
         tableSeparator += "-|-|";
         tableFooter += "**" + total.totalVotes + "**|**" + total.totalNegativeVotes + "**|";
       }
@@ -76,7 +91,7 @@ export class ClipboardButtonComponent implements AfterViewInit {
 
       //sestavení seznamu postů - obsah tabulky
       this.postsModel.postsSorted[i].forEach((post: Discussion) => {
-        textCopy += "|" + this.dateFormat.getLocaleDate(new Date(post.created)) + "|@" + post.author + "|" + post.title + "|";
+        textCopy += "|" + this.dateFormat.getLocaleDate(new Date(post.created)) + "|@" + post.author + "|" + post.title.replaceAll('|','-') + "|";
         if (showPayout)
           textCopy += post.pending_payout_value + "|" + post.total_payout_value + "|";
         if (showComment)
@@ -98,18 +113,23 @@ export class ClipboardButtonComponent implements AfterViewInit {
       let tableSeparator = "|-|-|";
       let tableFooter = "|**Autorů: " + total.totalAuthors + "**|**Postů: " + total.totalPosts + "**|";
 
+      if(this.translate.currentLang === 'en') {
+        tableHeader = "|Author|Posts|";
+        tableFooter = "|**Authors: " + total.totalAuthors + "**|**Posts: " + total.totalPosts + "**|";
+      }
+
       if (showPayout) {
-        tableHeader += "Čekající|Vyplaceno|";
+        tableHeader += headPayout;
         tableSeparator += "-|-|";
         tableFooter += "**" + total.totalPending.toFixed(3) + " HBD**|**" + total.totalPayouts.toFixed(3) + " HBD**|";
       }
       if (showComment) {
-        tableHeader += "Komentáře|";
+        tableHeader += headComments;
         tableSeparator += "-|";
         tableFooter += "**" + total.totalComments + "**|";
       }
       if (showVote) {
-        tableHeader += "Hlasy|Záporné hlasy|";
+        tableHeader += headVotes;
         tableSeparator += "-|-|";
         tableFooter += "**" + total.totalVotes + "**|**" + total.totalNegativeVotes + "**|";
       }
@@ -133,7 +153,12 @@ export class ClipboardButtonComponent implements AfterViewInit {
       textCopy += tableFooter;
     }
 
-    textCopy += "\nVytvořeno na stránce [www.hivetags.xlisto.com](https://hivetags.xlisto.com).";
+    let tableNote = "\nVytvořeno na stránce [www.hivetags.xlisto.com](https://hivetags.xlisto.com).";
+    if(this.translate.currentLang === 'en') {
+      tableNote = "\nCreated on the web [www.hivetags.xlisto.com](https://hivetags.xlisto.com).";
+    }
+
+    textCopy += tableNote;
 
     navigator.clipboard.writeText(textCopy);
   }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { exit } from 'process';
 import { AppComponent } from 'src/app/app.component';
 import { ParameterFilter } from 'src/app/models/parameterFilter';
@@ -29,7 +30,14 @@ export class BarComponent implements OnInit {
   @Output()
   onShowSettings: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() {}
+  @Output()
+  public onChangeLang: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(public translate: TranslateService) {
+    translate.addLangs(['en', 'cs']);
+    translate.setDefaultLang('en');
+    this.translate.currentLang = 'en';
+  }
 
   ngOnInit(): void {
     let tag = localStorage.getItem('tag');
@@ -37,6 +45,8 @@ export class BarComponent implements OnInit {
     let day = localStorage.getItem('day');
     let interval = localStorage.getItem('interval');
     let dayCount = Number(localStorage.getItem('dayCount'));
+    let lang = localStorage.getItem('lang');
+
     if (tag)
       this.parameterFilter.tag = tag;
     if (time)
@@ -47,15 +57,32 @@ export class BarComponent implements OnInit {
       this.parameterFilter.interval = interval;
     if (dayCount)
       this.parameterFilter.dayCount = dayCount;
+    if (lang) {
+      this.translate.use(lang);
+      this.translate.currentLang = lang;
+    }
 
   }
 
   changeTextButtonGraph(button: any) {
     //console.log(button)
+    let graph = "Graf";
+    let list = "Seznam";
+    if(this.translate.currentLang === 'en') {
+      graph = "Graph";
+      list = "List";
+    }
     if (this.isVisibleGraph)
-      button.textContent = "Graf";
+      button.textContent = graph;
     else
-      button.textContent = "Seznam";
+      button.textContent = list;
+  }
+
+  switchLanguage(lang: string) {
+    this.translate.use(lang);
+    this.translate.currentLang = lang;
+    localStorage.setItem('lang', lang);
+   
   }
 
 }

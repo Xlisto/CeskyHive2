@@ -2,11 +2,11 @@
     <ul class="nav nav-pills">
         <li class="nav-item">
             <button class="nav-link button" [class.active]="showTypeData === 'body'"
-                (click)="clickChangeShowData('body')">Obsah</button>
+                (click)="clickChangeShowData('body')">{{'Content'|translate}}</button>
         </li>
         <li class="nav-item">
             <button class="nav-link button" [class.active]="showTypeData === 'votes'"
-                (click)="clickChangeShowData('votes')">Hlasující</button>
+                (click)="clickChangeShowData('votes')">{{'Voters'|translate}}</button>
         </li>
     </ul>
 </div>
@@ -14,7 +14,7 @@
 <!--Tělo postu-->
 <div *ngIf="showTypeData==='body'">
     <div [innerHTML]="selectedbody" class="markdown"></div>
-    <div class="border-top m-1 py-2 h5">Použité tagy</div>
+    <div class="border-top m-1 py-2 h5">{{'TagUsed'|translate}}</div>
     <span *ngFor="let tag of tags">
         <div class="tag border rounded m-1 p-2">{{tag}}</div>
     </span>
