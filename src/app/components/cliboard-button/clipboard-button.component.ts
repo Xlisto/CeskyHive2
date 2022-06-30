@@ -154,6 +154,7 @@ export class ClipboardButtonComponent implements AfterViewInit {
     }
 
     let tableNote = "\nVytvořeno na stránce [www.hivetags.xlisto.com](https://hivetags.xlisto.com).";
+    
     if(this.translate.currentLang === 'en') {
       tableNote = "\nCreated on the web [www.hivetags.xlisto.com](https://hivetags.xlisto.com).";
     }
