@@ -1,4 +1,4 @@
-<app-alert [(closed)]="alertClose"></app-alert> 
+<app-alert [(closed)]="alertClose"></app-alert>
 <div class="alert alert-danger d-flex" role="alert" *ngIf="isMaxLoadPosts">
     <div class="align-self-center text-danger fw-bold">
         Dosáhli jste maximálního limitu počtu načtených postů. Některé výledky nemusí být kompletní. Nastavte si větší
@@ -11,18 +11,19 @@
     <div class="align-self-center">
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zavřít"></button>
     </div><br><br><br>
-    
+
 </div>
 
-<app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" (onChangeLang)="test(true)" [title]="title"
-    [isVisibleGraph]="visibleGraph" id="bar">
+<app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" (onChangeLang)="test(true)"
+    [title]="title" [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
 
 <div *ngIf="showMagnifyingGlass" class="center">
     <div id="icon-magnifying-glass"></div>
     <!--<img id="icon-magnifying-glass" src="assets/images/lupa.png">-->
     <p class="fw-bold">
-        <br>{{'Intro'|translate}}</p>
+        <br>{{'Intro'|translate}}
+    </p>
 
 </div>
 
@@ -67,15 +68,19 @@
                                         {{postsModel.dates[i].dateUntil}}</div>
                                 </div>
                                 <div class="row row-cols-auto">
-                                    <div class="col-6 my-1">{{'Posts'|translate}} {{postsModel.totalCount[i].totalPosts}}
+                                    <div class="col-6 my-1">{{'Posts'|translate}}
+                                        {{postsModel.totalCount[i].totalPosts}}
                                     </div>
-                                    <div class="col-6 text-end my-1">{{'Authors'|translate}} {{postsModel.totalCount[i].totalAuthors}}
+                                    <div class="col-6 text-end my-1">{{'Authors'|translate}}
+                                        {{postsModel.totalCount[i].totalAuthors}}
                                     </div>
                                 </div>
                                 <div class="row row-cols-auto">
-                                    <div class="col-6 my-1">{{'Comments'|translate}} {{postsModel.totalCount[i].totalComments}}
+                                    <div class="col-6 my-1">{{'Comments'|translate}}
+                                        {{postsModel.totalCount[i].totalComments}}
                                     </div>
-                                    <div class="col-6 text-end my-1">{{'Votes'|translate}} {{postsModel.totalCount[i].totalVotes}}
+                                    <div class="col-6 text-end my-1">{{'Votes'|translate}}
+                                        {{postsModel.totalCount[i].totalVotes}}
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +118,9 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                            [settings]="settingsRef.settings"
+                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                        </app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -127,16 +134,19 @@
                                     <div class="col-lg-4 text-start py-2" (click)="clickTitle()"
                                         [class.activeSort]="selectClickedColl==='title'">{{'Title'|translate}}</div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">{{'HeadPendings'|translate}}
+                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">
+                                        {{'HeadPendings'|translate}}
                                     </div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">{{'HeadPayouts'|translate}}
+                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">
+                                        {{'HeadPayouts'|translate}}
                                     </div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickChildren()"
                                         [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">
                                         {{'HeadComments'|translate}}</div>
                                     <div class="col-lg-1 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">{{'HeadVotes'|translate}}</div>
+                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">
+                                        {{'HeadVotes'|translate}}</div>
                                 </div>
 
                                 <div class="row fw-bold" *ngIf="posts.length==0">
@@ -168,7 +178,9 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                            [settings]="settingsRef.settings"
+                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                        </app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -181,7 +193,9 @@
 
                                 <div class="d-flex justify-content-between mb-2">
                                     <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                        [settings]="settingsRef.settings"
+                                        (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                    </app-clipboard-button>
 
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -215,12 +229,14 @@
                                     <div class="col-lg">
                                         <div class="float-start" *ngIf="showPayout">{{'Pendings'|translate}}
                                             {{post.pending_payout_value}}</div>
-                                        <div class="float-end" *ngIf="showPayout">{{'Payouts'|translate}} {{post.total_payout_value}}
+                                        <div class="float-end" *ngIf="showPayout">{{'Payouts'|translate}}
+                                            {{post.total_payout_value}}
                                         </div>
                                     </div>
 
                                     <div class="col-lg">
-                                        <div class="float-start" *ngIf="showComment">{{'Comments'|translate}} {{post.children}}</div>
+                                        <div class="float-start" *ngIf="showComment">{{'Comments'|translate}}
+                                            {{post.children}}</div>
                                         <div class="float-end" *ngIf="showVote">{{'Votes'|translate}}
                                             <span *ngIf="postsModel.negativeVotes(post)>0" class="text-danger">
                                                 {{postsModel.negativeVotes(post)}} |
@@ -241,7 +257,9 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                            [settings]="settingsRef.settings"
+                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                        </app-clipboard-button>
                                     </div>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
@@ -257,7 +275,9 @@
                             <div class="desktop">
                                 <div class="d-flex justify-content-between ">
                                     <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                        [settings]="settingsRef.settings"
+                                        (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                    </app-clipboard-button>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                                     <div></div>
@@ -271,16 +291,19 @@
                                     <div class="col-lg-2 text-center py-2" (click)="clickPost()"
                                         [class.activeSort]="selectClickedColl==='post'">{{'HeadPosts'|translate}}</div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">{{'HeadPendings'|translate}}
+                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">
+                                        {{'HeadPendings'|translate}}
                                     </div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">{{'HeadPayouts'|translate}}
+                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">
+                                        {{'HeadPayouts'|translate}}
                                     </div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickChildren()"
                                         [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">
                                         {{'HeadComments'|translate}}</div>
                                     <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">{{'HeadVotes'|translate}}</div>
+                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">
+                                        {{'HeadVotes'|translate}}</div>
                                 </div>
 
                                 <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
@@ -306,9 +329,11 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                            [settings]="settingsRef.settings"
+                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                        </app-clipboard-button>
                                     </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                                     <div></div>
                                 </div>
@@ -318,7 +343,9 @@
 
                                 <div class="d-flex justify-content-between">
                                     <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                        [settings]="settingsRef.settings"
+                                        (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                    </app-clipboard-button>
                                     <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                                     <div></div>
@@ -375,9 +402,11 @@
                                 <div class="d-flex justify-content-between ">
                                     <div>
                                         <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings" (crossClicked)="alertClose = false; alertRef.showAlert();"></app-clipboard-button>
+                                            [settings]="settingsRef.settings"
+                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
+                                        </app-clipboard-button>
                                     </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
                                         [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
                                     <div></div>
                                 </div>
@@ -420,7 +449,8 @@
 </div>
 
 <div>
-    <app-modal [isClosed]="isModalSettingsClosed" [title]="'Settings'|translate" (crossClicked)="isModalSettingsClosed = true">
+    <app-modal [isClosed]="isModalSettingsClosed" [title]="'Settings'|translate"
+        (crossClicked)="isModalSettingsClosed = true">
         <app-settings></app-settings>
         <button footer type="button" class="btn btn-primary" (click)="saveSettings()">{{'Save'|translate}}</button>
         <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">{{'Close'|translate}}</button>
@@ -435,4 +465,3 @@
         <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">{{'Close'|translate}}</button>
     </app-modal>
 </div>
-   
