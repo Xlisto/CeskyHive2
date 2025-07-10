@@ -29,7 +29,7 @@ export class ActiveVotesService {
   }
 
   /**
-   * Upraví sezna aktivních hlasujcích pro zobrazení výsledných hodnot
+   * Upraví seznam aktivních hlasujících pro zobrazení výsledných hodnot
    * @param author 
    * @param permlink 
    * @returns 
