@@ -26,7 +26,7 @@
         <div *ngIf="i % 3 === 0" class="row">
             <div class="col-12 col-lg-4">
                 <div class="m-1 p-1 border">
-                    <div><span class="h5">@{{selectedActiveVotes[i].voter}} </span> <span>
+                    <div><span class="h5"> &#64;{{ selectedActiveVotes[i].voter}} </span> <span>
                             <div class="border rounded-circle m-2 p-1 reputation">
                                 {{selectedActiveVotes[i].reputation}}</div>
                         </span></div>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-12 col-lg-4" *ngIf="selectedActiveVotes[i+1]">
                 <div class="m-1 p-1 border">
-                    <div><span class="h5">@{{selectedActiveVotes[i+1].voter}}</span> <span>
+                    <div><span class="h5">&#64;{{selectedActiveVotes[i+1].voter}}</span> <span>
                             <div class="border rounded-circle m-2 p-1 reputation">
                                 {{selectedActiveVotes[i+1].reputation}}</div>
                         </span></div>
@@ -44,7 +44,7 @@
             </div>
             <div class="col-12 col-lg-4" *ngIf="selectedActiveVotes[i+2]">
                 <div class="m-1 p-1 border">
-                    <div><span class="h5">@{{selectedActiveVotes[i+2].voter}}</span> <span>
+                    <div><span class="h5">&#64;{{selectedActiveVotes[i+2].voter}}</span> <span>
                             <div class="border rounded-circle m-2 p-1 reputation">
                                 {{selectedActiveVotes[i+2].reputation}}</div>
                         </span></div>
