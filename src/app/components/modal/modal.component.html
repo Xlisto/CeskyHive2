@@ -3,9 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{title}}</h5>
-                <button (click)="crossClicked.emit()" type="button" class="btn btn-secondary">
-                    <span>&times;</span>
-                </button>
+                <button (click)="crossClicked.emit()" type="button" class="btn-close ms-auto" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 
