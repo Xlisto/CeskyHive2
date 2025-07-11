@@ -20,48 +20,41 @@ import { VotesChartComponent } from './components/charts/votes-chart/votes-chart
 import { ClipboardButtonComponent } from './components/cliboard-button/clipboard-button.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from './components/alert/alert.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    BarComponent,
-    ModalLoadBarComponent,
-    ModalComponent,
-    FooterComponent,
-    TotalChartComponent,
-    PostContentComponent,
-    SettingsComponent,
-    ItemTotalComponent,
-    NextLoadComponent,
-    PagesButtonsComponent,
-    AuthorsChartComponent,
-    VotesChartComponent,
-    ClipboardButtonComponent,
-    AlertComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    }),
-    NgbModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoader,
-        deps: [HttpClient]
-      }
-    })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        BarComponent,
+        ModalLoadBarComponent,
+        ModalComponent,
+        FooterComponent,
+        TotalChartComponent,
+        PostContentComponent,
+        SettingsComponent,
+        ItemTotalComponent,
+        NextLoadComponent,
+        PagesButtonsComponent,
+        AuthorsChartComponent,
+        VotesChartComponent,
+        ClipboardButtonComponent,
+        AlertComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        }),
+        NgbModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpTranslateLoader,
+                deps: [HttpClient]
+            }
+        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
 
 export function httpTranslateLoader(http: HttpClient) {
