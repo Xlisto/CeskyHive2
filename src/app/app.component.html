@@ -157,7 +157,7 @@
                                     class="row item" (click)="clickItem(post)">
                                     <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
                                     </div>
-                                    <div class="col-lg-2 text-start wrap-text">@{{post.author}}</div>
+                                    <div class="col-lg-2 text-start wrap-text">&#64;{{post.author}}</div>
                                     <div class="col-lg-4 text-start">{{post.title}}</div>
                                     <div class="col-lg-1 text-end" *ngIf="showPayout">{{post.pending_payout_value}}
                                     </div>
@@ -223,7 +223,7 @@
                                     <div class="col-lg text-start fw-bold mx-1">{{post.title}}</div>
                                     <div class="col-lg">
                                         <div class="float-start">{{this.dateFormat.getLocaleDate(post.created)}}</div>
-                                        <div class="float-end">@{{post.author}}</div>
+                                        <div class="float-end">&#64;{{post.author}}</div>
                                     </div>
 
                                     <div class="col-lg">
@@ -308,7 +308,7 @@
 
                                 <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
                                     class="row item">
-                                    <div class="col-lg-2">@{{author.author}}</div>
+                                    <div class="col-lg-2">&#64;{{author.author}}</div>
                                     <div class="col-lg-2 text-center">{{author.posts}}</div>
                                     <div class="col-lg-2 text-end" *ngIf="showPayout">
                                         {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
@@ -369,7 +369,7 @@
                                 <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
                                     class="row item my-1 mobile-item border">
                                     <div class="col-lg">
-                                        <div class="float-start text-start fw-bold">@{{author.author}}</div>
+                                        <div class="float-start text-start fw-bold">&#64;{{author.author}}</div>
                                         <div class="float-end text-end">{{'Posts'|translate}} {{author.posts}}</div>
                                     </div>
                                     <div class="col-lg">

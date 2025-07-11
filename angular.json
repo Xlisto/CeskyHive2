@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "CeskyHive2:build:production"
+              "buildTarget": "CeskyHive2:build:production"
             },
             "development": {
-              "browserTarget": "CeskyHive2:build:development"
+              "buildTarget": "CeskyHive2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "CeskyHive2:build"
+            "buildTarget": "CeskyHive2:build"
           }
         },
         "test": {
