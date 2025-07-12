@@ -2,12 +2,17 @@
  * Graf (koláčový) statistiky autorů
  */
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { TranslateService } from '@ngx-translate/core';
 import { EChartsOption } from 'echarts';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
   selector: 'app-authors-chart',
+  standalone: true,
+  imports: [CommonModule, TranslateModule, NgxEchartsModule],
   templateUrl: './authors-chart.component.html',
   styleUrls: ['./authors-chart.component.css']
 })

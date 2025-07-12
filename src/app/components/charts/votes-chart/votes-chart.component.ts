@@ -3,11 +3,16 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { TranslateService } from '@ngx-translate/core';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
   selector: 'app-votes-chart',
+  standalone: true,
+  imports: [CommonModule, TranslateModule, NgxEchartsModule],
   templateUrl: './votes-chart.component.html',
   styleUrls: ['./votes-chart.component.css']
 })

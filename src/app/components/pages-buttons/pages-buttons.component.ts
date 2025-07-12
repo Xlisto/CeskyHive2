@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PagesModel } from 'src/app/models/pagesModel';
 
 @Component({
   selector: 'app-pages-buttons',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './pages-buttons.component.html',
   styleUrls: ['./pages-buttons.component.css']
 })

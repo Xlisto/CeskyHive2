@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { Discussion } from '@hiveio/dhive';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
 @Component({
   selector: 'app-modalloadbar',
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   templateUrl: './modalLoadBar.component.html',
   styleUrls: ['./modalLoadBar.component.css']
 })

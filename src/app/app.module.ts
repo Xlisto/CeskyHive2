@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BarComponent } from './components/bar/bar.component';
 import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.component';
 import { ModalComponent } from './components/modal/modal.component';
@@ -24,8 +23,10 @@ import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-@NgModule({ declarations: [
-        AppComponent,
+@NgModule({
+    declarations: [],
+    bootstrap: [], 
+    imports: [
         BarComponent,
         ModalLoadBarComponent,
         ModalComponent,
@@ -39,13 +40,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         AuthorsChartComponent,
         VotesChartComponent,
         ClipboardButtonComponent,
-        AlertComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+        AlertComponent,
+        BrowserModule,
         AppRoutingModule,
         FormsModule,
         NgxEchartsModule.forRoot({
-            echarts: () => import('echarts')
+            echarts: () => import('echarts').then((m: any) => m.default || m)
         }),
         NgbModule,
         TranslateModule.forRoot({
@@ -54,9 +54,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
                 useFactory: httpTranslateLoader,
                 deps: [HttpClient]
             }
-        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        })], providers: [provideHttpClient(withInterceptorsFromDi())]
+})
 export class AppModule { }
 
 export function httpTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+    return new TranslateHttpLoader(http);
 }

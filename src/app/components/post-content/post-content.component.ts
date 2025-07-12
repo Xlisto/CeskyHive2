@@ -7,8 +7,13 @@ import { Remarkable } from 'remarkable';
 import { linkify } from 'remarkable/linkify';
 import { ActiveVotesModel } from 'src/app/models/activeVotesModel';
 
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-post-content',
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   templateUrl: './post-content.component.html',
   styleUrls: ['./post-content.component.css']
 })

@@ -1,4 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { Discussion, Price } from '@hiveio/dhive';
 import { BarComponent } from './components/bar/bar.component';
 import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.component';
@@ -14,10 +17,37 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { NextLoadComponent } from './components/next-load/next-load.component';
 import { ClipboardButtonComponent } from './components/cliboard-button/clipboard-button.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { PostContentComponent } from './components/post-content/post-content.component';
 import { TranslateService } from '@ngx-translate/core';
+import { FooterComponent } from './components/footer/footer.component';
+import { VotesChartComponent } from './components/charts/votes-chart/votes-chart.component';
+import { AuthorsChartComponent } from './components/charts/authors-chart/authors-chart.component';
+import { PagesButtonsComponent } from './components/pages-buttons/pages-buttons.component';
+import { ItemTotalComponent } from './components/item-total/item-total.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    BarComponent,
+    ModalLoadBarComponent,
+    TotalChartComponent,
+    SettingsComponent,
+    NextLoadComponent,
+    ClipboardButtonComponent,
+    AlertComponent,
+    ModalComponent,
+    PostContentComponent,
+    FooterComponent,
+    VotesChartComponent,
+    AuthorsChartComponent, 
+    PagesButtonsComponent,
+    ItemTotalComponent
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

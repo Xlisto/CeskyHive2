@@ -1,9 +1,14 @@
+
 import { Component, OnInit, Output, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { SettingsModel } from 'src/app/models/settingsModel';
 
 @Component({
   selector: 'app-settings',
+  standalone: true,
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
