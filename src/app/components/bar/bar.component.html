@@ -9,46 +9,49 @@
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <!--<li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>-->
+        <a class="nav-link active" aria-current="page" href="#">Home</a>
+      </li>
 
-      </ul>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Dropdown
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </li>-->
 
-      <span class="form-inline me-2">
-        <select class="form-control  my-1" #selectedLang (change)="switchLanguage(selectedLang.value); onChangeLang.emit(true);">
-          <option *ngFor="let language of translate.getLangs()" [value]="language"
-            [selected]="language === translate.currentLang">{{language|translate}}</option>
-        </select>
-      </span>
+    </ul>
 
-      <button class="btn btn-outline-success me-2 my-1" type="submit" (click)="onShowSettings.emit()">{{'Settings'|translate}}</button>
-      <button class="btn btn-outline-success me-2 my-1" type="submit"
-        (click)="onShowGraph.emit();changeTextButtonGraph($event.target);">{{'Graph'|translate}}</button>
-      <form class="d-flex flex-column flex-sm-row">
+    <span class="form-inline me-2">
+      <select class="form-control  my-1" #selectedLang (change)="switchLanguage(selectedLang.value); onChangeLang.emit(true);">
+        @for (language of translate.getLangs(); track language) {
+          <option [value]="language"
+          [selected]="language === translate.currentLang">{{language|translate}}</option>
+        }
+      </select>
+    </span>
 
-        <select class="form-select me-2 my-1" aria-label="Výběr intervalu" [(ngModel)]="parameterFilter.interval"
-          name="interval">
-          <option value="tyden" selected>{{'Weekly'|translate}}</option>
-          <option value="den">{{'Daily'|translate}}</option>
-        </select>
+    <button class="btn btn-outline-success me-2 my-1" type="submit" (click)="onShowSettings.emit()">{{'Settings'|translate}}</button>
+    <button class="btn btn-outline-success me-2 my-1" type="submit"
+    (click)="onShowGraph.emit();changeTextButtonGraph($event.target);">{{'Graph'|translate}}</button>
+    <form class="d-flex flex-column flex-sm-row">
 
+      <select class="form-select me-2 my-1" aria-label="Výběr intervalu" [(ngModel)]="parameterFilter.interval"
+        name="interval">
+        <option value="tyden" selected>{{'Weekly'|translate}}</option>
+        <option value="den">{{'Daily'|translate}}</option>
+      </select>
+
+      @if (parameterFilter.interval === 'tyden') {
         <select class="form-select me-2 my-1" aria-label="Výběr dne" [(ngModel)]="parameterFilter.day" name="day"
-          *ngIf="parameterFilter.interval === 'tyden'">
+          >
           <option value="1">{{'Monday'|translate}}</option>
           <option value="2">{{'Tuesday'|translate}}</option>
           <option value="3">{{'Wednesday'|translate}}</option>
@@ -57,9 +60,11 @@
           <option value="6">{{'Saturday'|translate}}</option>
           <option value="0">{{'Sunday'|translate}}</option>
         </select>
+      }
 
+      @if (parameterFilter.interval !== 'tyden') {
         <select class="form-select me-2 my-1" aria-label="Počet dní" [(ngModel)]="parameterFilter.dayCount"
-          name="dayCount" *ngIf="parameterFilter.interval !== 'tyden'">
+          name="dayCount">
           <option value="1" selected>1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -68,17 +73,18 @@
           <option value="6">6</option>
           <option value="7">7</option>
         </select>
+      }
 
-        <input class="form-control me-2 my-1" type="time" placeholder="time" aria-label="Time"
-          [(ngModel)]="parameterFilter.time" name="time">
+      <input class="form-control me-2 my-1" type="time" placeholder="time" aria-label="Time"
+        [(ngModel)]="parameterFilter.time" name="time">
 
         <input class="form-control me-2 my-1" type="text" placeholder="tag" aria-label="Tag"
           [(ngModel)]="parameterFilter.tag" name="tag">
 
-        <button class="btn btn-outline-success my-1" type="submit" (click)="onLoad.emit()" data-bs-toggle="collapse"
+          <button class="btn btn-outline-success my-1" type="submit" (click)="onLoad.emit()" data-bs-toggle="collapse"
           data-bs-target=".navbar-collapse.show">{{'Search'|translate}}</button>
 
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>

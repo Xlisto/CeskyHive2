@@ -1,56 +1,70 @@
 <div class="pb-3">
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <button class="nav-link button" [class.active]="showTypeData === 'body'"
-                (click)="clickChangeShowData('body')">{{'Content'|translate}}</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link button" [class.active]="showTypeData === 'votes'"
-                (click)="clickChangeShowData('votes')">{{'Voters'|translate}}</button>
-        </li>
-    </ul>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <button class="nav-link button" [class.active]="showTypeData === 'body'"
+      (click)="clickChangeShowData('body')">{{'Content'|translate}}</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link button" [class.active]="showTypeData === 'votes'"
+      (click)="clickChangeShowData('votes')">{{'Voters'|translate}}</button>
+    </li>
+  </ul>
 </div>
 
 <!--Tělo postu-->
-<div *ngIf="showTypeData==='body'">
+@if (showTypeData==='body') {
+  <div>
     <div [innerHTML]="selectedbody" class="markdown"></div>
     <div class="border-top m-1 py-2 h5">{{'TagUsed'|translate}}</div>
-    <span *ngFor="let tag of tags">
+    @for (tag of tags; track tag) {
+      <span>
         <div class="tag border rounded m-1 p-2">{{tag}}</div>
-    </span>
-</div>
+      </span>
+    }
+  </div>
+}
 
 <!--Hlasující u postu-->
-<div class="container-fluid" *ngIf="showTypeData==='votes'">
-    <div *ngFor="let vote of selectedActiveVotes; let i = index; let even = even;">
-        <div *ngIf="i % 3 === 0" class="row">
+@if (showTypeData==='votes') {
+  <div class="container-fluid">
+    @for (vote of selectedActiveVotes; track vote; let i = $index; let even = $even) {
+      <div>
+        @if (i % 3 === 0) {
+          <div class="row">
             <div class="col-12 col-lg-4">
-                <div class="m-1 p-1 border">
-                    <div><span class="h5"> &#64;{{ selectedActiveVotes[i].voter}} </span> <span>
-                            <div class="border rounded-circle m-2 p-1 reputation">
-                                {{selectedActiveVotes[i].reputation}}</div>
-                        </span></div>
-                    <div>{{selectedActiveVotes[i].percent}}% => {{selectedActiveVotes[i].dolars}}</div>
-                </div>
+              <div class="m-1 p-1 border">
+                <div><span class="h5"> &#64;{{ selectedActiveVotes[i].voter}} </span> <span>
+                <div class="border rounded-circle m-2 p-1 reputation">
+                {{selectedActiveVotes[i].reputation}}</div>
+              </span></div>
+              <div>{{selectedActiveVotes[i].percent}}% => {{selectedActiveVotes[i].dolars}}</div>
             </div>
-            <div class="col-12 col-lg-4" *ngIf="selectedActiveVotes[i+1]">
-                <div class="m-1 p-1 border">
-                    <div><span class="h5">&#64;{{selectedActiveVotes[i+1].voter}}</span> <span>
-                            <div class="border rounded-circle m-2 p-1 reputation">
-                                {{selectedActiveVotes[i+1].reputation}}</div>
-                        </span></div>
-                    <div> {{selectedActiveVotes[i+1].percent}}% => {{selectedActiveVotes[i+1].dolars}}</div>
-                </div>
+          </div>
+          @if (selectedActiveVotes[i+1]) {
+            <div class="col-12 col-lg-4">
+              <div class="m-1 p-1 border">
+                <div><span class="h5">&#64;{{selectedActiveVotes[i+1].voter}}</span> <span>
+                <div class="border rounded-circle m-2 p-1 reputation">
+                {{selectedActiveVotes[i+1].reputation}}</div>
+              </span></div>
+              <div> {{selectedActiveVotes[i+1].percent}}% => {{selectedActiveVotes[i+1].dolars}}</div>
             </div>
-            <div class="col-12 col-lg-4" *ngIf="selectedActiveVotes[i+2]">
-                <div class="m-1 p-1 border">
-                    <div><span class="h5">&#64;{{selectedActiveVotes[i+2].voter}}</span> <span>
-                            <div class="border rounded-circle m-2 p-1 reputation">
-                                {{selectedActiveVotes[i+2].reputation}}</div>
-                        </span></div>
-                    <div> {{selectedActiveVotes[i+2].percent}}% => {{selectedActiveVotes[i+2].dolars}}</div>
-                </div>
-            </div>
+          </div>
+        }
+        @if (selectedActiveVotes[i+2]) {
+          <div class="col-12 col-lg-4">
+            <div class="m-1 p-1 border">
+              <div><span class="h5">&#64;{{selectedActiveVotes[i+2].voter}}</span> <span>
+              <div class="border rounded-circle m-2 p-1 reputation">
+              {{selectedActiveVotes[i+2].reputation}}</div>
+            </span></div>
+            <div> {{selectedActiveVotes[i+2].percent}}% => {{selectedActiveVotes[i+2].dolars}}</div>
+          </div>
         </div>
+      }
     </div>
+  }
 </div>
+}
+</div>
+}

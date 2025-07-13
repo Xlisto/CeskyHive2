@@ -8,13 +8,13 @@ import { SettingsModel } from 'src/app/models/settingsModel';
 import { TotalsCountModel } from 'src/app/models/totalsCountModel';
 import { DiscussionService } from 'src/app/services/discussions.service';
 
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-clipboard-button',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './clipboard-button.component.html',
   styleUrls: ['./clipboard-button.component.css']
 })

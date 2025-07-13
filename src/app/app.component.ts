@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Discussion, Price } from '@hiveio/dhive';
@@ -30,7 +30,6 @@ import { ItemTotalComponent } from './components/item-total/item-total.component
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     TranslateModule,
     BarComponent,
@@ -44,10 +43,10 @@ import { ItemTotalComponent } from './components/item-total/item-total.component
     PostContentComponent,
     FooterComponent,
     VotesChartComponent,
-    AuthorsChartComponent, 
+    AuthorsChartComponent,
     PagesButtonsComponent,
     ItemTotalComponent
-  ],
+],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

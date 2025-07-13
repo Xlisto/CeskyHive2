@@ -1,71 +1,107 @@
 <!--Zobrazení desktopového součtu-->
 <div class="desktop">
-    <div *ngIf="showData === 'author'">
-        <div class="row h6 fw-bold mt-2" *ngIf="totalCount[i].totalAuthors>0">
-            <div class="col-lg-2 text-center">{{'Authors'|translate}} {{totalCount[i].totalAuthors}}
+  @if (showData === 'author') {
+    <div>
+      @if (totalCount[i].totalAuthors>0) {
+        <div class="row h6 fw-bold mt-2">
+          <div class="col-lg-2 text-center">{{'Authors'|translate}} {{totalCount[i].totalAuthors}}
+          </div>
+          <div class="col-lg-2 text-center">{{'Posts'|translate}} {{totalCount[i].totalPosts}}
+          </div>
+          @if (showPayout) {
+            <div class="col-lg-2 text-end">
+              {{totalCount[i].totalPending.toFixed(3)}} HBD
             </div>
-            <div class="col-lg-2 text-center">{{'Posts'|translate}} {{totalCount[i].totalPosts}}
+          }
+          @if (showPayout) {
+            <div class="col-lg-2 text-end">
+              {{totalCount[i].totalPayouts.toFixed(3)}} HBD
             </div>
-            <div class="col-lg-2 text-end" *ngIf="showPayout">
-                {{totalCount[i].totalPending.toFixed(3)}} HBD
-            </div>
-            <div class="col-lg-2 text-end" *ngIf="showPayout">
-                {{totalCount[i].totalPayouts.toFixed(3)}} HBD
-            </div>
-            <div class="col-lg-2 text-end" *ngIf="showComment">
-                {{totalCount[i].totalComments}}</div>
-            <div class="col-lg-2 text-end" *ngIf="showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
-                    class="text-danger">{{totalCount[i].totalNegativeVotes}} |
-                </span>{{totalCount[i].totalVotes}}</div>
+          }
+          @if (showComment) {
+            <div class="col-lg-2 text-end">
+            {{totalCount[i].totalComments}}</div>
+          }
+          @if (showVote) {
+            <div class="col-lg-2 text-end">@if (totalCount[i].totalNegativeVotes>0) {
+              <span
+                class="text-danger">{{totalCount[i].totalNegativeVotes}} |
+              </span>
+            }{{totalCount[i].totalVotes}}</div>
+          }
         </div>
+      }
     </div>
+  }
 
-    <div *ngIf="showData === 'post'">
-        <div class="row h6 fw-bold mt-2" *ngIf="totalCount[i].totalPosts>0">
-            <div class="col-lg-2 text-start">{{'Total'|translate}}</div>
-            <div class="col-lg-2 text-start">{{'Authors'|translate}} {{totalCount[i].totalAuthors}}
+  @if (showData === 'post') {
+    <div>
+      @if (totalCount[i].totalPosts>0) {
+        <div class="row h6 fw-bold mt-2">
+          <div class="col-lg-2 text-start">{{'Total'|translate}}</div>
+          <div class="col-lg-2 text-start">{{'Authors'|translate}} {{totalCount[i].totalAuthors}}
+          </div>
+          <div class="col-lg-4 text-start">{{'Posts'|translate}} {{totalCount[i].totalPosts}}
+          </div>
+          @if (showPayout) {
+            <div class="col-lg-1 text-end">
+              {{totalCount[i].totalPending.toFixed(3)}}
+              HBD
             </div>
-            <div class="col-lg-4 text-start">{{'Posts'|translate}} {{totalCount[i].totalPosts}}
+          }
+          @if (showPayout) {
+            <div class="col-lg-1 text-end">
+              {{totalCount[i].totalPayouts.toFixed(3)}}
+              HBD
             </div>
-            <div class="col-lg-1 text-end" *ngIf="showPayout">
-                {{totalCount[i].totalPending.toFixed(3)}}
-                HBD
-            </div>
-            <div class="col-lg-1 text-end" *ngIf="showPayout">
-                {{totalCount[i].totalPayouts.toFixed(3)}}
-                HBD
-            </div>
-            <div class="col-lg-1 text-end" *ngIf="showComment">
-                {{totalCount[i].totalComments}}</div>
-            <div class="col-lg-1 text-end" *ngIf="showVote"><span *ngIf="totalCount[i].totalNegativeVotes>0"
-                    class="text-danger">{{totalCount[i].totalNegativeVotes}} |
-                </span>{{totalCount[i].totalVotes}}</div>
+          }
+          @if (showComment) {
+            <div class="col-lg-1 text-end">
+            {{totalCount[i].totalComments}}</div>
+          }
+          @if (showVote) {
+            <div class="col-lg-1 text-end">@if (totalCount[i].totalNegativeVotes>0) {
+              <span
+                class="text-danger">{{totalCount[i].totalNegativeVotes}} |
+              </span>
+            }{{totalCount[i].totalVotes}}</div>
+          }
         </div>
+      }
     </div>
+  }
 
 
 </div>
 
 <!--Zobrazení mobilního součtu-->
 <div class="mobile">
-    <div class="row item my-1 mobile-item border">
-        <div class="col-lg">
-            <div class="float-start text-start fw-bold">{{'Authors'|translate}}
-                {{totalCount[i].totalAuthors}}</div>
-            <div class="float-end text-end fw-bold">{{'Posts'|translate}}
-                {{totalCount[i].totalPosts}}</div>
-        </div>
-        <div class="col-lg">
-            <div class="float-start text-start fw-bold" *ngIf="showPayout">{{'Payouts'|translate}}
-                {{totalCount[i].totalPayouts.toFixed(3)}} HBD</div>
-            <div class="float-end text-end fw-bold" *ngIf="showPayout">{{'Pendings'|translate}}
-                {{totalCount[i].totalPending.toFixed(3)}} HBD</div>
-        </div>
-        <div class="col-lg">
-            <div class="float-start text-start fw-bold" *ngIf="showComment">{{'Comments'|translate}}
-                {{totalCount[i].totalComments}}</div>
-            <div class="float-end text-end fw-bold" *ngIf="showVote">{{'Votes'|translate}}
-                {{totalCount[i].totalVotes}}</div>
-        </div>
+  <div class="row item my-1 mobile-item border">
+    <div class="col-lg">
+      <div class="float-start text-start fw-bold">{{'Authors'|translate}}
+      {{totalCount[i].totalAuthors}}</div>
+      <div class="float-end text-end fw-bold">{{'Posts'|translate}}
+      {{totalCount[i].totalPosts}}</div>
     </div>
+    <div class="col-lg">
+      @if (showPayout) {
+        <div class="float-start text-start fw-bold">{{'Payouts'|translate}}
+        {{totalCount[i].totalPayouts.toFixed(3)}} HBD</div>
+      }
+      @if (showPayout) {
+        <div class="float-end text-end fw-bold">{{'Pendings'|translate}}
+        {{totalCount[i].totalPending.toFixed(3)}} HBD</div>
+      }
+    </div>
+    <div class="col-lg">
+      @if (showComment) {
+        <div class="float-start text-start fw-bold">{{'Comments'|translate}}
+        {{totalCount[i].totalComments}}</div>
+      }
+      @if (showVote) {
+        <div class="float-end text-end fw-bold">{{'Votes'|translate}}
+        {{totalCount[i].totalVotes}}</div>
+      }
+    </div>
+  </div>
 </div>

@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-next-load',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './next-load.component.html',
   styleUrls: ['./next-load.component.css']
 })

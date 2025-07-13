@@ -1,27 +1,29 @@
 <footer class="bg-light text-center text-lg-start container-fluid">
-    <div style="background-color: rgba(0, 0, 0, 0.2);" class="row">
-        <!-- Copyright -->
+  <div style="background-color: rgba(0, 0, 0, 0.2);" class="row">
+    <!-- Copyright -->
 
-        <div class="text-center py-2 col-4" (click)="showDiscort()">
-           <!--<img class="align-middle" id="discord" height="35px" width="35px" src="../../assets/images/discord_icon.png"
-                alt="Spojte se s česky píšícími autory" title="Spojte se s česky píšícími autory">-->
-            Discord
-        </div>
-        <div class="text-center py-2 col-4">
-            ©2022 Xlisto
-
-        </div>
-        <div class="text-center py-2 col-4">
-            <a class="text-dark" href="https://github.com/Xlisto/CeskyHive2" target="_blank">GitHub</a>
-
-        </div>
-        <!-- Copyright -->
+    <div class="text-center py-2 col-4" (click)="showDiscort()">
+      <!--<img class="align-middle" id="discord" height="35px" width="35px" src="../../assets/images/discord_icon.png"
+      alt="Spojte se s česky píšícími autory" title="Spojte se s česky píšícími autory">-->
+      Discord
     </div>
+    <div class="text-center py-2 col-4">
+      ©2022 Xlisto
+
+    </div>
+    <div class="text-center py-2 col-4">
+      <a class="text-dark" href="https://github.com/Xlisto/CeskyHive2" target="_blank">GitHub</a>
+
+    </div>
+    <!-- Copyright -->
+  </div>
 
 
 </footer>
 
-<iframe id="discort" src="https://discord.com/widget?id=345286403648913411&theme=dark" width="350" height="500"
+@if (visibleDiscort) {
+  <iframe id="discort" src="https://discord.com/widget?id=345286403648913411&theme=dark" width="350" height="500"
     allowtransparency="true" frameborder="0"
     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-    *ngIf="visibleDiscort"></iframe>
+  ></iframe>
+}

@@ -1,17 +1,18 @@
-<div *ngIf="!isClosed" class="modal">
+@if (!isClosed) {
+  <div class="modal">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{title}}</h5>
-                <button (click)="crossClicked.emit()" type="button" class="btn-close ms-auto" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                
-                <ng-content></ng-content>
-            </div>
-            <div class="modal-footer">
-                <ng-content select="[footer]"></ng-content>
-             </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{title}}</h5>
+          <button (click)="crossClicked.emit()" type="button" class="btn-close ms-auto" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <ng-content></ng-content>
+        </div>
+        <div class="modal-footer">
+          <ng-content select="[footer]"></ng-content>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+}

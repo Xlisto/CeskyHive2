@@ -1,77 +1,81 @@
 <form #formRef="ngForm" class="container">
-    <div class="row">
-        <div class="form-group col-sm-12 col-lg">
-            <label for="loadPosts">{{'PostsPerQuery'|translate}}</label>
-            <input #name="ngModel" type="number" [(ngModel)]="settings.loadPosts" required name="loadPosts"
-                class="form-control" id="loadPosts" min="1" max="99">
+  <div class="row">
+    <div class="form-group col-sm-12 col-lg">
+      <label for="loadPosts">{{'PostsPerQuery'|translate}}</label>
+      <input #name="ngModel" type="number" [(ngModel)]="settings.loadPosts" required name="loadPosts"
+        class="form-control" id="loadPosts" min="1" max="99">
+      </div>
+
+      <div class="form-group col-sm-12 col-lg">
+        <label for="maxPosts">{{'MaxPosts'|translate}}</label>
+        <input #name="ngModel" type="number" [(ngModel)]="settings.maxPosts" required name="maxPosts"
+          class="form-control" id="maxPosts" step="100">
         </div>
 
         <div class="form-group col-sm-12 col-lg">
-            <label for="maxPosts">{{'MaxPosts'|translate}}</label>
-            <input #name="ngModel" type="number" [(ngModel)]="settings.maxPosts" required name="maxPosts"
-                class="form-control" id="maxPosts" step="100">
+          <label for="days">{{'DaysInHistory'|translate}}</label>
+          <input #name="ngModel" type="number" [(ngModel)]="settings.days" required name="days" class="form-control"
+            min="0" id="days">
+          </div>
         </div>
 
-        <div class="form-group col-sm-12 col-lg">
-            <label for="days">{{'DaysInHistory'|translate}}</label>
-            <input #name="ngModel" type="number" [(ngModel)]="settings.days" required name="days" class="form-control"
-                min="0" id="days">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group col-sm-12 col-lg">
+        <div class="row">
+          <div class="form-group col-sm-12 col-lg">
             <label for="node">{{'Node'|translate}}</label>
             <select class="form-control" [(ngModel)]="settings.node" name="node">
-                <option *ngFor="let node of settings.nodes" [attr.value]="node">{{node}}</option>
+              @for (node of settings.nodes; track node) {
+                <option [attr.value]="node">{{node}}</option>
+              }
             </select>
-        </div>
+          </div>
 
-        <div class="form-group col-sm-12 col-lg">
+          <div class="form-group col-sm-12 col-lg">
             <label for="days">{{'NumbersOfLines'|translate}}</label>
             <input #name="ngModel" type="number" [(ngModel)]="settings.rows" required name="rows" class="form-control"
-                min="1" id="rows">
-        </div>
+              min="1" id="rows">
+            </div>
 
-        <div class="form-group col-sm-12 col-lg">
-            <label for="site">{{'DefaultEnviroment'|translate}}</label>
-            <select class="form-control" [(ngModel)]="settings.hiveSite" name="site">
-                <option *ngFor="let site of settings.hiveSites" [attr.value]="site">{{site}}</option>
-            </select>
-        </div>
-    </div>
+            <div class="form-group col-sm-12 col-lg">
+              <label for="site">{{'DefaultEnviroment'|translate}}</label>
+              <select class="form-control" [(ngModel)]="settings.hiveSite" name="site">
+                @for (site of settings.hiveSites; track site) {
+                  <option [attr.value]="site">{{site}}</option>
+                }
+              </select>
+            </div>
+          </div>
 
-    <div class="row mt-3">
-        <div class="form-group h6">{{'ViewColumns'|translate}}</div>
-    </div>
-    <div class="row">
-        <div class="form-group col-sm-12 col-lg">
-            <div class="form-check">
+          <div class="row mt-3">
+            <div class="form-group h6">{{'ViewColumns'|translate}}</div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-lg">
+              <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="checkPays" [(ngModel)]="settings.showPayout"  name="showPayout">
                 <label class="form-check-label" for="checkPays">{{'Payments'|translate}}</label>
+              </div>
             </div>
-        </div>
 
-        <div class="form-group col-sm-12 col-lg">
-            <div class="form-check">
+            <div class="form-group col-sm-12 col-lg">
+              <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="checkComment" [(ngModel)]="settings.showComment"  name="showComment">
                 <label class="form-check-label" for="checkComment">
-                    {{'Comments'|translate}}
+                  {{'Comments'|translate}}
                 </label>
+              </div>
             </div>
-        </div>
 
-        <div class="form-group col-sm-12 col-lg">
-            <div class="form-check">
+            <div class="form-group col-sm-12 col-lg">
+              <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="checkVotes" [(ngModel)]="settings.showVote"  name="showVote">
                 <label class="form-check-label" for="checkVotes">
-                    {{'Votes'|translate}}
+                  {{'Votes'|translate}}
                 </label>
+              </div>
             </div>
-        </div>
 
 
 
 
-    </div>
-</form>
+          </div>
+        </form>

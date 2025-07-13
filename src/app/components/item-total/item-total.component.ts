@@ -2,14 +2,14 @@
  * komponeta zobrazení celkového součtu
  */
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { TotalsCountModel } from 'src/app/models/totalsCountModel';
 
 @Component({
   selector: 'app-item-total',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './item-total.component.html',
   styleUrls: ['./item-total.component.css']
 })

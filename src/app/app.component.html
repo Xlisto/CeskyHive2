@@ -1,467 +1,528 @@
 <app-alert [(closed)]="alertClose"></app-alert>
-<div class="alert alert-danger d-flex" role="alert" *ngIf="isMaxLoadPosts">
+@if (isMaxLoadPosts) {
+  <div class="alert alert-danger d-flex" role="alert">
     <div class="align-self-center text-danger fw-bold">
-        Dosáhli jste maximálního limitu počtu načtených postů. Některé výledky nemusí být kompletní. Nastavte si větší
-        limit.
+      Dosáhli jste maximálního limitu počtu načtených postů. Některé výledky nemusí být kompletní. Nastavte si větší
+      limit.
     </div>
     <div class=" align-self-center flex-fill  mx-3">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="alert" aria-label="Navýšit limit"
-            (click)="isModalNextLoadClosed = false;">Navýšit limit</button>
+      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="alert" aria-label="Navýšit limit"
+      (click)="isModalNextLoadClosed = false;">Navýšit limit</button>
     </div>
     <div class="align-self-center">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zavřít"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zavřít"></button>
     </div><br><br><br>
-
-</div>
+  </div>
+}
 
 <app-bar (onLoad)="load()" (onShowGraph)="showGraph()" (onShowSettings)="showSettings()" (onChangeLang)="test(true)"
-    [title]="title" [isVisibleGraph]="visibleGraph" id="bar">
+  [title]="title" [isVisibleGraph]="visibleGraph" id="bar">
 </app-bar>
 
-<div *ngIf="showMagnifyingGlass" class="center">
+@if (showMagnifyingGlass) {
+  <div class="center">
     <div id="icon-magnifying-glass"></div>
     <!--<img id="icon-magnifying-glass" src="assets/images/lupa.png">-->
     <p class="fw-bold">
-        <br>{{'Intro'|translate}}
-    </p>
-
-</div>
-
-<div class="container-fluid" id="list" *ngIf="postsModel != undefined && !isLoadingData">
-    <app-total-chart *ngIf="visibleGraph"></app-total-chart>
-
-    <div class="accordion" id="accordionExample" *ngIf="!visibleGraph">
-        <div *ngFor="let posts of postsModel.postsSorted; index as i" class="">
-
-            <div class="accordion-item" *ngIf="i<items">
-                <h2 class="accordion-header" [attr.id]="'heading' + i">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
-                        [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
-                        <div class="container-fluid">
-                            <!--data pro desktop-->
-                            <div class="desktop">
-                                <div class="row row-cols-auto">
-                                    <div class="col-lg my-1">{{postsModel.dates[i].dateFrom}} <br />
-                                        {{postsModel.dates[i].dateUntil}}
-                                    </div>
-                                    <div class="col-lg-1 text-end my-1">{{'Posts'|translate}} <br><span
-                                            class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
-                                    <div class="col-lg-1 text-end my-1">{{'Authors'|translate}} <br><span
-                                            class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
-                                    <div class="col-lg-1 text-end my-1">{{'Pendings'|translate}} <br><span
-                                            class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
-                                    </div>
-                                    <div class="col-lg-1 text-end my-1">{{'Payouts'|translate}} <br><span
-                                            class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
-                                    </div>
-                                    <div class="col-lg-1 text-end my-1">{{'Comments'|translate}} <br><span
-                                            class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
-                                    <div class="col-lg-1 text-end my-1">{{'Votes'|translate}} <br><span
-                                            class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
-                                </div>
-                            </div>
-
-                            <div class="mobile">
-                                <div class="row row-cols-auto">
-                                    <div class="col my-1">{{postsModel.dates[i].dateFrom}} -
-                                        {{postsModel.dates[i].dateUntil}}</div>
-                                </div>
-                                <div class="row row-cols-auto">
-                                    <div class="col-6 my-1">{{'Posts'|translate}}
-                                        {{postsModel.totalCount[i].totalPosts}}
-                                    </div>
-                                    <div class="col-6 text-end my-1">{{'Authors'|translate}}
-                                        {{postsModel.totalCount[i].totalAuthors}}
-                                    </div>
-                                </div>
-                                <div class="row row-cols-auto">
-                                    <div class="col-6 my-1">{{'Comments'|translate}}
-                                        {{postsModel.totalCount[i].totalComments}}
-                                    </div>
-                                    <div class="col-6 text-end my-1">{{'Votes'|translate}}
-                                        {{postsModel.totalCount[i].totalVotes}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </button>
-                </h2>
-                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse"
-                    [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample" [class.show]="i === 0">
-
-                    <ul class="nav nav-tabs mt-3">
-                        <li class="nav-item">
-                            <button class="nav-link" (click)="clickChangeShowData('post')"
-                                [class.active]="showData === 'post'">{{'TabPosts'|translate}}</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" (click)="clickChangeShowData('author')"
-                                [class.active]="showData === 'author'">{{'TabAuthors'|translate}}</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" (click)="clickChangeShowData('graph-post')"
-                                [class.active]="showData === 'graph-post'">{{'TabPostsStats'|translate}}</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" (click)="clickChangeShowData('graph-vote')"
-                                [class.active]="showData === 'graph-vote'">{{'TabVotesStats'|translate}}</button>
-                        </li>
-                    </ul>
-
-                    <div class="accordion-body">
-                        <!-- Seznam postů-->
-                        <div *ngIf="showData === 'post'">
-                            <!--data pro desktop-->
-                            <div class="desktop">
-                                <div class="d-flex justify-content-between ">
-                                    <div>
-                                        <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"
-                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                        </app-clipboard-button>
-                                    </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-                                <div class="row h6 fw-bold" *ngIf="posts.length>0">
-                                    <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
-                                        [class.activeSort]="selectClickedColl==='created'">{{'Created'|translate}}</div>
-                                    <div class="col-lg-2 text-start py-2" (click)="clickAuthor()"
-                                        [class.activeSort]="selectClickedColl==='author'">{{'Author'|translate}}</div>
-                                    <div class="col-lg-4 text-start py-2" (click)="clickTitle()"
-                                        [class.activeSort]="selectClickedColl==='title'">{{'Title'|translate}}</div>
-                                    <div class="col-lg-1 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">
-                                        {{'HeadPendings'|translate}}
-                                    </div>
-                                    <div class="col-lg-1 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">
-                                        {{'HeadPayouts'|translate}}
-                                    </div>
-                                    <div class="col-lg-1 text-end py-2" (click)="clickChildren()"
-                                        [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">
-                                        {{'HeadComments'|translate}}</div>
-                                    <div class="col-lg-1 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">
-                                        {{'HeadVotes'|translate}}</div>
-                                </div>
-
-                                <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">{{'NothingIsWritten'|translate}}</div>
-                                </div>
-
-                                <div *ngFor="let post of posts.slice(this.postsModel.actualView.actualViewPosts[i].actualView,this.postsModel.actualView.actualViewPosts[i].actualView+rows)"
-                                    class="row item" (click)="clickItem(post)">
-                                    <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
-                                    </div>
-                                    <div class="col-lg-2 text-start wrap-text">&#64;{{post.author}}</div>
-                                    <div class="col-lg-4 text-start">{{post.title}}</div>
-                                    <div class="col-lg-1 text-end" *ngIf="showPayout">{{post.pending_payout_value}}
-                                    </div>
-                                    <div class="col-lg-1 text-end" *ngIf="showPayout">{{post.total_payout_value}}</div>
-                                    <div class="col-lg-1 text-end" *ngIf="showComment">{{post.children}}</div>
-                                    <div class="col-lg-1 text-end" *ngIf="showVote"><span
-                                            *ngIf="postsModel.negativeVotes(post)>0"
-                                            class="text-danger">{{postsModel.negativeVotes(post)}} |
-                                        </span>{{post.active_votes.length}}</div>
-                                </div>
-
-
-                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
-                                    [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i">
-                                </app-item-total>
-
-
-                                <div class="d-flex justify-content-between ">
-                                    <div>
-                                        <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"
-                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                        </app-clipboard-button>
-                                    </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-
-                            </div>
-                            <!--data pro mobil-->
-                            <div class="mobile">
-
-                                <div class="d-flex justify-content-between mb-2">
-                                    <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings"
-                                        (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                    </app-clipboard-button>
-
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-
-                                <div class="row" *ngIf="posts.length>0">
-                                    <form class="d-flex">
-                                        <select [(ngModel)]="selectSortType" (change)="onChangeTypeSort()"
-                                            name="typeSort" class="form-select mx-1">
-                                            <option *ngFor="let sort of sortTypes" [ngValue]="sort">{{sort.type}}
-                                            </option>
-
-                                        </select>
-                                        <select [(ngModel)]="selectSortArrow" (change)="onChangeTypeSort()"
-                                            class="form-select mx-1" name="arrowSort">
-                                            <option *ngFor="let arrow of sortArrows" [ngValue]="arrow">{{arrow.type}}
-                                            </option>
-                                        </select>
-                                    </form>
-                                </div>
-
-                                <div *ngFor="let post of posts.slice(this.postsModel.actualView.actualViewPosts[i].actualView,this.postsModel.actualView.actualViewPosts[i].actualView+rows)"
-                                    class="row item my-1 mobile-item border" (click)="clickItem(post)">
-                                    <div class="col-lg text-start fw-bold mx-1">{{post.title}}</div>
-                                    <div class="col-lg">
-                                        <div class="float-start">{{this.dateFormat.getLocaleDate(post.created)}}</div>
-                                        <div class="float-end">&#64;{{post.author}}</div>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <div class="float-start" *ngIf="showPayout">{{'Pendings'|translate}}
-                                            {{post.pending_payout_value}}</div>
-                                        <div class="float-end" *ngIf="showPayout">{{'Payouts'|translate}}
-                                            {{post.total_payout_value}}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <div class="float-start" *ngIf="showComment">{{'Comments'|translate}}
-                                            {{post.children}}</div>
-                                        <div class="float-end" *ngIf="showVote">{{'Votes'|translate}}
-                                            <span *ngIf="postsModel.negativeVotes(post)>0" class="text-danger">
-                                                {{postsModel.negativeVotes(post)}} |
-                                            </span>{{post.active_votes.length}}
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">{{'NothingIsWritten'|translate}}</div>
-                                </div>
-
-                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount"
-                                    [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
-                                </app-item-total>
-
-                                <div class="d-flex justify-content-between ">
-                                    <div>
-                                        <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"
-                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                        </app-clipboard-button>
-                                    </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!--Seznam autorů-->
-                        <div *ngIf="showData === 'author'">
-                            <!--data pro desktop-->
-                            <div class="desktop">
-                                <div class="d-flex justify-content-between ">
-                                    <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings"
-                                        (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                    </app-clipboard-button>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-
-
-
-                                <div class="row h6 fw-bold" *ngIf="postsModel.postsAuthor[i].length>0">
-                                    <div class="col-lg-2 text-center py-2" (click)="clickAuthor()"
-                                        [class.activeSort]="selectClickedColl==='author'">{{'Author'|translate}}</div>
-                                    <div class="col-lg-2 text-center py-2" (click)="clickPost()"
-                                        [class.activeSort]="selectClickedColl==='post'">{{'HeadPosts'|translate}}</div>
-                                    <div class="col-lg-2 text-end py-2" (click)="clickPending()"
-                                        [class.activeSort]="selectClickedColl==='pending'" *ngIf="showPayout">
-                                        {{'HeadPendings'|translate}}
-                                    </div>
-                                    <div class="col-lg-2 text-end py-2" (click)="clickPayout()"
-                                        [class.activeSort]="selectClickedColl==='payout'" *ngIf="showPayout">
-                                        {{'HeadPayouts'|translate}}
-                                    </div>
-                                    <div class="col-lg-2 text-end py-2" (click)="clickChildren()"
-                                        [class.activeSort]="selectClickedColl==='children'" *ngIf="showComment">
-                                        {{'HeadComments'|translate}}</div>
-                                    <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
-                                        [class.activeSort]="selectClickedColl==='votes'" *ngIf="showVote">
-                                        {{'HeadVotes'|translate}}</div>
-                                </div>
-
-                                <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
-                                    class="row item">
-                                    <div class="col-lg-2">&#64;{{author.author}}</div>
-                                    <div class="col-lg-2 text-center">{{author.posts}}</div>
-                                    <div class="col-lg-2 text-end" *ngIf="showPayout">
-                                        {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
-                                    <div class="col-lg-2 text-end" *ngIf="showPayout">
-                                        {{author.totalPayoutValue.toFixed(3)}} HBD</div>
-                                    <div class="col-lg-2 text-end" *ngIf="showComment">{{author.comments}}</div>
-                                    <div class="col-lg-2 text-end" *ngIf="showVote"><span *ngIf="author.negativeVotes>0"
-                                            class="text-danger">{{author.negativeVotes}} | </span>{{author.votes}}</div>
-                                </div>
-
-                                <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">{{'NoAuthorHasPublished'|translate}}</div>
-                                </div>
-
-                                <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
-                                    [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
-
-                                <div class="d-flex justify-content-between ">
-                                    <div>
-                                        <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"
-                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                        </app-clipboard-button>
-                                    </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-                            </div>
-                            <!--data pro mobil-->
-                            <div class="mobile">
-
-                                <div class="d-flex justify-content-between">
-                                    <app-clipboard-button [i]="i" [showData]="showData"
-                                        [settings]="settingsRef.settings"
-                                        (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                    </app-clipboard-button>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-
-                                <div class="row" *ngIf="posts.length>0">
-                                    <form class="d-flex"><select [(ngModel)]="selectSortType"
-                                            (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
-                                            <option *ngFor="let sort of sortTypes" [ngValue]="sort">{{sort.type}}
-                                            </option>
-
-                                        </select>
-                                        <select [(ngModel)]="selectSortArrow" (change)="onChangeTypeSort()"
-                                            class="form-select mx-1" name="arrowSort">
-                                            <option *ngFor="let arrow of sortArrows" [ngValue]="arrow">{{arrow.type}}
-                                            </option>
-                                        </select>
-                                    </form>
-                                </div>
-
-                                <div *ngFor="let author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows)"
-                                    class="row item my-1 mobile-item border">
-                                    <div class="col-lg">
-                                        <div class="float-start text-start fw-bold">&#64;{{author.author}}</div>
-                                        <div class="float-end text-end">{{'Posts'|translate}} {{author.posts}}</div>
-                                    </div>
-                                    <div class="col-lg">
-                                        <div class="float-start text-start" *ngIf="showPayout">{{'Pendings'|translate}}
-                                            {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
-
-                                        <div class="float-end text-end" *ngIf="showPayout">{{'Payouts'|translate}}
-                                            {{author.totalPayoutValue.toFixed(3)}} HBD
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <div class="float-start text-start" *ngIf="showComment">{{'Comments'|translate}}
-                                            {{author.comments}} </div>
-                                        <div class="float-end text-end" *ngIf="showVote">{{'Votes'|translate}} <span
-                                                *ngIf="author.negativeVotes>0"
-                                                class="text-danger">{{author.negativeVotes}}
-                                                | </span>{{author.votes}}</div>
-                                    </div>
-                                </div>
-
-                                <div class="row fw-bold" *ngIf="posts.length==0">
-                                    <div class="col">{{'NoAuthorHasPublished'|translate}}</div>
-                                </div>
-
-                                <app-item-total *ngIf="posts.length>0" [totalCount]="postsModel.totalCount"
-                                    [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
-                                </app-item-total>
-
-                                <div class="d-flex justify-content-between ">
-                                    <div>
-                                        <app-clipboard-button [i]="i" [showData]="showData"
-                                            [settings]="settingsRef.settings"
-                                            (crossClicked)="alertClose = false; alertRef.showAlert();">
-                                        </app-clipboard-button>
-                                    </div>
-                                    <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
-                                        [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
-                                    <div></div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div *ngIf="showData === 'graph-post'">
-                            <app-authors-chart [index]="i"></app-authors-chart>
-                        </div>
-
-                        <div *ngIf="showData === 'graph-vote'">
-                            <app-votes-chart [index]="i"></app-votes-chart>
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+      <br>{{'Intro'|translate}}
+      </p>
     </div>
+  }
+
+  @if (postsModel != undefined && !isLoadingData) {
+    <div class="container-fluid" id="list">
+      @if (visibleGraph) {
+        <app-total-chart></app-total-chart>
+      }
+      @if (!visibleGraph) {
+        <div class="accordion" id="accordionExample">
+          @for (posts of postsModel.postsSorted; track posts; let i = $index) {
+            <div class="">
+              @if (i<items) {
+                <div class="accordion-item">
+                  <h2 class="accordion-header" [attr.id]="'heading' + i">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
+                      [attr.aria-controls]="'collapse' + i" [class.collapsed]="i>0">
+                      <div class="container-fluid">
+                        <!--data pro desktop-->
+                        <div class="desktop">
+                          <div class="row row-cols-auto">
+                            <div class="col-lg my-1">{{postsModel.dates[i].dateFrom}} <br />
+                              {{postsModel.dates[i].dateUntil}}
+                            </div>
+                            <div class="col-lg-1 text-end my-1">{{'Posts'|translate}} <br><span
+                            class="fw-bold">{{postsModel.totalCount[i].totalPosts}}</span></div>
+                            <div class="col-lg-1 text-end my-1">{{'Authors'|translate}} <br><span
+                            class="fw-bold">{{postsModel.totalCount[i].totalAuthors}}</span></div>
+                            <div class="col-lg-1 text-end my-1">{{'Pendings'|translate}} <br><span
+                            class="fw-bold">{{postsModel.totalCount[i].totalPending.toFixed(3)}}</span>
+                          </div>
+                          <div class="col-lg-1 text-end my-1">{{'Payouts'|translate}} <br><span
+                          class="fw-bold">{{postsModel.totalCount[i].totalPayouts.toFixed(3)}}</span>
+                        </div>
+                        <div class="col-lg-1 text-end my-1">{{'Comments'|translate}} <br><span
+                        class="fw-bold">{{postsModel.totalCount[i].totalComments}}</span></div>
+                        <div class="col-lg-1 text-end my-1">{{'Votes'|translate}} <br><span
+                        class="fw-bold">{{postsModel.totalCount[i].totalVotes}}</span></div>
+                      </div>
+                    </div>
+                    <div class="mobile">
+                      <div class="row row-cols-auto">
+                        <div class="col my-1">{{postsModel.dates[i].dateFrom}} -
+                        {{postsModel.dates[i].dateUntil}}</div>
+                      </div>
+                      <div class="row row-cols-auto">
+                        <div class="col-6 my-1">{{'Posts'|translate}}
+                          {{postsModel.totalCount[i].totalPosts}}
+                        </div>
+                        <div class="col-6 text-end my-1">{{'Authors'|translate}}
+                          {{postsModel.totalCount[i].totalAuthors}}
+                        </div>
+                      </div>
+                      <div class="row row-cols-auto">
+                        <div class="col-6 my-1">{{'Comments'|translate}}
+                          {{postsModel.totalCount[i].totalComments}}
+                        </div>
+                        <div class="col-6 text-end my-1">{{'Votes'|translate}}
+                          {{postsModel.totalCount[i].totalVotes}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              </h2>
+              <div [attr.id]="'collapse' + i" class="accordion-collapse collapse"
+                [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample" [class.show]="i === 0">
+                <ul class="nav nav-tabs mt-3">
+                  <li class="nav-item">
+                    <button class="nav-link" (click)="clickChangeShowData('post')"
+                    [class.active]="showData === 'post'">{{'TabPosts'|translate}}</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" (click)="clickChangeShowData('author')"
+                    [class.active]="showData === 'author'">{{'TabAuthors'|translate}}</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" (click)="clickChangeShowData('graph-post')"
+                    [class.active]="showData === 'graph-post'">{{'TabPostsStats'|translate}}</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" (click)="clickChangeShowData('graph-vote')"
+                    [class.active]="showData === 'graph-vote'">{{'TabVotesStats'|translate}}</button>
+                  </li>
+                </ul>
+                <div class="accordion-body">
+                  <!-- Seznam postů-->
+                  @if (showData === 'post') {
+                    <div>
+                      <!--data pro desktop-->
+                      <div class="desktop">
+                        <div class="d-flex justify-content-between ">
+                          <div>
+                            <app-clipboard-button [i]="i" [showData]="showData"
+                              [settings]="settingsRef.settings"
+                              (crossClicked)="alertClose = false; alertRef.showAlert();">
+                            </app-clipboard-button>
+                          </div>
+                          <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                          [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                          <div></div>
+                        </div>
+                        @if (posts.length>0) {
+                          <div class="row h6 fw-bold">
+                            <div class="col-lg-2 text-start py-2" (click)="clickCreate()"
+                            [class.activeSort]="selectClickedColl==='created'">{{'Created'|translate}}</div>
+                            <div class="col-lg-2 text-start py-2" (click)="clickAuthor()"
+                            [class.activeSort]="selectClickedColl==='author'">{{'Author'|translate}}</div>
+                            <div class="col-lg-4 text-start py-2" (click)="clickTitle()"
+                            [class.activeSort]="selectClickedColl==='title'">{{'Title'|translate}}</div>
+                            @if (showPayout) {
+                              <div class="col-lg-1 text-end py-2" (click)="clickPending()"
+                                [class.activeSort]="selectClickedColl==='pending'">
+                                {{'HeadPendings'|translate}}
+                              </div>
+                            }
+                            @if (showPayout) {
+                              <div class="col-lg-1 text-end py-2" (click)="clickPayout()"
+                                [class.activeSort]="selectClickedColl==='payout'">
+                                {{'HeadPayouts'|translate}}
+                              </div>
+                            }
+                            @if (showComment) {
+                              <div class="col-lg-1 text-end py-2" (click)="clickChildren()"
+                                [class.activeSort]="selectClickedColl==='children'">
+                              {{'HeadComments'|translate}}</div>
+                            }
+                            @if (showVote) {
+                              <div class="col-lg-1 text-end py-2" (click)="clickActiveVotes()"
+                                [class.activeSort]="selectClickedColl==='votes'">
+                              {{'HeadVotes'|translate}}</div>
+                            }
+                          </div>
+                        }
+                        @if (posts.length==0) {
+                          <div class="row fw-bold">
+                            <div class="col">{{'NothingIsWritten'|translate}}</div>
+                          </div>
+                        }
+                        @for (post of posts.slice(this.postsModel.actualView.actualViewPosts[i].actualView,this.postsModel.actualView.actualViewPosts[i].actualView+rows); track post) {
+                          <div
+                            class="row item" (click)="clickItem(post)">
+                            <div class="col-sm-2 text-start">{{this.dateFormat.getLocaleDate(post.created)}}
+                            </div>
+                            <div class="col-lg-2 text-start wrap-text">&#64;{{post.author}}</div>
+                            <div class="col-lg-4 text-start">{{post.title}}</div>
+                            @if (showPayout) {
+                              <div class="col-lg-1 text-end">{{post.pending_payout_value}}
+                              </div>
+                            }
+                            @if (showPayout) {
+                              <div class="col-lg-1 text-end">{{post.total_payout_value}}</div>
+                            }
+                            @if (showComment) {
+                              <div class="col-lg-1 text-end">{{post.children}}</div>
+                            }
+                            @if (showVote) {
+                              <div class="col-lg-1 text-end">@if (postsModel.negativeVotes(post)>0) {
+                                <span
+                                  class="text-danger">{{postsModel.negativeVotes(post)}} |
+                                </span>
+                              }{{post.active_votes.length}}</div>
+                            }
+                          </div>
+                        }
+                        <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
+                          [showComment]="showComment" [showVote]="showVote" [showData]="showData" [i]="i">
+                        </app-item-total>
+                        <div class="d-flex justify-content-between ">
+                          <div>
+                            <app-clipboard-button [i]="i" [showData]="showData"
+                              [settings]="settingsRef.settings"
+                              (crossClicked)="alertClose = false; alertRef.showAlert();">
+                            </app-clipboard-button>
+                          </div>
+                          <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                          [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                          <div></div>
+                        </div>
+                      </div>
+                      <!--data pro mobil-->
+                      <div class="mobile">
+                        <div class="d-flex justify-content-between mb-2">
+                          <app-clipboard-button [i]="i" [showData]="showData"
+                            [settings]="settingsRef.settings"
+                            (crossClicked)="alertClose = false; alertRef.showAlert();">
+                          </app-clipboard-button>
+                          <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                          [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                          <div></div>
+                        </div>
+                        @if (posts.length>0) {
+                          <div class="row">
+                            <form class="d-flex">
+                              <select [(ngModel)]="selectSortType" (change)="onChangeTypeSort()"
+                                name="typeSort" class="form-select mx-1">
+                                @for (sort of sortTypes; track sort) {
+                                  <option [ngValue]="sort">{{sort.type}}
+                                  </option>
+                                }
+                              </select>
+                              <select [(ngModel)]="selectSortArrow" (change)="onChangeTypeSort()"
+                                class="form-select mx-1" name="arrowSort">
+                                @for (arrow of sortArrows; track arrow) {
+                                  <option [ngValue]="arrow">{{arrow.type}}
+                                  </option>
+                                }
+                              </select>
+                            </form>
+                          </div>
+                        }
+                        @for (post of posts.slice(this.postsModel.actualView.actualViewPosts[i].actualView,this.postsModel.actualView.actualViewPosts[i].actualView+rows); track post) {
+                          <div
+                            class="row item my-1 mobile-item border" (click)="clickItem(post)">
+                            <div class="col-lg text-start fw-bold mx-1">{{post.title}}</div>
+                            <div class="col-lg">
+                              <div class="float-start">{{this.dateFormat.getLocaleDate(post.created)}}</div>
+                              <div class="float-end">&#64;{{post.author}}</div>
+                            </div>
+                            <div class="col-lg">
+                              @if (showPayout) {
+                                <div class="float-start">{{'Pendings'|translate}}
+                                {{post.pending_payout_value}}</div>
+                              }
+                              @if (showPayout) {
+                                <div class="float-end">{{'Payouts'|translate}}
+                                  {{post.total_payout_value}}
+                                </div>
+                              }
+                            </div>
+                            <div class="col-lg">
+                              @if (showComment) {
+                                <div class="float-start">{{'Comments'|translate}}
+                                {{post.children}}</div>
+                              }
+                              @if (showVote) {
+                                <div class="float-end">{{'Votes'|translate}}
+                                  @if (postsModel.negativeVotes(post)>0) {
+                                    <span class="text-danger">
+                                      {{postsModel.negativeVotes(post)}} |
+                                    </span>
+                                    }{{post.active_votes.length}}
+                                  </div>
+                                }
+                              </div>
+                            </div>
+                          }
+                          @if (posts.length==0) {
+                            <div class="row fw-bold">
+                              <div class="col">{{'NothingIsWritten'|translate}}</div>
+                            </div>
+                          }
+                          @if (posts.length>0) {
+                            <app-item-total [totalCount]="postsModel.totalCount"
+                              [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
+                            </app-item-total>
+                          }
+                          <div class="d-flex justify-content-between ">
+                            <div>
+                              <app-clipboard-button [i]="i" [showData]="showData"
+                                [settings]="settingsRef.settings"
+                                (crossClicked)="alertClose = false; alertRef.showAlert();">
+                              </app-clipboard-button>
+                            </div>
+                            <app-pages-buttons [actualView]="postsModel.actualView.actualViewPosts[i]"
+                            [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                            <div></div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                    <!--Seznam autorů-->
+                    @if (showData === 'author') {
+                      <div>
+                        <!--data pro desktop-->
+                        <div class="desktop">
+                          <div class="d-flex justify-content-between ">
+                            <app-clipboard-button [i]="i" [showData]="showData"
+                              [settings]="settingsRef.settings"
+                              (crossClicked)="alertClose = false; alertRef.showAlert();">
+                            </app-clipboard-button>
+                            <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                            [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                            <div></div>
+                          </div>
+                          @if (postsModel.postsAuthor[i].length>0) {
+                            <div class="row h6 fw-bold">
+                              <div class="col-lg-2 text-center py-2" (click)="clickAuthor()"
+                              [class.activeSort]="selectClickedColl==='author'">{{'Author'|translate}}</div>
+                              <div class="col-lg-2 text-center py-2" (click)="clickPost()"
+                              [class.activeSort]="selectClickedColl==='post'">{{'HeadPosts'|translate}}</div>
+                              @if (showPayout) {
+                                <div class="col-lg-2 text-end py-2" (click)="clickPending()"
+                                  [class.activeSort]="selectClickedColl==='pending'">
+                                  {{'HeadPendings'|translate}}
+                                </div>
+                              }
+                              @if (showPayout) {
+                                <div class="col-lg-2 text-end py-2" (click)="clickPayout()"
+                                  [class.activeSort]="selectClickedColl==='payout'">
+                                  {{'HeadPayouts'|translate}}
+                                </div>
+                              }
+                              @if (showComment) {
+                                <div class="col-lg-2 text-end py-2" (click)="clickChildren()"
+                                  [class.activeSort]="selectClickedColl==='children'">
+                                {{'HeadComments'|translate}}</div>
+                              }
+                              @if (showVote) {
+                                <div class="col-lg-2 text-end py-2" (click)="clickActiveVotes()"
+                                  [class.activeSort]="selectClickedColl==='votes'">
+                                {{'HeadVotes'|translate}}</div>
+                              }
+                            </div>
+                          }
+                          @for (author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows); track author) {
+                            <div
+                              class="row item">
+                              <div class="col-lg-2">&#64;{{author.author}}</div>
+                              <div class="col-lg-2 text-center">{{author.posts}}</div>
+                              @if (showPayout) {
+                                <div class="col-lg-2 text-end">
+                                {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
+                              }
+                              @if (showPayout) {
+                                <div class="col-lg-2 text-end">
+                                {{author.totalPayoutValue.toFixed(3)}} HBD</div>
+                              }
+                              @if (showComment) {
+                                <div class="col-lg-2 text-end">{{author.comments}}</div>
+                              }
+                              @if (showVote) {
+                                <div class="col-lg-2 text-end">@if (author.negativeVotes>0) {
+                                  <span
+                                  class="text-danger">{{author.negativeVotes}} | </span>
+                                }{{author.votes}}</div>
+                              }
+                            </div>
+                          }
+                          @if (posts.length==0) {
+                            <div class="row fw-bold">
+                              <div class="col">{{'NoAuthorHasPublished'|translate}}</div>
+                            </div>
+                          }
+                          <app-item-total [totalCount]="postsModel.totalCount" [showPayout]="showPayout"
+                          [showComment]="showComment" [showData]="showData" [i]="i"></app-item-total>
+                          <div class="d-flex justify-content-between ">
+                            <div>
+                              <app-clipboard-button [i]="i" [showData]="showData"
+                                [settings]="settingsRef.settings"
+                                (crossClicked)="alertClose = false; alertRef.showAlert();">
+                              </app-clipboard-button>
+                            </div>
+                            <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                            [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                            <div></div>
+                          </div>
+                        </div>
+                        <!--data pro mobil-->
+                        <div class="mobile">
+                          <div class="d-flex justify-content-between">
+                            <app-clipboard-button [i]="i" [showData]="showData"
+                              [settings]="settingsRef.settings"
+                              (crossClicked)="alertClose = false; alertRef.showAlert();">
+                            </app-clipboard-button>
+                            <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                            [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                            <div></div>
+                          </div>
+                          @if (posts.length>0) {
+                            <div class="row">
+                              <form class="d-flex"><select [(ngModel)]="selectSortType"
+                                (change)="onChangeTypeSort()" name="typeSort" class="form-select mx-1">
+                                @for (sort of sortTypes; track sort) {
+                                  <option [ngValue]="sort">{{sort.type}}
+                                  </option>
+                                }
+                              </select>
+                              <select [(ngModel)]="selectSortArrow" (change)="onChangeTypeSort()"
+                                class="form-select mx-1" name="arrowSort">
+                                @for (arrow of sortArrows; track arrow) {
+                                  <option [ngValue]="arrow">{{arrow.type}}
+                                  </option>
+                                }
+                              </select>
+                            </form>
+                          </div>
+                        }
+                        @for (author of postsModel.postsAuthor[i].slice(this.postsModel.actualView.actualViewAuthors[i].actualView,this.postsModel.actualView.actualViewAuthors[i].actualView+rows); track author) {
+                          <div
+                            class="row item my-1 mobile-item border">
+                            <div class="col-lg">
+                              <div class="float-start text-start fw-bold">&#64;{{author.author}}</div>
+                              <div class="float-end text-end">{{'Posts'|translate}} {{author.posts}}</div>
+                            </div>
+                            <div class="col-lg">
+                              @if (showPayout) {
+                                <div class="float-start text-start">{{'Pendings'|translate}}
+                                {{author.pendingPayoutValue.toFixed(3)}} HBD</div>
+                              }
+                              @if (showPayout) {
+                                <div class="float-end text-end">{{'Payouts'|translate}}
+                                  {{author.totalPayoutValue.toFixed(3)}} HBD
+                                </div>
+                              }
+                            </div>
+                            <div class="col-lg">
+                              @if (showComment) {
+                                <div class="float-start text-start">{{'Comments'|translate}}
+                                {{author.comments}} </div>
+                              }
+                              @if (showVote) {
+                                <div class="float-end text-end">{{'Votes'|translate}} @if (author.negativeVotes>0) {
+                                  <span
+                                    class="text-danger">{{author.negativeVotes}}
+                                  | </span>
+                                }{{author.votes}}</div>
+                              }
+                            </div>
+                          </div>
+                        }
+                        @if (posts.length==0) {
+                          <div class="row fw-bold">
+                            <div class="col">{{'NoAuthorHasPublished'|translate}}</div>
+                          </div>
+                        }
+                        @if (posts.length>0) {
+                          <app-item-total [totalCount]="postsModel.totalCount"
+                            [showPayout]="showPayout" [showComment]="showComment" [showData]="showData" [i]="i">
+                          </app-item-total>
+                        }
+                        <div class="d-flex justify-content-between ">
+                          <div>
+                            <app-clipboard-button [i]="i" [showData]="showData"
+                              [settings]="settingsRef.settings"
+                              (crossClicked)="alertClose = false; alertRef.showAlert();">
+                            </app-clipboard-button>
+                          </div>
+                          <app-pages-buttons [actualView]="postsModel.actualView.actualViewAuthors[i]"
+                          [rows]="postsModel.actualView.rowsPages"></app-pages-buttons>
+                          <div></div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  @if (showData === 'graph-post') {
+                    <div>
+                      <app-authors-chart [index]="i"></app-authors-chart>
+                    </div>
+                  }
+                  @if (showData === 'graph-vote') {
+                    <div>
+                      <app-votes-chart [index]="i"></app-votes-chart>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
 </div>
+}
 
 <app-footer id="footer"></app-footer>
 
-<app-modalloadbar *ngIf="showLoadBar"></app-modalloadbar>
+@if (showLoadBar) {
+  <app-modalloadbar></app-modalloadbar>
+}
 
-<div *ngIf="selectedPost">
+@if (selectedPost) {
+  <div>
     <app-modal [isClosed]="isModalPostClosed" [title]="selectedPost.title" (crossClicked)="isModalPostClosed = true">
-
-        <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost"
-            [hiveSite]="settingsRef.settings.hiveSite">
-
-        </app-post-content>
-
+      <app-post-content [selectedActiveVotes]="selectedActiveVotes" [selectedPost]="selectedPost"
+        [hiveSite]="settingsRef.settings.hiveSite">
+      </app-post-content>
     </app-modal>
+  </div>
+}
 
+<div>
+  <app-modal [isClosed]="isModalSettingsClosed" [title]="'Settings'|translate"
+    (crossClicked)="isModalSettingsClosed = true">
+    <app-settings></app-settings>
+    <button footer type="button" class="btn btn-primary" (click)="saveSettings()">{{'Save'|translate}}</button>
+    <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">{{'Close'|translate}}</button>
+  </app-modal>
 </div>
 
 <div>
-    <app-modal [isClosed]="isModalSettingsClosed" [title]="'Settings'|translate"
-        (crossClicked)="isModalSettingsClosed = true">
-        <app-settings></app-settings>
-        <button footer type="button" class="btn btn-primary" (click)="saveSettings()">{{'Save'|translate}}</button>
-        <button footer type="button" class="btn btn-secondary" (click)="cancelSettings()">{{'Close'|translate}}</button>
-    </app-modal>
-</div>
-
-<div>
-    <app-modal [isClosed]="isModalNextLoadClosed" [title]="'Dosažen limit'"
-        (crossClicked)="isModalNextLoadClosed = true">
-        <app-next-load [maxPosts]="maxPosts"></app-next-load>
-        <button footer type="button" class="btn btn-primary" (click)="loadNextPosts()">{{'Continue'|translate}}</button>
-        <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">{{'Close'|translate}}</button>
-    </app-modal>
+  <app-modal [isClosed]="isModalNextLoadClosed" [title]="'Dosažen limit'"
+    (crossClicked)="isModalNextLoadClosed = true">
+    <app-next-load [maxPosts]="maxPosts"></app-next-load>
+    <button footer type="button" class="btn btn-primary" (click)="loadNextPosts()">{{'Continue'|translate}}</button>
+    <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">{{'Close'|translate}}</button>
+  </app-modal>
 </div>
