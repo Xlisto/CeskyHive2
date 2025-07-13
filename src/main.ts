@@ -7,6 +7,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { AppComponent } from './app/app.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 if (environment.production) {
@@ -26,6 +27,11 @@ bootstrapApplication(AppComponent, {
         }
       })
     ),
+    importProvidersFrom(
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts').then((m: any) => m.default || m)
+      })
+    )
   ]
 }).catch(err => console.error(err));
 

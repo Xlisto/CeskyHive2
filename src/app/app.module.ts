@@ -7,7 +7,7 @@ import { BarComponent } from './components/bar/bar.component';
 import { ModalLoadBarComponent } from './components/modalLoadBar/modalLoadBar.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { NgxEchartsModule } from 'ngx-echarts';
+//import { NgxEchartsModule } from 'ngx-echarts';
 import { TotalChartComponent } from './components/charts/total-chart/total-chart.component';
 import { PostContentComponent } from './components/post-content/post-content.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -44,9 +44,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        NgxEchartsModule.forRoot({
-            echarts: () => import('echarts').then((m: any) => m.default || m)
-        }),
+        //NgxEchartsModule.forRoot({
+        //    echarts: () => import('echarts').then((m: any) => m.default || m)
+        //}),
         NgbModule,
         TranslateModule.forRoot({
             loader: {
