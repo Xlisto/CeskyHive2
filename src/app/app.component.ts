@@ -19,7 +19,6 @@ import { ClipboardButtonComponent } from './components/cliboard-button/clipboard
 import { AlertComponent } from './components/alert/alert.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { PostContentComponent } from './components/post-content/post-content.component';
-import { TranslateService } from '@ngx-translate/core';
 import { FooterComponent } from './components/footer/footer.component';
 import { VotesChartComponent } from './components/charts/votes-chart/votes-chart.component';
 import { AuthorsChartComponent } from './components/charts/authors-chart/authors-chart.component';
@@ -183,8 +182,6 @@ export class AppComponent implements AfterViewInit {
         .finally(() => {
           this.isLoadingData = false;
           this.showLoadBar = false;
-          this.modalLoadBarRef.stopInterval();
-          //this.lineChartRef.loadChart();
           this.reloadGraph();
           this.selectSortArrow = this.sortArrows[0];
           if (this.postsModel.posts.length >= this.settingsRef.settings.maxPosts) {

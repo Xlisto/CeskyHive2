@@ -10,6 +10,7 @@ import { ParameterFilter } from '../models/parameterFilter';
 import { PostsModel } from '../models/postsModel';
 import { SettingsModel } from '../models/settingsModel';
 import { PropertiesService } from './properties.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class DiscussionService {
 
   client = new Client("https://api.hive.blog");
   postsModel: PostsModel;
-  loadPosts = 0;//počet načtených postů
+  private loadPostsSubject = new BehaviorSubject<number>(0);
+  loadPosts$ = this.loadPostsSubject.asObservable();//počet načtených postů
   byAuthor = 1;//nastavení směru třídění u autora
   byCreate = 1;
   byTitle = 1;
@@ -59,7 +61,7 @@ export class DiscussionService {
    */
   discussions(filter: ParameterFilter, settings: SettingsModel): Promise<PostsModel> {
     //console.log(filter.tag);
-    this.loadPosts = 0;//počet načtených postů
+    this.loadPostsSubject.next(0);//počet načtených postů
     this.actualDate = new Date();
     this.lastDate = new Date();
     this.client = new Client(settings.node);
@@ -103,7 +105,7 @@ export class DiscussionService {
     this.getDiscussions()
       .then(result => {
         this.postsModel.posts = this.postsModel.posts.concat(result);
-        this.loadPosts = this.postsModel.posts.length;
+        this.loadPostsSubject.next(this.postsModel.posts.length);//aktualizace počtu načtených postů
         let lastIndexPost = this.postsModel.posts.length - 1;
         this.query.start_author = this.postsModel.posts[lastIndexPost].author;
         this.query.start_permlink = this.postsModel.posts[lastIndexPost].permlink;
