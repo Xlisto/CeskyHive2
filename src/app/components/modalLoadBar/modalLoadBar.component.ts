@@ -16,6 +16,7 @@ export class ModalLoadBarComponent implements OnInit {
   public hiveService: DiscussionService;
 
   loadPosts = 0;
+  loadHistory = 0;
 
   constructor(hiveService: DiscussionService) {
     this.hiveService = hiveService;
@@ -23,6 +24,7 @@ export class ModalLoadBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.hiveService.loadPosts$.subscribe(count => this.loadPosts = count);
+    this.hiveService.loadHistory$.subscribe(days => this.loadHistory = days);
   }
 
 }

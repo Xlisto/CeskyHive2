@@ -21,6 +21,8 @@ export class DiscussionService {
   postsModel: PostsModel;
   private loadPostsSubject = new BehaviorSubject<number>(0);
   loadPosts$ = this.loadPostsSubject.asObservable();//počet načtených postů
+  private loadHistorySubject = new BehaviorSubject<number>(0);
+  loadHistory$ = this.loadHistorySubject.asObservable();//počet dní, které se načítly
   byAuthor = 1;//nastavení směru třídění u autora
   byCreate = 1;
   byTitle = 1;
@@ -62,9 +64,12 @@ export class DiscussionService {
   discussions(filter: ParameterFilter, settings: SettingsModel): Promise<PostsModel> {
     //console.log(filter.tag);
     this.loadPostsSubject.next(0);//počet načtených postů
+    this.loadHistorySubject.next(0);//počet dní, které se načítaly
     this.actualDate = new Date();
     this.lastDate = new Date();
     this.client = new Client(settings.node);
+    //console.log("date: " + this.actualDate.toISOString());
+    //console.log("lastDate: " + this.lastDate.toISOString());
 
     //vymazání případných hodnot z předchozího hledání
     this.postsModel.posts.splice(0, this.postsModel.posts.length);
@@ -109,7 +114,9 @@ export class DiscussionService {
         let lastIndexPost = this.postsModel.posts.length - 1;
         this.query.start_author = this.postsModel.posts[lastIndexPost].author;
         this.query.start_permlink = this.postsModel.posts[lastIndexPost].permlink;
+        console.log("last time " + new Date(this.postsModel.posts[lastIndexPost].created).toDateString());
         //podmínka opětovného načítání, když je datum větší než nastavená mez, nebo dokud je stejně postů jako je nastavený limit
+        this.loadHistorySubject.next(Math.round(((new Date().getTime()) - (new Date(this.postsModel.posts[lastIndexPost].created).getTime())) / (1000 * 60 * 60 * 24)));
         if (new Date(this.postsModel.posts[lastIndexPost].created).getTime() >= this.lastDate.getTime() && result.length == this.query.limit && this.postsModel.posts.length < this.settings.maxPosts) {
           this.discussionsBuilder(resolve, filter);
           //console.log(this.postsModel.posts[lastIndexPost].created);

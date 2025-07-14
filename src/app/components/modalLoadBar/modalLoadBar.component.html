@@ -19,6 +19,20 @@
                     {{ ((loadPosts / hiveService.settings.maxPosts) * 100) | number:'1.0-0' }}%
                   </div>
                 </div>
+                <div class="d-flex justify-content-between align-items-center mb-1 mt-4">
+                  <span style="font-size: 0.8em;">{{'Days'|translate}} {{loadHistory}}</span>
+                  <span class="text-end" style="min-width: 60px; font-size: 0.8em;">Max {{hiveService.settings.days}}</span>
+                </div>
+                <div class="progress mt-2" style="height: 20px;">
+                  <div class="progress-bar" role="progressbar"
+                    [style.width]="(loadHistory / hiveService.settings.days * 100) + '%'"
+                    [style.backgroundColor]="'rgb(227, 19, 54)'"
+                    [attr.aria-valuenow]="loadHistory"
+                    [attr.aria-valuemin]="0"
+                    [attr.aria-valuemax]="hiveService.settings.days">
+                    {{ ((loadHistory / hiveService.settings.days) * 100) | number:'1.0-0' }}%
+                  </div>
+                </div>
             </div>
         </div>
     </div>
