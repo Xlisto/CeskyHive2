@@ -50,7 +50,7 @@ export class DiscussionService {
     Promise.all([pr1, pr2, pr3]).then(result => {
       let rshare = 1106385407406;
       let vysledek = rshare / this.postsModel.rewardFund.recent_claims * properties.convertHiveToNumber(this.postsModel.rewardFund.reward_balance) * this.postsModel.price.base.amount;
-      //console.log(vysledek);
+      console.log(vysledek);
     });
   }
 

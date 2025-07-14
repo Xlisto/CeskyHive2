@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -6,7 +7,7 @@ import { DiscussionService } from 'src/app/services/discussions.service';
 @Component({
   selector: 'app-modalloadbar',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslateModule, DecimalPipe],
   templateUrl: './modalLoadBar.component.html',
   styleUrls: ['./modalLoadBar.component.css']
 })

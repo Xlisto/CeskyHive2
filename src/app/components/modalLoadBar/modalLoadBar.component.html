@@ -5,9 +5,21 @@
                 <div class="loader"></div>
             </div>
             <div class="modal-body">
-                {{'Posts'|translate}} {{loadPosts}}
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span style="font-size: 0.8em;">{{'Posts'|translate}} {{loadPosts}}</span>
+                  <span class="text-end" style="min-width: 60px; font-size: 0.8em;">Max {{hiveService.settings.maxPosts}}</span>
+                </div>
+                <div class="progress mt-2" style="height: 20px;">
+                  <div class="progress-bar" role="progressbar"
+                    [style.width]="(loadPosts / hiveService.settings.maxPosts * 100) + '%'"
+                    [style.backgroundColor]="'rgb(227, 19, 54)'"
+                    [attr.aria-valuenow]="loadPosts"
+                    [attr.aria-valuemin]="0"
+                    [attr.aria-valuemax]="hiveService.settings.maxPosts">
+                    {{ ((loadPosts / hiveService.settings.maxPosts) * 100) | number:'1.0-0' }}%
+                  </div>
+                </div>
             </div>
-            
         </div>
     </div>
 </div>
