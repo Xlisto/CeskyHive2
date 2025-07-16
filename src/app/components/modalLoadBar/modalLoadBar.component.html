@@ -16,7 +16,7 @@
                     [attr.aria-valuenow]="loadPosts"
                     [attr.aria-valuemin]="0"
                     [attr.aria-valuemax]="hiveService.settings.maxPosts">
-                    {{ ((loadPosts / hiveService.settings.maxPosts) * 100) | number:'1.0-0' }}%
+                    {{ ((loadPosts / hiveService.settings.maxPosts) * 100) >= 100 ? '100' : ((loadPosts / hiveService.settings.maxPosts) * 100) | number:'1.0-0' }}%
                   </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-1 mt-4">
@@ -30,7 +30,7 @@
                     [attr.aria-valuenow]="loadHistory"
                     [attr.aria-valuemin]="0"
                     [attr.aria-valuemax]="hiveService.settings.days">
-                    {{ ((loadHistory / hiveService.settings.days) * 100) | number:'1.0-0' }}%
+                    {{ ((loadHistory / hiveService.settings.days) * 100) >= 100 ? '100' : ((loadHistory / hiveService.settings.days) * 100) | number:'1.0-0' }}%
                   </div>
                 </div>
             </div>

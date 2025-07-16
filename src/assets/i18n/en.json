@@ -54,5 +54,8 @@
     "NoAuthorHasPublished":"No author has published anything",
     "SaveList":"The list has been saved to the clipboard",
     "cs":"Czech",
-    "en":"English"
+    "en":"English",
+
+    "ErrorLoadingData": "Error loading data. Select another node in the settings.",
+    "Error": "Error"
 }

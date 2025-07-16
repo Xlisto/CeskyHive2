@@ -45,7 +45,7 @@ import { ItemTotalComponent } from './components/item-total/item-total.component
     AuthorsChartComponent,
     PagesButtonsComponent,
     ItemTotalComponent
-],
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -123,6 +123,9 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(ModalLoadBarComponent, { static: false })
   private modalLoadBarRef!: ModalLoadBarComponent;
 
+  // Error dialog state
+  public showError = false;
+  public errorMsg = '';
   @ViewChild(TotalChartComponent, { static: false })
   private totalChartRef!: TotalChartComponent;
 
@@ -140,7 +143,7 @@ export class AppComponent implements AfterViewInit {
     private readonly activeVotesService: ActiveVotesService,
     private readonly properties: PropertiesService,
     public readonly dateFormat: DateFormat
-    ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     this.properties.getRewardFund()
@@ -149,6 +152,17 @@ export class AppComponent implements AfterViewInit {
     this.properties.getMedianHistoryPrice()
       .then(result => this.price = result)
       .catch(error => console.log(console.error(error)));
+    this.discussionService.error$.subscribe(msg => {
+      if (msg) {
+        // Zavři progressbar dialog
+        this.isLoadingData = false;
+        this.showLoadBar = false;
+        this.showMagnifyingGlass = true;
+        console.error(msg);
+        // Zobraz výstražný dialog s výzvou
+        this.showErrorDialog(msg);
+      }
+    });
   }
 
   /**
@@ -164,17 +178,12 @@ export class AppComponent implements AfterViewInit {
       this.showComment = this.settingsRef.settings.showComment;
       this.showVote = this.settingsRef.settings.showVote;
       this.maxPosts = this.settingsRef.settings.maxPosts;
-      if (this.postsModel) {
-        this.postsModel.postsSorted = [[]];
-        this.postsModel.postsAuthor = [[]];
-        this.postsModel.posts = [];
-        this.postsModel.totalCount = [];
-      }
+      // Resetování modelu postů při novém hledání
+      this.postsModel = new PostsModel();
       this.showLoadBar = true;
       const filter = this.barComponentRef.parameterFilter;
       this.discussionService.discussions(filter, this.settingsRef.settings)
         .then(result => {
-          console.log(result);
           this.postsModel = result;
           this.clickCreate(-1);
         })
@@ -200,7 +209,6 @@ export class AppComponent implements AfterViewInit {
       localStorage.setItem('day', this.barComponentRef.parameterFilter.day);
       //this.selectSortType = this.sortTypes[0];
       let element = document.getElementsByClassName('accordion-body');
-      
     }
   }
 
@@ -294,7 +302,7 @@ export class AppComponent implements AfterViewInit {
    */
   clickItem(post: Discussion) {
     this.activeVotesService.activeVoteListBuilder(post.author, post.permlink)
-      .then(result => {this.selectedActiveVotes = result; })
+      .then(result => { this.selectedActiveVotes = result; })
       .catch(error => console.log(error)
       );
     this.selectedPost = post;
@@ -334,7 +342,7 @@ export class AppComponent implements AfterViewInit {
 
   /**Uloží nastavení a zavře dialogové okno*/
   saveSettings() {
-    if (this.settingsRef.settings) 
+    if (this.settingsRef.settings)
       this.settingsRef.saveSettings();
 
     this.rows = this.settingsRef.settings.rows;
@@ -343,7 +351,7 @@ export class AppComponent implements AfterViewInit {
     this.showComment = this.settingsRef.settings.showComment;
     this.showVote = this.settingsRef.settings.showVote;
     this.isModalSettingsClosed = true;
-    
+
     //nastavení stránky na první
     if (this.postsModel) {
       for (let pages of this.postsModel.actualView.actualViewPosts) {
@@ -407,11 +415,27 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  test(x:any) {
+  test(x: any) {
     //console.log(this.totalChartRef);
-    if(this.totalChartRef)
-    this.totalChartRef.updateChart();
+    if (this.totalChartRef)
+      this.totalChartRef.updateChart();
     //console.log(x);
+  }
+
+  /**
+   * Zobrazí dialogové okno s chybou
+   */
+  showErrorDialog(msg: string) {
+    this.errorMsg = msg;
+    this.showError = true;
+  }
+
+  /**
+   * Zavře dialogové okno s chybou
+   */
+  closeErrorDialog() {
+    this.showError = false;
+    this.errorMsg = '';
   }
 
 }

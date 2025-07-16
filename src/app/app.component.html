@@ -30,11 +30,12 @@
   }
 
   @if (postsModel != undefined && !isLoadingData) {
-    <div class="container-fluid" id="list">
+    @if(postsModel.posts.length > 0) {
+      <div class="container-fluid" id="list">
       @if (visibleGraph) {
         <app-total-chart></app-total-chart>
       }
-      @if (!visibleGraph) {
+      @if (!visibleGraph || postsModel.postsSorted.length > 0 || postsModel.posts.length > 0) {
         <div class="accordion" id="accordionExample">
           @for (posts of postsModel.postsSorted; track posts; let i = $index) {
             <div class="">
@@ -489,8 +490,10 @@
         </div>
       }
     </div>
+    }
+   </div> 
   }
-</div>
+
 }
 
 <app-footer id="footer"></app-footer>
@@ -526,3 +529,28 @@
     <button footer type="button" class="btn btn-secondary" (click)="cancelNextLoad()">{{'Close'|translate}}</button>
   </app-modal>
 </div>
+
+@if (showError) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.3);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-danger">
+        <div class="modal-header bg-danger text-white">
+          <span class="me-2 d-flex align-items-center">
+            <svg width="32" height="32" viewBox="0 0 32 32">
+              <circle cx="16" cy="16" r="15" fill="white" stroke="#e31336" stroke-width="2" />
+              <path d="M10 10 L22 22" stroke="#e31336" stroke-width="3.5" stroke-linecap="round" />
+              <path d="M22 10 L10 22" stroke="#e31336" stroke-width="3.5" stroke-linecap="round" />
+            </svg>
+          </span>
+          <h5 class="modal-title">{{'Error'|translate}}</h5>
+        </div>
+        <div class="modal-body text-center">
+          <div class="text-dark fw-bold mb-3">{{errorMsg|translate}}</div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-danger px-4" (click)="closeErrorDialog()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

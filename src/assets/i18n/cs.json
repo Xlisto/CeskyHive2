@@ -54,6 +54,9 @@
     "NoAuthorHasPublished":"Žádný autor nic nepublikoval",
     "SaveList":"Seznam byl uložen do schránky",
     "cs": "Česky",
-    "en": "Anglicky"
+    "en": "Anglicky",
+
+    "ErrorLoadingData": "Chyba při načítání dat. Zvolte jiný uzel v nastavení.",
+    "Error": "Chyba"
     
 }

@@ -22,7 +22,9 @@ export class DiscussionService {
   private loadPostsSubject = new BehaviorSubject<number>(0);
   loadPosts$ = this.loadPostsSubject.asObservable();//počet načtených postů
   private loadHistorySubject = new BehaviorSubject<number>(0);
-  loadHistory$ = this.loadHistorySubject.asObservable();//počet dní, které se načítly
+  loadHistory$ = this.loadHistorySubject.asObservable();//počet dní, které se načetly
+  private errorSubject = new BehaviorSubject<string | null>(null);
+  error$ = this.errorSubject.asObservable();
   byAuthor = 1;//nastavení směru třídění u autora
   byCreate = 1;
   byTitle = 1;
@@ -37,7 +39,7 @@ export class DiscussionService {
   settings!: SettingsModel;
   query = {
     tag: 'cesky', // This tag is used to filter the results by a specific post tag
-    limit: 50, // This limit allows us to limit the overall results returned to 5
+    limit: 20,
     start_author: '',
     start_permlink: '',
   };
@@ -50,9 +52,9 @@ export class DiscussionService {
     const pr3 = properties.getRewardFund().then(result => this.postsModel.rewardFund = result);
 
     Promise.all([pr1, pr2, pr3]).then(result => {
-      let rshare = 1106385407406;
-      let vysledek = rshare / this.postsModel.rewardFund.recent_claims * properties.convertHiveToNumber(this.postsModel.rewardFund.reward_balance) * this.postsModel.price.base.amount;
-      console.log(vysledek);
+      //let rshare = 1106385407406;
+      //let vysledek = rshare / this.postsModel.rewardFund.recent_claims * properties.convertHiveToNumber(this.postsModel.rewardFund.reward_balance) * this.postsModel.price.base.amount;
+      //console.log(vysledek);
     });
   }
 
@@ -62,26 +64,30 @@ export class DiscussionService {
    * @returns Pole s diskuzí (posty)
    */
   discussions(filter: ParameterFilter, settings: SettingsModel): Promise<PostsModel> {
-    //console.log(filter.tag);
+    this.settings = settings;
     this.loadPostsSubject.next(0);//počet načtených postů
     this.loadHistorySubject.next(0);//počet dní, které se načítaly
     this.actualDate = new Date();
     this.lastDate = new Date();
     this.client = new Client(settings.node);
-    //console.log("date: " + this.actualDate.toISOString());
-    //console.log("lastDate: " + this.lastDate.toISOString());
 
     //vymazání případných hodnot z předchozího hledání
     this.postsModel.posts.splice(0, this.postsModel.posts.length);
     this.query.tag = filter.tag.trim().toLocaleLowerCase();
     this.query.start_author = '';
     this.query.start_permlink = '';
-
+    
     //načítání hodnoot z nastavení
-    this.query.limit = settings.loadPosts;
+    if (settings.loadPosts >= 1 && settings.loadPosts <= 20) {
+      this.query.limit = settings.loadPosts;
+    }
+    else {
+      this.query.limit = 20;
+      this.settings.loadPosts = 20;
+      localStorage.setItem('loadPosts', '20');
+    }
     this.rows = settings.rows;
-    this.settings = settings;
-
+;
     this.lastDate.setDate(this.actualDate.getDate() - settings.days - 7);
     return new Promise((resolve) => {
       this.discussionsBuilder(resolve, filter);
@@ -114,21 +120,21 @@ export class DiscussionService {
         let lastIndexPost = this.postsModel.posts.length - 1;
         this.query.start_author = this.postsModel.posts[lastIndexPost].author;
         this.query.start_permlink = this.postsModel.posts[lastIndexPost].permlink;
-        console.log("last time " + new Date(this.postsModel.posts[lastIndexPost].created).toDateString());
         //podmínka opětovného načítání, když je datum větší než nastavená mez, nebo dokud je stejně postů jako je nastavený limit
         this.loadHistorySubject.next(Math.round(((new Date().getTime()) - (new Date(this.postsModel.posts[lastIndexPost].created).getTime())) / (1000 * 60 * 60 * 24)));
         if (new Date(this.postsModel.posts[lastIndexPost].created).getTime() >= this.lastDate.getTime() && result.length == this.query.limit && this.postsModel.posts.length < this.settings.maxPosts) {
           this.discussionsBuilder(resolve, filter);
-          //console.log(this.postsModel.posts[lastIndexPost].created);
         } else {
           this.parsePosts(resolve, filter);
         }
         if (this.postsModel.posts.length >= this.settings.maxPosts) {
           console.log("dosaženo limitu");
-          //this.discussionsBuilder(resolve, filter);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.errorSubject.next('ErrorLoadingData');
+      });
   }
 
 
@@ -249,6 +255,7 @@ export class DiscussionService {
   * Dotaz na seznam diskuzí
   */
   private getDiscussions(): Promise<Discussion[]> {
+
     return this.client.database.getDiscussions('created', this.query);
   }
 
